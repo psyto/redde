@@ -70,7 +70,8 @@ finding.
 - `gen-board.mjs` — render `site/board.html` from the scan + Marinade result.
 - `probe.mjs`, `probe-marinade.mjs`, `probe-marinade2.mjs` — layout/offset probes
   used to confirm byte layouts empirically against mainnet.
-- `CODEX_HANDOFF_*.md` — the adversarial-review record (rounds 1–8).
+- `review/` — the adversarial-review log: 8 rounds of red-teaming (builder ↔
+  independent reviewer) that caught every false GREEN / false RED before shipping.
 - `site/index.html` — the manifesto + JitoSOL exhibit (the weapon's face).
 - `site/board.html` — the full-population board across both invariant classes.
 
