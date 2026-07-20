@@ -1,0 +1,1739 @@
+<title>Redde — The Board</title>
+<style>
+  :root{
+    --paper:#ECE9E2;--panel:#E4E0D6;--ink:#17130F;--ink-2:#5b5347;--hair:#cbc4b5;
+    --seal:#8a2226;--green:#2f5d46;--amber:#8a6a1e;--grey:#6f6a60;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
+    --edge:clamp(1rem,4vw,3.5rem);
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --paper:#12100c;--panel:#1a1712;--ink:#e9e3d6;--ink-2:#9a9082;--hair:#2e2a22;
+    --seal:#cf5a53;--green:#7bab8b;--amber:#c69f52;--grey:#8b8579;}}
+  :root[data-theme="light"]{--paper:#ECE9E2;--panel:#E4E0D6;--ink:#17130F;--ink-2:#5b5347;--hair:#cbc4b5;--seal:#8a2226;--green:#2f5d46;--amber:#8a6a1e;--grey:#6f6a60;}
+  :root[data-theme="dark"]{--paper:#12100c;--panel:#1a1712;--ink:#e9e3d6;--ink-2:#9a9082;--hair:#2e2a22;--seal:#cf5a53;--green:#7bab8b;--amber:#c69f52;--grey:#8b8579;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:60rem;margin:0 auto;padding:0 var(--edge);}
+  .label{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-2);}
+  header.mast{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:1.3rem 0 1rem;flex-wrap:wrap;}
+  .mast .mark{font-family:var(--mono);font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:.82rem;}
+  .mast .lat{font-style:italic;color:var(--ink-2);font-size:.95rem;}
+  hr.dbl{height:3px;border:0;margin:0;background:linear-gradient(var(--ink),var(--ink)) top/100% 1px no-repeat,linear-gradient(var(--ink),var(--ink)) bottom/100% 1px no-repeat;}
+  .hero{padding:clamp(2rem,6vw,3.5rem) 0 1.5rem;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,6vw,3.4rem);line-height:1.02;letter-spacing:-.015em;text-wrap:balance;margin:.8rem 0 1rem;}
+  h1 em{font-style:italic;color:var(--seal);}
+  .lede{max-width:38rem;font-size:clamp(1.02rem,2vw,1.18rem);color:var(--ink);}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin:1.8rem 0 .6rem;}
+  .tile{background:var(--paper);padding:1.1rem 1rem;}
+  .tval{font-family:var(--mono);font-size:1.7rem;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em;}
+  .tlabel{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-top:.35rem;}
+  .tile.g .tval{color:var(--green);} .tile.s .tval{color:var(--amber);} .tile.r .tval{color:var(--seal);} .tile.u .tval{color:var(--grey);}
+  .coverage{font-size:.95rem;color:var(--ink-2);max-width:44rem;margin:.4rem 0 0;}
+  section{padding:2rem 0 3rem;}
+  .tablewrap{overflow-x:auto;border:1px solid var(--hair);margin-top:1.2rem;}
+  table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:38rem;}
+  thead th{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--hair);background:var(--panel);position:sticky;top:0;}
+  td{padding:.55rem .8rem;border-bottom:1px solid var(--hair);vertical-align:baseline;}
+  tbody tr:hover{background:var(--panel);}
+  .num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;}
+  .mono{font-family:var(--mono);} .mono a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hair);}
+  .mono a:hover{border-bottom-color:var(--seal);}
+  .sol{color:var(--ink);} .detail{color:var(--ink-2);font-size:.85rem;}
+  .pill{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;font-weight:600;text-transform:uppercase;padding:.2em .6em;border-radius:999px;border:1.5px solid;white-space:nowrap;}
+  .pill.g{color:var(--green);border-color:var(--green);} .pill.r{color:var(--seal);border-color:var(--seal);}
+  .pill.s{color:var(--amber);border-color:var(--amber);} .pill.u{color:var(--grey);border-color:var(--grey);}
+  .row-g td{background:color-mix(in srgb,var(--green) 5%,transparent);}
+  .row-r td{background:color-mix(in srgb,var(--seal) 6%,transparent);}
+  footer{padding:2rem 0 3.5rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:var(--ink-2);text-transform:uppercase;}
+  footer .lat{font-family:var(--serif);font-style:italic;text-transform:none;font-size:1.05rem;color:var(--seal);letter-spacing:0;}
+</style>
+
+<div class="wrap">
+  <header class="mast"><span class="mark">Redde · The Board</span><span class="lat">redde rationem</span></header>
+</div>
+<div class="wrap"><hr class="dbl"/></div>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="label">Every SPL stake pool on Solana · epoch 1004</span>
+    <h1>We ran it against <em>all of them.</em></h1>
+    <p class="lede">Redde audited every liquid-staking stake pool on Solana mainnet,
+    with zero cooperation from any of them. This is the board.</p>
+  </div>
+
+  <div class="tiles">
+    <div class="tile "><div class="tval">234</div><div class="tlabel">pools scanned</div></div>
+    <div class="tile g"><div class="tval">6</div><div class="tlabel">green</div></div>
+    <div class="tile r"><div class="tval">0</div><div class="tlabel">red</div></div>
+    <div class="tile s"><div class="tval">173</div><div class="tlabel">stale (frozen)</div></div>
+    <div class="tile u"><div class="tval">55</div><div class="tlabel">unverified</div></div>
+    <div class="tile "><div class="tval">26,097,476</div><div class="tlabel">SOL verified</div></div>
+  </div>
+  <p class="coverage">Of 234 pools, <b>173</b> fail the
+  freshness gate — their on-chain accounting is frozen a full epoch or more behind,
+  so current redeemability cannot be independently verified. <b>6</b>
+  were fully checked (26,097,476 of 33,749,667 SOL
+  observed); <b>0</b> insolvent. <b>55</b> are fresh but
+  their backing could not be read this cycle under public-RPC limits — re-verification
+  pending, <em>not</em> a finding. This is not a complete solvency audit; it is an
+  honest board of what could be proven now.</p>
+</div>
+
+<section>
+  <div class="wrap">
+    <span class="label">The board · sorted by size</span>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>#</th><th>Pool</th><th>SOL</th><th>Verdict</th><th>Detail</th></tr></thead>
+        <tbody>
+<tr class="row-g">
+    <td class="num">1</td>
+    <td class="mono"><a href="https://solscan.io/account/Hr9pzexrBge3vgmBNRR8u42CNQgBXdHm4UkUN2DH4a7r" title="Hr9pzexrBge3vgmBNRR8u42CNQgBXdHm4UkUN2DH4a7r">Hr9p…4a7r</a></td>
+    <td class="num sol">10,189,763</td>
+    <td><span class="pill g">GREEN</span></td>
+    <td class="detail">backing +42.2 SOL over claim · 6 usable PDAs · supply-drift +534</td>
+  </tr>
+<tr class="row-g">
+    <td class="num">2</td>
+    <td class="mono"><a href="https://solscan.io/account/Jito4APyf642JPZPx3hGc6WWJ8zPKtRbRs4P815Awbb" title="Jito4APyf642JPZPx3hGc6WWJ8zPKtRbRs4P815Awbb">Jito…Awbb</a></td>
+    <td class="num sol">10,029,303</td>
+    <td><span class="pill g">GREEN</span></td>
+    <td class="detail">backing +64.6 SOL over claim · 707 usable PDAs</td>
+  </tr>
+<tr class="row-g">
+    <td class="num">3</td>
+    <td class="mono"><a href="https://solscan.io/account/DpooSqZRL3qCmiq82YyB4zWmLfH3iEqx2gy8f2B6zjru" title="DpooSqZRL3qCmiq82YyB4zWmLfH3iEqx2gy8f2B6zjru">Dpoo…zjru</a></td>
+    <td class="num sol">1,652,025</td>
+    <td><span class="pill g">GREEN</span></td>
+    <td class="detail">backing +10.3 SOL over claim · 75 usable PDAs</td>
+  </tr>
+<tr class="row-g">
+    <td class="num">4</td>
+    <td class="mono"><a href="https://solscan.io/account/pSPcvR8GmG9aKDUbn9nbKYjkxt9hxMS7kF1qqKJaPqJ" title="pSPcvR8GmG9aKDUbn9nbKYjkxt9hxMS7kF1qqKJaPqJ">pSPc…aPqJ</a></td>
+    <td class="num sol">1,602,249</td>
+    <td><span class="pill g">GREEN</span></td>
+    <td class="detail">backing +73.1 SOL over claim · 2 usable PDAs · supply-drift +256258</td>
+  </tr>
+<tr class="row-g">
+    <td class="num">5</td>
+    <td class="mono"><a href="https://solscan.io/account/3fV1sdGeXaNEZj6EPDTpub82pYxcRXwt2oie6jkSzeWi" title="3fV1sdGeXaNEZj6EPDTpub82pYxcRXwt2oie6jkSzeWi">3fV1…zeWi</a></td>
+    <td class="num sol">1,506,615</td>
+    <td><span class="pill g">GREEN</span></td>
+    <td class="detail">backing +0.0 SOL over claim · 383 usable PDAs</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">6</td>
+    <td class="mono"><a href="https://solscan.io/account/CtMyWsrUtAwXWiGr9WjHT5fC3p3fgV8cyGpLTo2LJzG1" title="CtMyWsrUtAwXWiGr9WjHT5fC3p3fgV8cyGpLTo2LJzG1">CtMy…JzG1</a></td>
+    <td class="num sol">1,401,489</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">7</td>
+    <td class="mono"><a href="https://solscan.io/account/Fu9BYC6tWBo1KMKaP3CFoKfRhqv9akmy3DuYwnCyWiyC" title="Fu9BYC6tWBo1KMKaP3CFoKfRhqv9akmy3DuYwnCyWiyC">Fu9B…WiyC</a></td>
+    <td class="num sol">1,337,577</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-g">
+    <td class="num">8</td>
+    <td class="mono"><a href="https://solscan.io/account/spp1mo6shdcrRyqDK2zdurJ8H5uttZE6H6oVjHxN1QN" title="spp1mo6shdcrRyqDK2zdurJ8H5uttZE6H6oVjHxN1QN">spp1…N1QN</a></td>
+    <td class="num sol">1,117,521</td>
+    <td><span class="pill g">GREEN</span></td>
+    <td class="detail">backing +6.8 SOL over claim · 58 usable PDAs</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">9</td>
+    <td class="mono"><a href="https://solscan.io/account/aero2ePURjuEgLKTzcUmF6RypBncBGd7pMUYCoSsVJ6" title="aero2ePURjuEgLKTzcUmF6RypBncBGd7pMUYCoSsVJ6">aero…sVJ6</a></td>
+    <td class="num sol">1,088,786</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">10</td>
+    <td class="mono"><a href="https://solscan.io/account/stk9ApL5HeVAwPLr3TLhDXdZS8ptVu7zp6ov8HFDuMi" title="stk9ApL5HeVAwPLr3TLhDXdZS8ptVu7zp6ov8HFDuMi">stk9…DuMi</a></td>
+    <td class="num sol">894,142</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">11</td>
+    <td class="mono"><a href="https://solscan.io/account/jagEdDepWUgexiu4jxojcRWcVKKwFqgZBBuAoGu2BxM" title="jagEdDepWUgexiu4jxojcRWcVKKwFqgZBBuAoGu2BxM">jagE…2BxM</a></td>
+    <td class="num sol">759,023</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">12</td>
+    <td class="mono"><a href="https://solscan.io/account/StKeDUdSu7jMSnPJ1MPqDnk3RdEwD2QbJaisHMebGhw" title="StKeDUdSu7jMSnPJ1MPqDnk3RdEwD2QbJaisHMebGhw">StKe…bGhw</a></td>
+    <td class="num sol">651,429</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">13</td>
+    <td class="mono"><a href="https://solscan.io/account/9N69d9o5hqdfDLMiPdFT5VBXpEf4UXSTsbmYLKc9Njpa" title="9N69d9o5hqdfDLMiPdFT5VBXpEf4UXSTsbmYLKc9Njpa">9N69…Njpa</a></td>
+    <td class="num sol">543,095</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">14</td>
+    <td class="mono"><a href="https://solscan.io/account/CV6bkrUksMwcEC4jfLTJsbHwF3Y2YurZdWWua95Fpbtd" title="CV6bkrUksMwcEC4jfLTJsbHwF3Y2YurZdWWua95Fpbtd">CV6b…pbtd</a></td>
+    <td class="num sol">315,550</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">15</td>
+    <td class="mono"><a href="https://solscan.io/account/9qrFrE5qoZ3QfYZrZoeXFNRWfErpjzZKudCAoBTvgKjb" title="9qrFrE5qoZ3QfYZrZoeXFNRWfErpjzZKudCAoBTvgKjb">9qrF…gKjb</a></td>
+    <td class="num sol">146,428</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">16</td>
+    <td class="mono"><a href="https://solscan.io/account/CgntPoLka5pD5fesJYhGmUCF8KU1QS1ZmZiuAuMZr2az" title="CgntPoLka5pD5fesJYhGmUCF8KU1QS1ZmZiuAuMZr2az">Cgnt…r2az</a></td>
+    <td class="num sol">118,982</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">17</td>
+    <td class="mono"><a href="https://solscan.io/account/po1osKDWYF9oiVEGmzKA4eTs8eMveFRMox3bUKazGN2" title="po1osKDWYF9oiVEGmzKA4eTs8eMveFRMox3bUKazGN2">po1o…zGN2</a></td>
+    <td class="num sol">114,453</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">18</td>
+    <td class="mono"><a href="https://solscan.io/account/DqhH94PjkZsjAqEze2BEkWhFQJ6EyU6MdtMphMgnXqeK" title="DqhH94PjkZsjAqEze2BEkWhFQJ6EyU6MdtMphMgnXqeK">DqhH…XqeK</a></td>
+    <td class="num sol">93,908</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">19</td>
+    <td class="mono"><a href="https://solscan.io/account/SAVEY1fVMBeRVo9V9rgEz8ENTvHreftd3QgpAKBDFV4" title="SAVEY1fVMBeRVo9V9rgEz8ENTvHreftd3QgpAKBDFV4">SAVE…DFV4</a></td>
+    <td class="num sol">53,238</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">20</td>
+    <td class="mono"><a href="https://solscan.io/account/edgejNWAqkePLpi5sHRxT9vHi7u3kSHP9cocABPKiWZ" title="edgejNWAqkePLpi5sHRxT9vHi7u3kSHP9cocABPKiWZ">edge…KiWZ</a></td>
+    <td class="num sol">41,605</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">21</td>
+    <td class="mono"><a href="https://solscan.io/account/AdHRYZkiUQg4zPANGHB4XxoUcjbfF5TkAaWJFZ9bQALV" title="AdHRYZkiUQg4zPANGHB4XxoUcjbfF5TkAaWJFZ9bQALV">AdHR…QALV</a></td>
+    <td class="num sol">28,121</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">22</td>
+    <td class="mono"><a href="https://solscan.io/account/RaiDhwyRoMVxLN9KD7kAXAwHbWKf1TCTe5HFSrPVJaD" title="RaiDhwyRoMVxLN9KD7kAXAwHbWKf1TCTe5HFSrPVJaD">RaiD…VJaD</a></td>
+    <td class="num sol">26,776</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">23</td>
+    <td class="mono"><a href="https://solscan.io/account/2qyEeSAWKfU18AFthrF7JA8z8ZCi1yt76Tqs917vwQTV" title="2qyEeSAWKfU18AFthrF7JA8z8ZCi1yt76Tqs917vwQTV">2qyE…wQTV</a></td>
+    <td class="num sol">12,342</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">24</td>
+    <td class="mono"><a href="https://solscan.io/account/xanDnetFGrZkp49s8brXbg6T215JeDTeSfDF19wBiNQ" title="xanDnetFGrZkp49s8brXbg6T215JeDTeSfDF19wBiNQ">xanD…BiNQ</a></td>
+    <td class="num sol">6,701</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">25</td>
+    <td class="mono"><a href="https://solscan.io/account/So1vW4Bm6ZURzJJHZy1JpsjoVY68z4cDgF4tTLwYMa5" title="So1vW4Bm6ZURzJJHZy1JpsjoVY68z4cDgF4tTLwYMa5">So1v…YMa5</a></td>
+    <td class="num sol">5,598</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">26</td>
+    <td class="mono"><a href="https://solscan.io/account/sntn1Y9gX7MwcPD6Z4GLCkUAy7iKAZika6RUjDu1paS" title="sntn1Y9gX7MwcPD6Z4GLCkUAy7iKAZika6RUjDu1paS">sntn…1paS</a></td>
+    <td class="num sol">3,562</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">27</td>
+    <td class="mono"><a href="https://solscan.io/account/FujqyFf2LW95Fsi8zjyYaLJJEdmDzoJjkR2NdpSKwuRS" title="FujqyFf2LW95Fsi8zjyYaLJJEdmDzoJjkR2NdpSKwuRS">Fujq…wuRS</a></td>
+    <td class="num sol">3,523</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">28</td>
+    <td class="mono"><a href="https://solscan.io/account/74dxJToX8wgJAueLQNVhSbbQkNd9qeVp6m9mts6M7cUb" title="74dxJToX8wgJAueLQNVhSbbQkNd9qeVp6m9mts6M7cUb">74dx…7cUb</a></td>
+    <td class="num sol">2,854</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">29</td>
+    <td class="mono"><a href="https://solscan.io/account/7ge2xKsZXmqPxa3YmXxXmzCp9Hc2ezrTxh6PECaxCwrL" title="7ge2xKsZXmqPxa3YmXxXmzCp9Hc2ezrTxh6PECaxCwrL">7ge2…CwrL</a></td>
+    <td class="num sol">879</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">30</td>
+    <td class="mono"><a href="https://solscan.io/account/3DuPtyTAKrxKfHkSPZ5fqCayMcGru1BarAKKTfGDeo2j" title="3DuPtyTAKrxKfHkSPZ5fqCayMcGru1BarAKKTfGDeo2j">3DuP…eo2j</a></td>
+    <td class="num sol">537</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 221 epochs ago (epoch 783)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">31</td>
+    <td class="mono"><a href="https://solscan.io/account/starTGMJss5QCaNaNpSHNPQrWV5JcZczRPsc3iA4FTb" title="starTGMJss5QCaNaNpSHNPQrWV5JcZczRPsc3iA4FTb">star…4FTb</a></td>
+    <td class="num sol">288</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">32</td>
+    <td class="mono"><a href="https://solscan.io/account/65DXyQcPU7CWEdd9Wm1Vnp4WLc2Wi5gVf8QJ7zuMkY4r" title="65DXyQcPU7CWEdd9Wm1Vnp4WLc2Wi5gVf8QJ7zuMkY4r">65DX…kY4r</a></td>
+    <td class="num sol">212</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">33</td>
+    <td class="mono"><a href="https://solscan.io/account/5mpBN1bo3xCFH6Q1ddsqKkUNVQLCdSsYJrjFhRncWT8R" title="5mpBN1bo3xCFH6Q1ddsqKkUNVQLCdSsYJrjFhRncWT8R">5mpB…WT8R</a></td>
+    <td class="num sol">203</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">34</td>
+    <td class="mono"><a href="https://solscan.io/account/RUNxPVMzSsAJFhGG9ok78vZziDmP3i31uBMJV9Uf9UJ" title="RUNxPVMzSsAJFhGG9ok78vZziDmP3i31uBMJV9Uf9UJ">RUNx…f9UJ</a></td>
+    <td class="num sol">109</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 332 epochs ago (epoch 672)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">35</td>
+    <td class="mono"><a href="https://solscan.io/account/KobeQvrdg63Z4YXsxX7KT7aHa6sGHoqs6JLSBExZS5z" title="KobeQvrdg63Z4YXsxX7KT7aHa6sGHoqs6JLSBExZS5z">Kobe…ZS5z</a></td>
+    <td class="num sol">107</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 332 epochs ago (epoch 672)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">36</td>
+    <td class="mono"><a href="https://solscan.io/account/cyc1ezCrHkBJ7BNSmE9fBFW2dzTYAbWG8ttgCGYhiHc" title="cyc1ezCrHkBJ7BNSmE9fBFW2dzTYAbWG8ttgCGYhiHc">cyc1…hiHc</a></td>
+    <td class="num sol">106</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 13 epochs ago (epoch 991)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">37</td>
+    <td class="mono"><a href="https://solscan.io/account/DxRFpqBQBC2nKcvh14gD1eizCj9Xi7ruMR3nCR3Hvw8f" title="DxRFpqBQBC2nKcvh14gD1eizCj9Xi7ruMR3nCR3Hvw8f">DxRF…vw8f</a></td>
+    <td class="num sol">87</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">38</td>
+    <td class="mono"><a href="https://solscan.io/account/Meso1TUDxhLvKKupvAQpZKqkKrJtpUTiEG9YFXcWXat" title="Meso1TUDxhLvKKupvAQpZKqkKrJtpUTiEG9YFXcWXat">Meso…WXat</a></td>
+    <td class="num sol">81</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">39</td>
+    <td class="mono"><a href="https://solscan.io/account/Bnks1YdMj6nL8P4moRFTZnK6PUxsXGjzKU4n15zRzjix" title="Bnks1YdMj6nL8P4moRFTZnK6PUxsXGjzKU4n15zRzjix">Bnks…zjix</a></td>
+    <td class="num sol">68</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 290 epochs ago (epoch 714)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">40</td>
+    <td class="mono"><a href="https://solscan.io/account/muPhLCLW39JpRNwVSETMUmRzpq6ASfoMC6XBphCAENy" title="muPhLCLW39JpRNwVSETMUmRzpq6ASfoMC6XBphCAENy">muPh…AENy</a></td>
+    <td class="num sol">59</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 289 epochs ago (epoch 715)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">41</td>
+    <td class="mono"><a href="https://solscan.io/account/H94wNeKNL76HxsD4qH5HrxrUdMvVvMpJkxYHJK9TiB9h" title="H94wNeKNL76HxsD4qH5HrxrUdMvVvMpJkxYHJK9TiB9h">H94w…iB9h</a></td>
+    <td class="num sol">35</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">42</td>
+    <td class="mono"><a href="https://solscan.io/account/EyKyx9LKz7Qbp6PSbBRoMdt8iNYp8PvFVupQTQRMY9AM" title="EyKyx9LKz7Qbp6PSbBRoMdt8iNYp8PvFVupQTQRMY9AM">EyKy…Y9AM</a></td>
+    <td class="num sol">34</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">43</td>
+    <td class="mono"><a href="https://solscan.io/account/jrgfKTd1GYHFcpYE4y2wj4oVkbRwckSfw2DTuVaENDn" title="jrgfKTd1GYHFcpYE4y2wj4oVkbRwckSfw2DTuVaENDn">jrgf…ENDn</a></td>
+    <td class="num sol">32</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">44</td>
+    <td class="mono"><a href="https://solscan.io/account/41gUpczAF5FqWSmZ8vrcN3t5Cu1Z7xLZqAxccMTdKkVk" title="41gUpczAF5FqWSmZ8vrcN3t5Cu1Z7xLZqAxccMTdKkVk">41gU…KkVk</a></td>
+    <td class="num sol">19</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">45</td>
+    <td class="mono"><a href="https://solscan.io/account/5PtSUaPPqKFYA98njyTPRu49Y9h6Ny6iHaD4aApFSuQB" title="5PtSUaPPqKFYA98njyTPRu49Y9h6Ny6iHaD4aApFSuQB">5PtS…SuQB</a></td>
+    <td class="num sol">12</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">46</td>
+    <td class="mono"><a href="https://solscan.io/account/EA9TbD19LM4m1wPMAdUaVsnDDi18RgybY91137Xus7H2" title="EA9TbD19LM4m1wPMAdUaVsnDDi18RgybY91137Xus7H2">EA9T…s7H2</a></td>
+    <td class="num sol">11</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">47</td>
+    <td class="mono"><a href="https://solscan.io/account/FL9w3VmgJaV2acQb8hs7toCi7Pkc2Ht5tayuTJTxQtxF" title="FL9w3VmgJaV2acQb8hs7toCi7Pkc2Ht5tayuTJTxQtxF">FL9w…QtxF</a></td>
+    <td class="num sol">11</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">48</td>
+    <td class="mono"><a href="https://solscan.io/account/CQC6jgfKwkoFHHMaiY9Ea1kGvQHfMVwA4aQSGZjpW6KL" title="CQC6jgfKwkoFHHMaiY9Ea1kGvQHfMVwA4aQSGZjpW6KL">CQC6…W6KL</a></td>
+    <td class="num sol">10</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">49</td>
+    <td class="mono"><a href="https://solscan.io/account/mawbf3j7fStQAGDKqEc6rkWGrNBvFNrYpLtncqPCX9e" title="mawbf3j7fStQAGDKqEc6rkWGrNBvFNrYpLtncqPCX9e">mawb…CX9e</a></td>
+    <td class="num sol">7</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">50</td>
+    <td class="mono"><a href="https://solscan.io/account/art2P2qizszTbnJyj98gwmfYNHJ5hw2B5BiNkSsgxr7" title="art2P2qizszTbnJyj98gwmfYNHJ5hw2B5BiNkSsgxr7">art2…gxr7</a></td>
+    <td class="num sol">6</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">51</td>
+    <td class="mono"><a href="https://solscan.io/account/ECicezrNmRhDpUkV8TLpQKB1Wbb9fhPBvJfroadNBnpp" title="ECicezrNmRhDpUkV8TLpQKB1Wbb9fhPBvJfroadNBnpp">ECic…Bnpp</a></td>
+    <td class="num sol">5</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 51 epochs ago (epoch 953)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">52</td>
+    <td class="mono"><a href="https://solscan.io/account/bigSoLFHqVAszmU3QpzwPNysDibfEwvRAXgqy3PqdXy" title="bigSoLFHqVAszmU3QpzwPNysDibfEwvRAXgqy3PqdXy">bigS…qdXy</a></td>
+    <td class="num sol">4</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 34 epochs ago (epoch 970)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">53</td>
+    <td class="mono"><a href="https://solscan.io/account/PPPGdj9yHb1kLq45Z2nxCxRKJgJ3RiJTtrN6E3Z2fDf" title="PPPGdj9yHb1kLq45Z2nxCxRKJgJ3RiJTtrN6E3Z2fDf">PPPG…2fDf</a></td>
+    <td class="num sol">4</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 280 epochs ago (epoch 724)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">54</td>
+    <td class="mono"><a href="https://solscan.io/account/5rQq5CQ7hfn6owyRHhhMajxUSMkkTkYFNFpiJT9wP3aL" title="5rQq5CQ7hfn6owyRHhhMajxUSMkkTkYFNFpiJT9wP3aL">5rQq…P3aL</a></td>
+    <td class="num sol">3</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">55</td>
+    <td class="mono"><a href="https://solscan.io/account/J4dERi1i8ZhSMFSsc4RbhsoNAEzvfR3jbwknR5CZ4B93" title="J4dERi1i8ZhSMFSsc4RbhsoNAEzvfR3jbwknR5CZ4B93">J4dE…4B93</a></td>
+    <td class="num sol">3</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 222 epochs ago (epoch 782)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">56</td>
+    <td class="mono"><a href="https://solscan.io/account/AJMaj81QA97UD9nQLvpQduRX17PA6jS9U6PfF7Gg6zVR" title="AJMaj81QA97UD9nQLvpQduRX17PA6jS9U6PfF7Gg6zVR">AJMa…6zVR</a></td>
+    <td class="num sol">3</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">57</td>
+    <td class="mono"><a href="https://solscan.io/account/6eaFCH2yx6PLKQGYRzSiYtGQrL5pRaUWE9KF2eX8SsTc" title="6eaFCH2yx6PLKQGYRzSiYtGQrL5pRaUWE9KF2eX8SsTc">6eaF…SsTc</a></td>
+    <td class="num sol">3</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">58</td>
+    <td class="mono"><a href="https://solscan.io/account/urbanCMkUi3rkKbjmH3HntRRnfJLAyC7dq6EYh4Y9Mm" title="urbanCMkUi3rkKbjmH3HntRRnfJLAyC7dq6EYh4Y9Mm">urba…Y9Mm</a></td>
+    <td class="num sol">3</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 320 epochs ago (epoch 684)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">59</td>
+    <td class="mono"><a href="https://solscan.io/account/9gbzydGwV7zw84t393xctU9Krvcov4ZBMN2YeFCBwDUo" title="9gbzydGwV7zw84t393xctU9Krvcov4ZBMN2YeFCBwDUo">9gbz…wDUo</a></td>
+    <td class="num sol">3</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">60</td>
+    <td class="mono"><a href="https://solscan.io/account/TopPLqqZb8jHqnsKv3UDetESUohMgkKH9Kb2mgEaUmn" title="TopPLqqZb8jHqnsKv3UDetESUohMgkKH9Kb2mgEaUmn">TopP…aUmn</a></td>
+    <td class="num sol">3</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 242 epochs ago (epoch 762)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">61</td>
+    <td class="mono"><a href="https://solscan.io/account/BxSG7EpTAPkxh7cAdFF378vDc27PLqK2h5aFVsBYygk4" title="BxSG7EpTAPkxh7cAdFF378vDc27PLqK2h5aFVsBYygk4">BxSG…ygk4</a></td>
+    <td class="num sol">2</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">62</td>
+    <td class="mono"><a href="https://solscan.io/account/GC62r3MJmX8Bi1TpvTvNX5A116o5HqRxkwPv1JQ9oDg5" title="GC62r3MJmX8Bi1TpvTvNX5A116o5HqRxkwPv1JQ9oDg5">GC62…oDg5</a></td>
+    <td class="num sol">2</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">63</td>
+    <td class="mono"><a href="https://solscan.io/account/CriHHjea1kGUCLSftrK46Tzp1Yf1WK3Mko9gPTJT8MW3" title="CriHHjea1kGUCLSftrK46Tzp1Yf1WK3Mko9gPTJT8MW3">CriH…8MW3</a></td>
+    <td class="num sol">2</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 42 epochs ago (epoch 962)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">64</td>
+    <td class="mono"><a href="https://solscan.io/account/3dU15WCqppZYWoWRFJTyMZfmz5NwqV51citxsNQZJY6N" title="3dU15WCqppZYWoWRFJTyMZfmz5NwqV51citxsNQZJY6N">3dU1…JY6N</a></td>
+    <td class="num sol">2</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 127 epochs ago (epoch 877)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">65</td>
+    <td class="mono"><a href="https://solscan.io/account/sfcKL419amPH8cYwSBpDWA4koSbSiMPNhYN6fWZehaj" title="sfcKL419amPH8cYwSBpDWA4koSbSiMPNhYN6fWZehaj">sfcK…ehaj</a></td>
+    <td class="num sol">2</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">66</td>
+    <td class="mono"><a href="https://solscan.io/account/HQLwnQJFH7t9nBTP4vbdW4eHy62aecfDnj8te8VzqkFL" title="HQLwnQJFH7t9nBTP4vbdW4eHy62aecfDnj8te8VzqkFL">HQLw…qkFL</a></td>
+    <td class="num sol">2</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 2 epochs ago (epoch 1002)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">67</td>
+    <td class="mono"><a href="https://solscan.io/account/8yNXFjNEw9Lw1zaFnQtupsgbqecv7rhRAt8VNmJnRr7q" title="8yNXFjNEw9Lw1zaFnQtupsgbqecv7rhRAt8VNmJnRr7q">8yNX…Rr7q</a></td>
+    <td class="num sol">2</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 295 epochs ago (epoch 709)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">68</td>
+    <td class="mono"><a href="https://solscan.io/account/C5V1LcBC6bD2KZXP5smDjiV5fvpLN5KDKtpSNgFAKY4Y" title="C5V1LcBC6bD2KZXP5smDjiV5fvpLN5KDKtpSNgFAKY4Y">C5V1…KY4Y</a></td>
+    <td class="num sol">2</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 42 epochs ago (epoch 962)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">69</td>
+    <td class="mono"><a href="https://solscan.io/account/48S4UzpvmPkm6BBmtMtKQGvire9mU57vKUgGQgyQXNY3" title="48S4UzpvmPkm6BBmtMtKQGvire9mU57vKUgGQgyQXNY3">48S4…XNY3</a></td>
+    <td class="num sol">2</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">70</td>
+    <td class="mono"><a href="https://solscan.io/account/5TnTqbrucx4GxLxEqtUUAr3cggE6CKV7nBDuT2bL9Gux" title="5TnTqbrucx4GxLxEqtUUAr3cggE6CKV7nBDuT2bL9Gux">5TnT…9Gux</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">71</td>
+    <td class="mono"><a href="https://solscan.io/account/chrtyCyyThdWjASoayBaQPiZF7QShNNu1zyeSRqmcv5" title="chrtyCyyThdWjASoayBaQPiZF7QShNNu1zyeSRqmcv5">chrt…mcv5</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">72</td>
+    <td class="mono"><a href="https://solscan.io/account/5koaThu11nPM3hCxdg5qz6fPeHcEHw12qvWvK8tExEsN" title="5koaThu11nPM3hCxdg5qz6fPeHcEHw12qvWvK8tExEsN">5koa…xEsN</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 27 epochs ago (epoch 977)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">73</td>
+    <td class="mono"><a href="https://solscan.io/account/9joVGc1XyF4Yp7Rm5aUcnukzCi8s79s3VifbM1JNud1m" title="9joVGc1XyF4Yp7Rm5aUcnukzCi8s79s3VifbM1JNud1m">9joV…ud1m</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">74</td>
+    <td class="mono"><a href="https://solscan.io/account/qxUwXfCT5dDALEwodku5n8ewB35f3QNX31ZWYa7shUj" title="qxUwXfCT5dDALEwodku5n8ewB35f3QNX31ZWYa7shUj">qxUw…shUj</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">75</td>
+    <td class="mono"><a href="https://solscan.io/account/9QKdRD3gM4J3pChjpo7aLuvSkNiEhLnZEJd18pn7yYuE" title="9QKdRD3gM4J3pChjpo7aLuvSkNiEhLnZEJd18pn7yYuE">9QKd…yYuE</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">76</td>
+    <td class="mono"><a href="https://solscan.io/account/CrNf4Krwp9Csiaqd7jZXhM36RdftuprmSKPbWg4RPw2y" title="CrNf4Krwp9Csiaqd7jZXhM36RdftuprmSKPbWg4RPw2y">CrNf…Pw2y</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">77</td>
+    <td class="mono"><a href="https://solscan.io/account/GqEpdFbiNPypxSGtd84nB6yicvd4zKEgFFASsbmDyi4Q" title="GqEpdFbiNPypxSGtd84nB6yicvd4zKEgFFASsbmDyi4Q">GqEp…yi4Q</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">78</td>
+    <td class="mono"><a href="https://solscan.io/account/2WwgnKfu9NuAiwshph864uD9wyGRCtmvhpsVGy4dHaDo" title="2WwgnKfu9NuAiwshph864uD9wyGRCtmvhpsVGy4dHaDo">2Wwg…HaDo</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 297 epochs ago (epoch 707)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">79</td>
+    <td class="mono"><a href="https://solscan.io/account/7973wXh9roiz2Cr1HTr6cF2RSSWq6B4nrfHDLzAriKkN" title="7973wXh9roiz2Cr1HTr6cF2RSSWq6B4nrfHDLzAriKkN">7973…iKkN</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">80</td>
+    <td class="mono"><a href="https://solscan.io/account/8YNRNkFbwWUnjXnCN9o6BEEY2t5RhZc2ecCSuobQp3p" title="8YNRNkFbwWUnjXnCN9o6BEEY2t5RhZc2ecCSuobQp3p">8YNR…Qp3p</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">81</td>
+    <td class="mono"><a href="https://solscan.io/account/CsPctShbuicGwGwkfsoP5dLMvRQ2mCNe8hShEGtqR3x4" title="CsPctShbuicGwGwkfsoP5dLMvRQ2mCNe8hShEGtqR3x4">CsPc…R3x4</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">82</td>
+    <td class="mono"><a href="https://solscan.io/account/GhK84y34kY5fnV1m14H2bGtQRxXuGWngrCx5SJrawvv7" title="GhK84y34kY5fnV1m14H2bGtQRxXuGWngrCx5SJrawvv7">GhK8…wvv7</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 115 epochs ago (epoch 889)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">83</td>
+    <td class="mono"><a href="https://solscan.io/account/Hot2TiG8JRW8nn9sfLw9AZzc8pm1gvYfotLCPVwyjP69" title="Hot2TiG8JRW8nn9sfLw9AZzc8pm1gvYfotLCPVwyjP69">Hot2…jP69</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">84</td>
+    <td class="mono"><a href="https://solscan.io/account/7vjXLJWQYk3641TPwj9mxNH1TqrhPz2XP9gd1e6Qwfme" title="7vjXLJWQYk3641TPwj9mxNH1TqrhPz2XP9gd1e6Qwfme">7vjX…wfme</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 180 epochs ago (epoch 824)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">85</td>
+    <td class="mono"><a href="https://solscan.io/account/2yWvQCwV8vDuMqxfnp67FTMJkgB8BQCA9XEkhQAp6vkH" title="2yWvQCwV8vDuMqxfnp67FTMJkgB8BQCA9XEkhQAp6vkH">2yWv…6vkH</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 192 epochs ago (epoch 812)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">86</td>
+    <td class="mono"><a href="https://solscan.io/account/DixapLLvNcFH7FHEQsguc72z6a6w4jeRPXuhpaBLA976" title="DixapLLvNcFH7FHEQsguc72z6a6w4jeRPXuhpaBLA976">Dixa…A976</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 261 epochs ago (epoch 743)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">87</td>
+    <td class="mono"><a href="https://solscan.io/account/H5ei32wDqRNKbQ49AUwHiJXdEq3Y15cDQ8dFKnmJpPif" title="H5ei32wDqRNKbQ49AUwHiJXdEq3Y15cDQ8dFKnmJpPif">H5ei…pPif</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 274 epochs ago (epoch 730)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">88</td>
+    <td class="mono"><a href="https://solscan.io/account/SAVEZdNX7EwZYsHS9j8oG9Evx39tfwFvvywRXSTfcj6" title="SAVEZdNX7EwZYsHS9j8oG9Evx39tfwFvvywRXSTfcj6">SAVE…fcj6</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 240 epochs ago (epoch 764)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">89</td>
+    <td class="mono"><a href="https://solscan.io/account/PicoaQNsCRRmtQyAjWNM2Eg8LzK1HsuWGeCHZ4iaud1" title="PicoaQNsCRRmtQyAjWNM2Eg8LzK1HsuWGeCHZ4iaud1">Pico…aud1</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">90</td>
+    <td class="mono"><a href="https://solscan.io/account/2etSii84mqFwA4JKibonfVNm7p97fDkVFduPqsZN2RYS" title="2etSii84mqFwA4JKibonfVNm7p97fDkVFduPqsZN2RYS">2etS…2RYS</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 198 epochs ago (epoch 806)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">91</td>
+    <td class="mono"><a href="https://solscan.io/account/uNstksMm9v49sdoyJ8cstYbBJHU2CmQ9pq8AfchUxhY" title="uNstksMm9v49sdoyJ8cstYbBJHU2CmQ9pq8AfchUxhY">uNst…UxhY</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 249 epochs ago (epoch 755)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">92</td>
+    <td class="mono"><a href="https://solscan.io/account/79pw7EsQXeGE8zPGkptLoWp49kApktHgAqXbLRonoabX" title="79pw7EsQXeGE8zPGkptLoWp49kApktHgAqXbLRonoabX">79pw…oabX</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">93</td>
+    <td class="mono"><a href="https://solscan.io/account/PALdfXCXcDFkcjkLyN7XTsmY9YSSUP6M74nSeCuVNWS" title="PALdfXCXcDFkcjkLyN7XTsmY9YSSUP6M74nSeCuVNWS">PALd…VNWS</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 235 epochs ago (epoch 769)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">94</td>
+    <td class="mono"><a href="https://solscan.io/account/BeKFWyu7zBo4sth6yaMSVdae5wXyWdBPAsQsaH8QMF9H" title="BeKFWyu7zBo4sth6yaMSVdae5wXyWdBPAsQsaH8QMF9H">BeKF…MF9H</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 42 epochs ago (epoch 962)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">95</td>
+    <td class="mono"><a href="https://solscan.io/account/8UwMHJLzdj8ujFKzSTmS1jTRR4maDZDXUPKHpqdQwTra" title="8UwMHJLzdj8ujFKzSTmS1jTRR4maDZDXUPKHpqdQwTra">8UwM…wTra</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">96</td>
+    <td class="mono"><a href="https://solscan.io/account/39W2jWeXCXVXDQY63VAs2k5NDa8dLgRuDa2vF7hRVMuR" title="39W2jWeXCXVXDQY63VAs2k5NDa8dLgRuDa2vF7hRVMuR">39W2…VMuR</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">97</td>
+    <td class="mono"><a href="https://solscan.io/account/6c9hbhRYwd41AUN8Prh1YPUZg34F5QdEm48NFX6tx26i" title="6c9hbhRYwd41AUN8Prh1YPUZg34F5QdEm48NFX6tx26i">6c9h…x26i</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">98</td>
+    <td class="mono"><a href="https://solscan.io/account/GmRZ6Pte4XUKTWBcUP4WE418R8jcvy18GigjK1TrRmfD" title="GmRZ6Pte4XUKTWBcUP4WE418R8jcvy18GigjK1TrRmfD">GmRZ…RmfD</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">99</td>
+    <td class="mono"><a href="https://solscan.io/account/3R4u9rfEkQthXo3pQ8ZXoQVvdCevfbaw4tvxTLjryy5R" title="3R4u9rfEkQthXo3pQ8ZXoQVvdCevfbaw4tvxTLjryy5R">3R4u…yy5R</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">100</td>
+    <td class="mono"><a href="https://solscan.io/account/3BBH7H27vcH16i57Dhp4cXo615tQiGMBXtXt6oQDW3tS" title="3BBH7H27vcH16i57Dhp4cXo615tQiGMBXtXt6oQDW3tS">3BBH…W3tS</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">101</td>
+    <td class="mono"><a href="https://solscan.io/account/9jpeBtbarFDfihjb9Nu1cxzRTGcsTUE4P8kf8NFzgYbG" title="9jpeBtbarFDfihjb9Nu1cxzRTGcsTUE4P8kf8NFzgYbG">9jpe…gYbG</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">102</td>
+    <td class="mono"><a href="https://solscan.io/account/XXLuexohbQbB7QSwd72kMuu4df9rtShkMyvYeLihAv6" title="XXLuexohbQbB7QSwd72kMuu4df9rtShkMyvYeLihAv6">XXLu…hAv6</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">103</td>
+    <td class="mono"><a href="https://solscan.io/account/GnruN2d4rmaLB57a8fZ7ndwVyGXpoxwb9gK5c9hSCZqu" title="GnruN2d4rmaLB57a8fZ7ndwVyGXpoxwb9gK5c9hSCZqu">Gnru…CZqu</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">104</td>
+    <td class="mono"><a href="https://solscan.io/account/5pAmV6Uo9grpgUcm52HRZJE8jCkrL5jaxgngCbjbb5T8" title="5pAmV6Uo9grpgUcm52HRZJE8jCkrL5jaxgngCbjbb5T8">5pAm…b5T8</a></td>
+    <td class="num sol">1</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 264 epochs ago (epoch 740)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">105</td>
+    <td class="mono"><a href="https://solscan.io/account/HwdVKivtQgmrD27LJfykgFJkXcpKut7QrNN5iiaFebwo" title="HwdVKivtQgmrD27LJfykgFJkXcpKut7QrNN5iiaFebwo">HwdV…ebwo</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">106</td>
+    <td class="mono"><a href="https://solscan.io/account/4rseRxovhVkdiCZ3PHVsMGYPSK9G1gQtc3Todod5viCR" title="4rseRxovhVkdiCZ3PHVsMGYPSK9G1gQtc3Todod5viCR">4rse…viCR</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">107</td>
+    <td class="mono"><a href="https://solscan.io/account/CmYo3UKWPauDZUYUndDRwqfAqVCcgdjqnATA6H38cpQz" title="CmYo3UKWPauDZUYUndDRwqfAqVCcgdjqnATA6H38cpQz">CmYo…cpQz</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">108</td>
+    <td class="mono"><a href="https://solscan.io/account/6d9Fg5qPMfcezk5KzyLv7erXo8zrxvNWKQGAcBLf3NQo" title="6d9Fg5qPMfcezk5KzyLv7erXo8zrxvNWKQGAcBLf3NQo">6d9F…3NQo</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 217 epochs ago (epoch 787)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">109</td>
+    <td class="mono"><a href="https://solscan.io/account/GiXYiMJ3kuSvvyD2iRUejWf539Daq84mN9gicPXfh64t" title="GiXYiMJ3kuSvvyD2iRUejWf539Daq84mN9gicPXfh64t">GiXY…h64t</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 297 epochs ago (epoch 707)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">110</td>
+    <td class="mono"><a href="https://solscan.io/account/DgrcEAT4DwwGRiXoZFwit27JxvjArex8fQADvcDxMAew" title="DgrcEAT4DwwGRiXoZFwit27JxvjArex8fQADvcDxMAew">Dgrc…MAew</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">111</td>
+    <td class="mono"><a href="https://solscan.io/account/5FVqYhqdEATPcA25DvB2C4kFBa3kiHQiP7bFDVcb2gZY" title="5FVqYhqdEATPcA25DvB2C4kFBa3kiHQiP7bFDVcb2gZY">5FVq…2gZY</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">112</td>
+    <td class="mono"><a href="https://solscan.io/account/BMrAKJYg86rrcULFYjrF9u39nEPKG1WXkKEUFnbGZFZG" title="BMrAKJYg86rrcULFYjrF9u39nEPKG1WXkKEUFnbGZFZG">BMrA…ZFZG</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 297 epochs ago (epoch 707)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">113</td>
+    <td class="mono"><a href="https://solscan.io/account/arsSr8wHXPAkDELTKrVxZcqXXWpe5harFqNfLnhFhYs" title="arsSr8wHXPAkDELTKrVxZcqXXWpe5harFqNfLnhFhYs">arsS…FhYs</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">114</td>
+    <td class="mono"><a href="https://solscan.io/account/4qzwctw2uUmP7qsJCTEgdJWKvz2TgvTyAdpZR1X6nF53" title="4qzwctw2uUmP7qsJCTEgdJWKvz2TgvTyAdpZR1X6nF53">4qzw…nF53</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">115</td>
+    <td class="mono"><a href="https://solscan.io/account/31oEwUqY9wJMg31gpHFW2DhRqBsW9FxNKFBHrRxhkK5k" title="31oEwUqY9wJMg31gpHFW2DhRqBsW9FxNKFBHrRxhkK5k">31oE…kK5k</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">116</td>
+    <td class="mono"><a href="https://solscan.io/account/86T9t54ssBA7MrNmrormHAMfzAZmqWUHMFP36iVbF7jF" title="86T9t54ssBA7MrNmrormHAMfzAZmqWUHMFP36iVbF7jF">86T9…F7jF</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">117</td>
+    <td class="mono"><a href="https://solscan.io/account/98ijqVPcMqdgSZ2xtCxEzTJDHoZDyg7qNAf1YJy43v8D" title="98ijqVPcMqdgSZ2xtCxEzTJDHoZDyg7qNAf1YJy43v8D">98ij…3v8D</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">118</td>
+    <td class="mono"><a href="https://solscan.io/account/Bwhj7VQVfVjGMSuB5KARpaZuL4vE7qZtF1GChrtZLBFK" title="Bwhj7VQVfVjGMSuB5KARpaZuL4vE7qZtF1GChrtZLBFK">Bwhj…LBFK</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">119</td>
+    <td class="mono"><a href="https://solscan.io/account/FGaCAG3kf8hNAHCxzcsdk2moeSE8BJ2Bz17hCaj1bKVd" title="FGaCAG3kf8hNAHCxzcsdk2moeSE8BJ2Bz17hCaj1bKVd">FGaC…bKVd</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">120</td>
+    <td class="mono"><a href="https://solscan.io/account/pvo1KxTsfVHnkyFwgTCRy7UfyaJzWMYYcHf3mS3nrrL" title="pvo1KxTsfVHnkyFwgTCRy7UfyaJzWMYYcHf3mS3nrrL">pvo1…nrrL</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">121</td>
+    <td class="mono"><a href="https://solscan.io/account/3Mg8qbfdRWDrqnAtZV8k6jToAoUrJdgueBYCJfZi3eTE" title="3Mg8qbfdRWDrqnAtZV8k6jToAoUrJdgueBYCJfZi3eTE">3Mg8…3eTE</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">122</td>
+    <td class="mono"><a href="https://solscan.io/account/71XMFTFrx14GtKRYAQ8W6Q5ayHgUfYanpM2ejiKaJDdm" title="71XMFTFrx14GtKRYAQ8W6Q5ayHgUfYanpM2ejiKaJDdm">71XM…JDdm</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">123</td>
+    <td class="mono"><a href="https://solscan.io/account/EaphJdGT9nUprtDeeMqnZ4Ux1k3NFDv4FBdPR66RVzt8" title="EaphJdGT9nUprtDeeMqnZ4Ux1k3NFDv4FBdPR66RVzt8">Eaph…Vzt8</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 189 epochs ago (epoch 815)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">124</td>
+    <td class="mono"><a href="https://solscan.io/account/7UzBFkL1Rid8Rajp1ADbqQgyeroamzZZUzbCbA7BUmw2" title="7UzBFkL1Rid8Rajp1ADbqQgyeroamzZZUzbCbA7BUmw2">7UzB…Umw2</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 139 epochs ago (epoch 865)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">125</td>
+    <td class="mono"><a href="https://solscan.io/account/3LQjR7rGThgogtoB3yUrFQDSGNGESRZGeDvMqLBHVQh6" title="3LQjR7rGThgogtoB3yUrFQDSGNGESRZGeDvMqLBHVQh6">3LQj…VQh6</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 27 epochs ago (epoch 977)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">126</td>
+    <td class="mono"><a href="https://solscan.io/account/uNRgbrqKSkbkaohFPZtnrycNjY3Biff8zogUcvBi3CQ" title="uNRgbrqKSkbkaohFPZtnrycNjY3Biff8zogUcvBi3CQ">uNRg…i3CQ</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">127</td>
+    <td class="mono"><a href="https://solscan.io/account/5ouCxKRAsm8Joqx5gkhAp1rpJeKPpMzyyBdLw6HBnWiA" title="5ouCxKRAsm8Joqx5gkhAp1rpJeKPpMzyyBdLw6HBnWiA">5ouC…nWiA</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 71 epochs ago (epoch 933)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">128</td>
+    <td class="mono"><a href="https://solscan.io/account/4CYXVhWNFF2VeGwLS135Pw4fGfzkpUs9Z3EsGQSR3Fve" title="4CYXVhWNFF2VeGwLS135Pw4fGfzkpUs9Z3EsGQSR3Fve">4CYX…3Fve</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 227 epochs ago (epoch 777)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">129</td>
+    <td class="mono"><a href="https://solscan.io/account/3rQ5iPrVXji2fAbWZrRihkXNFZ8D4fQNVRUj5Pfi1jWQ" title="3rQ5iPrVXji2fAbWZrRihkXNFZ8D4fQNVRUj5Pfi1jWQ">3rQ5…1jWQ</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 31 epochs ago (epoch 973)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">130</td>
+    <td class="mono"><a href="https://solscan.io/account/BAiYdV9JQ1eUzG8eX4HSLF9kVFTDRPFdKnF3crSL2oiR" title="BAiYdV9JQ1eUzG8eX4HSLF9kVFTDRPFdKnF3crSL2oiR">BAiY…2oiR</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 146 epochs ago (epoch 858)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">131</td>
+    <td class="mono"><a href="https://solscan.io/account/D7TAFxRvYvcZ36hsZ6dNNyfpLSeg5d4A8aU5BxFeyHgD" title="D7TAFxRvYvcZ36hsZ6dNNyfpLSeg5d4A8aU5BxFeyHgD">D7TA…yHgD</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 255 epochs ago (epoch 749)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">132</td>
+    <td class="mono"><a href="https://solscan.io/account/8pPrkBusoLLH1WPuhckqTMunPHY4PpdAnph7rhkgJvsG" title="8pPrkBusoLLH1WPuhckqTMunPHY4PpdAnph7rhkgJvsG">8pPr…JvsG</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 276 epochs ago (epoch 728)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">133</td>
+    <td class="mono"><a href="https://solscan.io/account/ASG7eDAS58m7WybPywhcZJxxp5s2zdJbs6WbTzReYeg9" title="ASG7eDAS58m7WybPywhcZJxxp5s2zdJbs6WbTzReYeg9">ASG7…Yeg9</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">134</td>
+    <td class="mono"><a href="https://solscan.io/account/5aX9jYofSatPYP3vbMUsFDWLXbJLKHQtvE36yyh7ixzU" title="5aX9jYofSatPYP3vbMUsFDWLXbJLKHQtvE36yyh7ixzU">5aX9…ixzU</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 211 epochs ago (epoch 793)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">135</td>
+    <td class="mono"><a href="https://solscan.io/account/GYEZK1XsoDbmDesB4UgUAMyrMxf3uU2syMfg32bdtwBd" title="GYEZK1XsoDbmDesB4UgUAMyrMxf3uU2syMfg32bdtwBd">GYEZ…twBd</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">136</td>
+    <td class="mono"><a href="https://solscan.io/account/CPoTXWBc81q6AeBCoH5QDLAAYT73TfncWxxeXeAL7y2H" title="CPoTXWBc81q6AeBCoH5QDLAAYT73TfncWxxeXeAL7y2H">CPoT…7y2H</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 241 epochs ago (epoch 763)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">137</td>
+    <td class="mono"><a href="https://solscan.io/account/DK1eoDAEpaHt9mCoG7xiP76Sf3ugQTZP4MaNRmtGJnv7" title="DK1eoDAEpaHt9mCoG7xiP76Sf3ugQTZP4MaNRmtGJnv7">DK1e…Jnv7</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">138</td>
+    <td class="mono"><a href="https://solscan.io/account/7qK5cFGgeHd9wfqyar5V8xQdEUd7XrKuedA4A5PiZ64J" title="7qK5cFGgeHd9wfqyar5V8xQdEUd7XrKuedA4A5PiZ64J">7qK5…Z64J</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 225 epochs ago (epoch 779)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">139</td>
+    <td class="mono"><a href="https://solscan.io/account/GdCPa6ixv3RUcnZqrkBP4u64zfakGBAy2hcQUGrJMcmU" title="GdCPa6ixv3RUcnZqrkBP4u64zfakGBAy2hcQUGrJMcmU">GdCP…McmU</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 244 epochs ago (epoch 760)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">140</td>
+    <td class="mono"><a href="https://solscan.io/account/BfRQ1J5Sd2BQADEZX2xBpVFtNdtpScZi7vGyu1gyvKeF" title="BfRQ1J5Sd2BQADEZX2xBpVFtNdtpScZi7vGyu1gyvKeF">BfRQ…vKeF</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">141</td>
+    <td class="mono"><a href="https://solscan.io/account/DUKoJmJX3UiJVewmrJFzfdhQkfmPf2jjAGGWj5kY9nrM" title="DUKoJmJX3UiJVewmrJFzfdhQkfmPf2jjAGGWj5kY9nrM">DUKo…9nrM</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">142</td>
+    <td class="mono"><a href="https://solscan.io/account/5eR8P5tDegFvc3GsMJ19ofkpTeQ1ZgTP1MpLVT6ctaiB" title="5eR8P5tDegFvc3GsMJ19ofkpTeQ1ZgTP1MpLVT6ctaiB">5eR8…taiB</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 33 epochs ago (epoch 971)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">143</td>
+    <td class="mono"><a href="https://solscan.io/account/jagPCXWPBwoah9K4PxzHoh8z7aSru4Vbxq7GKUeEzgY" title="jagPCXWPBwoah9K4PxzHoh8z7aSru4Vbxq7GKUeEzgY">jagP…EzgY</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 225 epochs ago (epoch 779)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">144</td>
+    <td class="mono"><a href="https://solscan.io/account/Av65toCmWvWJ1Vrg463cZAwizD8b3TWCCqWzXTv9jNp5" title="Av65toCmWvWJ1Vrg463cZAwizD8b3TWCCqWzXTv9jNp5">Av65…jNp5</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">145</td>
+    <td class="mono"><a href="https://solscan.io/account/UdTJyvjEvKvzvTKZ7fZ9wEDktxJSTCSmUBLfs89MKKf" title="UdTJyvjEvKvzvTKZ7fZ9wEDktxJSTCSmUBLfs89MKKf">UdTJ…MKKf</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 257 epochs ago (epoch 747)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">146</td>
+    <td class="mono"><a href="https://solscan.io/account/ADs9rmdCbtFmLcCQDGiXaZXkFBSd2AsRhz8La8imFEqt" title="ADs9rmdCbtFmLcCQDGiXaZXkFBSd2AsRhz8La8imFEqt">ADs9…FEqt</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 31 epochs ago (epoch 973)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">147</td>
+    <td class="mono"><a href="https://solscan.io/account/CRRu8vDBv6LSWWHXJFwsk8kzEzRSuSKPuqUJ4Jyv2NmM" title="CRRu8vDBv6LSWWHXJFwsk8kzEzRSuSKPuqUJ4Jyv2NmM">CRRu…2NmM</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">148</td>
+    <td class="mono"><a href="https://solscan.io/account/HVWtmGKP7u9sCa5v8DLGZCt1hK5adqqmn2qGiv4e1JPU" title="HVWtmGKP7u9sCa5v8DLGZCt1hK5adqqmn2qGiv4e1JPU">HVWt…1JPU</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 158 epochs ago (epoch 846)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">149</td>
+    <td class="mono"><a href="https://solscan.io/account/GVKnweuGMcYcbgGw6aC8RB28DuzHXJBBg3d2NvNA5vcg" title="GVKnweuGMcYcbgGw6aC8RB28DuzHXJBBg3d2NvNA5vcg">GVKn…5vcg</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 158 epochs ago (epoch 846)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">150</td>
+    <td class="mono"><a href="https://solscan.io/account/Aa8g77CptJfQVbsnaqEKwuLxNB3GyouYcjzGrJudAVt8" title="Aa8g77CptJfQVbsnaqEKwuLxNB3GyouYcjzGrJudAVt8">Aa8g…AVt8</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 158 epochs ago (epoch 846)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">151</td>
+    <td class="mono"><a href="https://solscan.io/account/1XPooL7vwQxZ1MaQEjAGwM4fHsoQxBYfXVx1zCGZMkP" title="1XPooL7vwQxZ1MaQEjAGwM4fHsoQxBYfXVx1zCGZMkP">1XPo…ZMkP</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 20 epochs ago (epoch 984)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">152</td>
+    <td class="mono"><a href="https://solscan.io/account/SSo9emHvgqeS8a2kpan7AST3evdKkjuhtWApZTceEeM" title="SSo9emHvgqeS8a2kpan7AST3evdKkjuhtWApZTceEeM">SSo9…eEeM</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 240 epochs ago (epoch 764)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">153</td>
+    <td class="mono"><a href="https://solscan.io/account/Dhv1BGDCaofPAZG9or1eWrG3QceRCWNDpTzegyxB7yAD" title="Dhv1BGDCaofPAZG9or1eWrG3QceRCWNDpTzegyxB7yAD">Dhv1…7yAD</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 238 epochs ago (epoch 766)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">154</td>
+    <td class="mono"><a href="https://solscan.io/account/F8h46pYkaqPJNP2MRkUUUtRkf8efCkpoqehn9g1bTTm7" title="F8h46pYkaqPJNP2MRkUUUtRkf8efCkpoqehn9g1bTTm7">F8h4…TTm7</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">155</td>
+    <td class="mono"><a href="https://solscan.io/account/odc3Lq1tQ495b16WwnndwtG1fhgv6C77pGohL6Vd6xJ" title="odc3Lq1tQ495b16WwnndwtG1fhgv6C77pGohL6Vd6xJ">odc3…d6xJ</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">156</td>
+    <td class="mono"><a href="https://solscan.io/account/8wun1SeGd3Gz37VM8dM8oS2AS9ghQbQxzovD2zGrMJy7" title="8wun1SeGd3Gz37VM8dM8oS2AS9ghQbQxzovD2zGrMJy7">8wun…MJy7</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 264 epochs ago (epoch 740)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">157</td>
+    <td class="mono"><a href="https://solscan.io/account/WNkNmgsKAp2uxKnbvqjhpHVxckDXDTjoAKHJZdDqRzJ" title="WNkNmgsKAp2uxKnbvqjhpHVxckDXDTjoAKHJZdDqRzJ">WNkN…qRzJ</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 38 epochs ago (epoch 966)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">158</td>
+    <td class="mono"><a href="https://solscan.io/account/85G9V98Y1nMuUCCMutPVzWQrXJNMjgTdxWntH6YMCBxi" title="85G9V98Y1nMuUCCMutPVzWQrXJNMjgTdxWntH6YMCBxi">85G9…CBxi</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 145 epochs ago (epoch 859)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">159</td>
+    <td class="mono"><a href="https://solscan.io/account/H4KMVeBi1GxKxxhynB4rZc5QZdjSnsN2HUTSMjcD2MsN" title="H4KMVeBi1GxKxxhynB4rZc5QZdjSnsN2HUTSMjcD2MsN">H4KM…2MsN</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 119 epochs ago (epoch 885)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">160</td>
+    <td class="mono"><a href="https://solscan.io/account/DkR3z2N3kumd2x2LQ5nH3F4csSV9ZiUYoJfHwih6TUFV" title="DkR3z2N3kumd2x2LQ5nH3F4csSV9ZiUYoJfHwih6TUFV">DkR3…TUFV</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">161</td>
+    <td class="mono"><a href="https://solscan.io/account/APACS2udZ4tXA4S8sVFHqKj95M3FHTNtCQeXSxvBJk9k" title="APACS2udZ4tXA4S8sVFHqKj95M3FHTNtCQeXSxvBJk9k">APAC…Jk9k</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 270 epochs ago (epoch 734)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">162</td>
+    <td class="mono"><a href="https://solscan.io/account/7UWBHuD4PeeREd5wpPk8JtEu6gqzXp27R6ocVWcpvovW" title="7UWBHuD4PeeREd5wpPk8JtEu6gqzXp27R6ocVWcpvovW">7UWB…vovW</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 33 epochs ago (epoch 971)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">163</td>
+    <td class="mono"><a href="https://solscan.io/account/APAC1kikJwCLnBhQ3DLLMVj2w7NHWxQPhxpWVy2ozqF5" title="APAC1kikJwCLnBhQ3DLLMVj2w7NHWxQPhxpWVy2ozqF5">APAC…zqF5</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 271 epochs ago (epoch 733)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">164</td>
+    <td class="mono"><a href="https://solscan.io/account/usdso1sm1FsPtKSFsP9KyBHPsqCrxMkYk9dCZnX3WSx" title="usdso1sm1FsPtKSFsP9KyBHPsqCrxMkYk9dCZnX3WSx">usds…3WSx</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">165</td>
+    <td class="mono"><a href="https://solscan.io/account/SVhYuHZMyXobKkCrcAbF2cq44amK5TiYzmNpKngfwqg" title="SVhYuHZMyXobKkCrcAbF2cq44amK5TiYzmNpKngfwqg">SVhY…fwqg</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 70 epochs ago (epoch 934)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">166</td>
+    <td class="mono"><a href="https://solscan.io/account/FwDGXxbxj8PRkE9XBb9p8b5MXpTTUQHCk6vMTah25n8E" title="FwDGXxbxj8PRkE9XBb9p8b5MXpTTUQHCk6vMTah25n8E">FwDG…5n8E</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">167</td>
+    <td class="mono"><a href="https://solscan.io/account/CRRLdgs3Lz2q9GgbQpZXzxkqs2GmxkrFVyujBD9sSwVt" title="CRRLdgs3Lz2q9GgbQpZXzxkqs2GmxkrFVyujBD9sSwVt">CRRL…SwVt</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 94 epochs ago (epoch 910)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">168</td>
+    <td class="mono"><a href="https://solscan.io/account/HaiHC1qUqeQiaFefdeVGrjML21MLNTVrKD92rU9MnWFR" title="HaiHC1qUqeQiaFefdeVGrjML21MLNTVrKD92rU9MnWFR">HaiH…nWFR</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">169</td>
+    <td class="mono"><a href="https://solscan.io/account/7argDcoMsXtfPj2nXJQtCd7NpM2Tp7aEpnGMTEPwBLNG" title="7argDcoMsXtfPj2nXJQtCd7NpM2Tp7aEpnGMTEPwBLNG">7arg…BLNG</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 33 epochs ago (epoch 971)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">170</td>
+    <td class="mono"><a href="https://solscan.io/account/FXZTLMPRPDecTakyvkDZsTU2U66ynNu2PLc4U6g55k8a" title="FXZTLMPRPDecTakyvkDZsTU2U66ynNu2PLc4U6g55k8a">FXZT…5k8a</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 13 epochs ago (epoch 991)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">171</td>
+    <td class="mono"><a href="https://solscan.io/account/GB2ZsCAmWRLbdD3NKeda39sdngP8LbPD8hEtr4cZDkTw" title="GB2ZsCAmWRLbdD3NKeda39sdngP8LbPD8hEtr4cZDkTw">GB2Z…DkTw</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 33 epochs ago (epoch 971)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">172</td>
+    <td class="mono"><a href="https://solscan.io/account/FzQCHYFp4HL3L9DLJH3jD5tKT1wikvLb3sXMcmJ9iXYo" title="FzQCHYFp4HL3L9DLJH3jD5tKT1wikvLb3sXMcmJ9iXYo">FzQC…iXYo</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 33 epochs ago (epoch 971)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">173</td>
+    <td class="mono"><a href="https://solscan.io/account/9jDqMekourwKTvW23DDugpLV9WZTEEhGJdgzS9GQUrsy" title="9jDqMekourwKTvW23DDugpLV9WZTEEhGJdgzS9GQUrsy">9jDq…Ursy</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 33 epochs ago (epoch 971)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">174</td>
+    <td class="mono"><a href="https://solscan.io/account/DrZJV88DffQr3iwSAYfyrurvyD4HSmtdNLU5KQYEFkMt" title="DrZJV88DffQr3iwSAYfyrurvyD4HSmtdNLU5KQYEFkMt">DrZJ…FkMt</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 33 epochs ago (epoch 971)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">175</td>
+    <td class="mono"><a href="https://solscan.io/account/meowU3igWaiyJo15eTJbT9ozTkSzB84WWngxzoxHtCS" title="meowU3igWaiyJo15eTJbT9ozTkSzB84WWngxzoxHtCS">meow…HtCS</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 38 epochs ago (epoch 966)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">176</td>
+    <td class="mono"><a href="https://solscan.io/account/3rCCqE8pYTQDeeFrVTFvtspTb3btaSiNegdfAFgNcWyn" title="3rCCqE8pYTQDeeFrVTFvtspTb3btaSiNegdfAFgNcWyn">3rCC…cWyn</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">177</td>
+    <td class="mono"><a href="https://solscan.io/account/F9ZxnUvzK5F4TzKdDxKo9kDbwwqDJQiwJymzvGdvJ7Dt" title="F9ZxnUvzK5F4TzKdDxKo9kDbwwqDJQiwJymzvGdvJ7Dt">F9Zx…J7Dt</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">178</td>
+    <td class="mono"><a href="https://solscan.io/account/DTBQ1XsHERLzDV4dwPpFeBEvGVLfju3jSPnYH3QrXb6F" title="DTBQ1XsHERLzDV4dwPpFeBEvGVLfju3jSPnYH3QrXb6F">DTBQ…Xb6F</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 38 epochs ago (epoch 966)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">179</td>
+    <td class="mono"><a href="https://solscan.io/account/CCqmcJRXV1YVGfWnekHkx6UPcB87Xrb19jLc8omL6BXH" title="CCqmcJRXV1YVGfWnekHkx6UPcB87Xrb19jLc8omL6BXH">CCqm…6BXH</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 38 epochs ago (epoch 966)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">180</td>
+    <td class="mono"><a href="https://solscan.io/account/45XSdtqXGKomxypKVdvmE6fNMCU3LFgqZrF5DfHbuoEa" title="45XSdtqXGKomxypKVdvmE6fNMCU3LFgqZrF5DfHbuoEa">45XS…uoEa</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 36 epochs ago (epoch 968)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">181</td>
+    <td class="mono"><a href="https://solscan.io/account/5Av61pgZ9KinUkNmxgDoai13Ej5auruGB6vp29Yeq9bh" title="5Av61pgZ9KinUkNmxgDoai13Ej5auruGB6vp29Yeq9bh">5Av6…q9bh</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 192 epochs ago (epoch 812)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">182</td>
+    <td class="mono"><a href="https://solscan.io/account/6CCrtEHtSN1J8GF5ePrN3Fr1mcZ3CD6ffbhRi6EkTPAv" title="6CCrtEHtSN1J8GF5ePrN3Fr1mcZ3CD6ffbhRi6EkTPAv">6CCr…TPAv</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 304 epochs ago (epoch 700)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">183</td>
+    <td class="mono"><a href="https://solscan.io/account/SAVE9LbAKe8w3iCmZUxXAULpVnrf17vfNov3nrirSpH" title="SAVE9LbAKe8w3iCmZUxXAULpVnrf17vfNov3nrirSpH">SAVE…rSpH</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 240 epochs ago (epoch 764)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">184</td>
+    <td class="mono"><a href="https://solscan.io/account/STH9epiW2vXYkfzEuG3APoH4ZGETbEXFJFkt4ENmmAq" title="STH9epiW2vXYkfzEuG3APoH4ZGETbEXFJFkt4ENmmAq">STH9…mmAq</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 38 epochs ago (epoch 966)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">185</td>
+    <td class="mono"><a href="https://solscan.io/account/T5wFzG7eZv641F657a4pFj8ieoqWmiAyjmPRdCF63Cv" title="T5wFzG7eZv641F657a4pFj8ieoqWmiAyjmPRdCF63Cv">T5wF…63Cv</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">186</td>
+    <td class="mono"><a href="https://solscan.io/account/21uRprxqPA1rwE7k7vizmKEmA7eGA2HP5XmkAWF4KK53" title="21uRprxqPA1rwE7k7vizmKEmA7eGA2HP5XmkAWF4KK53">21uR…KK53</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">187</td>
+    <td class="mono"><a href="https://solscan.io/account/2GLZ8WEg7CtG97yrQ6Qs8Ysxmr3Qm7weBRpKawtfmju3" title="2GLZ8WEg7CtG97yrQ6Qs8Ysxmr3Qm7weBRpKawtfmju3">2GLZ…mju3</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 222 epochs ago (epoch 782)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">188</td>
+    <td class="mono"><a href="https://solscan.io/account/2GzyHe4HFAzUghfD1SFo1G3x9ZPenCBhVXspBuAD1vdf" title="2GzyHe4HFAzUghfD1SFo1G3x9ZPenCBhVXspBuAD1vdf">2Gzy…1vdf</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">189</td>
+    <td class="mono"><a href="https://solscan.io/account/2HkJD6DA9UUjS1cWAJhTCqkk5z4N13XxqB4XYiEdsnEb" title="2HkJD6DA9UUjS1cWAJhTCqkk5z4N13XxqB4XYiEdsnEb">2HkJ…snEb</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 226 epochs ago (epoch 778)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">190</td>
+    <td class="mono"><a href="https://solscan.io/account/2K9T7vZYaNJTaJC2AG7o4MLEHZTefDrBWKium6VvpiAN" title="2K9T7vZYaNJTaJC2AG7o4MLEHZTefDrBWKium6VvpiAN">2K9T…piAN</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 299 epochs ago (epoch 705)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">191</td>
+    <td class="mono"><a href="https://solscan.io/account/2ne6epNBYHzC8newsUHLKUg9HcawciTbgVSG229z7goA" title="2ne6epNBYHzC8newsUHLKUg9HcawciTbgVSG229z7goA">2ne6…7goA</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 288 epochs ago (epoch 716)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">192</td>
+    <td class="mono"><a href="https://solscan.io/account/3RHs33ubRzEurPfPohnsHxYyLqoPQWJKH3Cp9nDLACiu" title="3RHs33ubRzEurPfPohnsHxYyLqoPQWJKH3Cp9nDLACiu">3RHs…ACiu</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">193</td>
+    <td class="mono"><a href="https://solscan.io/account/3SM7gNSE1qsET6yKFV8YswueSTUHtCxxFJYxnp5NJBVG" title="3SM7gNSE1qsET6yKFV8YswueSTUHtCxxFJYxnp5NJBVG">3SM7…JBVG</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">194</td>
+    <td class="mono"><a href="https://solscan.io/account/3jGmidghoQRppDeGmQUHS4DGHeNA9Lmj4hViTLY1zeLj" title="3jGmidghoQRppDeGmQUHS4DGHeNA9Lmj4hViTLY1zeLj">3jGm…zeLj</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">195</td>
+    <td class="mono"><a href="https://solscan.io/account/3y6tYyaje8UNN2cFsbuc4ndv8c4P2Jpn8ZPewkrZjvFh" title="3y6tYyaje8UNN2cFsbuc4ndv8c4P2Jpn8ZPewkrZjvFh">3y6t…jvFh</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">196</td>
+    <td class="mono"><a href="https://solscan.io/account/4D8Fa8jQeoWQdGTmzdxSsjU9twqVtcbhzMSBycWSTFmx" title="4D8Fa8jQeoWQdGTmzdxSsjU9twqVtcbhzMSBycWSTFmx">4D8F…TFmx</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">197</td>
+    <td class="mono"><a href="https://solscan.io/account/4HY2BpacGdVToWity4CbyipresveiS9HWzU2okScgpCw" title="4HY2BpacGdVToWity4CbyipresveiS9HWzU2okScgpCw">4HY2…gpCw</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 27 epochs ago (epoch 977)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">198</td>
+    <td class="mono"><a href="https://solscan.io/account/4p9XSRbzPzhpguspaXF3EcJ9Y4jHBxRHxryRXb6CyQCR" title="4p9XSRbzPzhpguspaXF3EcJ9Y4jHBxRHxryRXb6CyQCR">4p9X…yQCR</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 38 epochs ago (epoch 966)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">199</td>
+    <td class="mono"><a href="https://solscan.io/account/4s2LBedPVwA6pEQuFcZbwTPCojUHeMX3DTkqZmLHhZk4" title="4s2LBedPVwA6pEQuFcZbwTPCojUHeMX3DTkqZmLHhZk4">4s2L…hZk4</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 244 epochs ago (epoch 760)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">200</td>
+    <td class="mono"><a href="https://solscan.io/account/5EB6ct8h2igvL8dNWLMPkq1k8byxqhAYAjgsBHdRryFN" title="5EB6ct8h2igvL8dNWLMPkq1k8byxqhAYAjgsBHdRryFN">5EB6…ryFN</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 336 epochs ago (epoch 668)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">201</td>
+    <td class="mono"><a href="https://solscan.io/account/5YcEnQehwg2TVshWGnPysk2ivKxgPcaYwxNHKSzxuNfh" title="5YcEnQehwg2TVshWGnPysk2ivKxgPcaYwxNHKSzxuNfh">5YcE…uNfh</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 38 epochs ago (epoch 966)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">202</td>
+    <td class="mono"><a href="https://solscan.io/account/5a3vuETDxMHZaACnSsWVVn8FrFKR6uupojh5JKb4rfGy" title="5a3vuETDxMHZaACnSsWVVn8FrFKR6uupojh5JKb4rfGy">5a3v…rfGy</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">203</td>
+    <td class="mono"><a href="https://solscan.io/account/62JHWADebkvriYNPvt4W8epLVJpdTbEBhs57Z7kgEUCt" title="62JHWADebkvriYNPvt4W8epLVJpdTbEBhs57Z7kgEUCt">62JH…EUCt</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 274 epochs ago (epoch 730)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">204</td>
+    <td class="mono"><a href="https://solscan.io/account/62dtjJrayieYy1y44eKJtKrhwZiUwRKwVPTC3jy3P5jG" title="62dtjJrayieYy1y44eKJtKrhwZiUwRKwVPTC3jy3P5jG">62dt…P5jG</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">205</td>
+    <td class="mono"><a href="https://solscan.io/account/7rTCeXfMBSLUPSnEP3UsqGAquvkD8a6oYcK8vRKEhiqx" title="7rTCeXfMBSLUPSnEP3UsqGAquvkD8a6oYcK8vRKEhiqx">7rTC…hiqx</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 130 epochs ago (epoch 874)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">206</td>
+    <td class="mono"><a href="https://solscan.io/account/7tNpRZCxckbkfn9KqJR8rw7MyiuAo5z3tAdXJUMbPuuF" title="7tNpRZCxckbkfn9KqJR8rw7MyiuAo5z3tAdXJUMbPuuF">7tNp…PuuF</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 226 epochs ago (epoch 778)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">207</td>
+    <td class="mono"><a href="https://solscan.io/account/8WdQPiykSm6tJTkpo1XSZhiHPKuufYVPG6JqyLyXb2hp" title="8WdQPiykSm6tJTkpo1XSZhiHPKuufYVPG6JqyLyXb2hp">8WdQ…b2hp</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">208</td>
+    <td class="mono"><a href="https://solscan.io/account/8b9Lfgrq74ARXx9EzTvHVXEheqWRCtvkhsGth3Rn3F5k" title="8b9Lfgrq74ARXx9EzTvHVXEheqWRCtvkhsGth3Rn3F5k">8b9L…3F5k</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 304 epochs ago (epoch 700)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">209</td>
+    <td class="mono"><a href="https://solscan.io/account/8hFiFcWFx73RTEv87cZyZn6CSWLTK5gpCzSJwK5z6i2m" title="8hFiFcWFx73RTEv87cZyZn6CSWLTK5gpCzSJwK5z6i2m">8hFi…6i2m</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">210</td>
+    <td class="mono"><a href="https://solscan.io/account/9p6Jt1sNEbqoarmM6mHyxHbYNVQf3M9yaAFe4QUBZVQA" title="9p6Jt1sNEbqoarmM6mHyxHbYNVQf3M9yaAFe4QUBZVQA">9p6J…ZVQA</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">211</td>
+    <td class="mono"><a href="https://solscan.io/account/A5Y93ggrPsYy4y5FU6jaEGbp7fyyopnCqFK5xedrfeTZ" title="A5Y93ggrPsYy4y5FU6jaEGbp7fyyopnCqFK5xedrfeTZ">A5Y9…feTZ</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 226 epochs ago (epoch 778)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">212</td>
+    <td class="mono"><a href="https://solscan.io/account/A9riogtiGGb1T27CsovkGsq3mugJsLdioCYjxdoFSrjR" title="A9riogtiGGb1T27CsovkGsq3mugJsLdioCYjxdoFSrjR">A9ri…SrjR</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 223 epochs ago (epoch 781)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">213</td>
+    <td class="mono"><a href="https://solscan.io/account/ABw568X33S2LYZqaxmmdk8DMzMzXD9MdLyKXHTkXUFFv" title="ABw568X33S2LYZqaxmmdk8DMzMzXD9MdLyKXHTkXUFFv">ABw5…UFFv</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">214</td>
+    <td class="mono"><a href="https://solscan.io/account/AZgCoEK3c4jNatYKkiCuZtBz5khoK2Cp6Rtdy8c3gGPi" title="AZgCoEK3c4jNatYKkiCuZtBz5khoK2Cp6Rtdy8c3gGPi">AZgC…gGPi</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 27 epochs ago (epoch 977)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">215</td>
+    <td class="mono"><a href="https://solscan.io/account/AxeDZ9L3g7rWN1iZDrcynjq83SFCdDkNouhfsvNcp24f" title="AxeDZ9L3g7rWN1iZDrcynjq83SFCdDkNouhfsvNcp24f">AxeD…p24f</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 226 epochs ago (epoch 778)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">216</td>
+    <td class="mono"><a href="https://solscan.io/account/BrwxgLTyhqkkHUiBy9J5ExZapK4JDf8dsP7SugkWGPZH" title="BrwxgLTyhqkkHUiBy9J5ExZapK4JDf8dsP7SugkWGPZH">Brwx…GPZH</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">217</td>
+    <td class="mono"><a href="https://solscan.io/account/By5XFxXM44HqbBMJMHeZT5CLsYnbFsDuixPBvD5G55XL" title="By5XFxXM44HqbBMJMHeZT5CLsYnbFsDuixPBvD5G55XL">By5X…55XL</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 244 epochs ago (epoch 760)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">218</td>
+    <td class="mono"><a href="https://solscan.io/account/C5Du7Zym8C2AKkC1eVNbLAH84LSarr7xNDojSssy6hji" title="C5Du7Zym8C2AKkC1eVNbLAH84LSarr7xNDojSssy6hji">C5Du…6hji</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 266 epochs ago (epoch 738)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">219</td>
+    <td class="mono"><a href="https://solscan.io/account/C8MqZRhjiau2K4gcGbximFWNhL3gJr9D3b96yoKf9zTM" title="C8MqZRhjiau2K4gcGbximFWNhL3gJr9D3b96yoKf9zTM">C8Mq…9zTM</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 226 epochs ago (epoch 778)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">220</td>
+    <td class="mono"><a href="https://solscan.io/account/C9Cqp9XgpGL2fsJDwJPST3PAwKX7kKZgMWD2DN5YKvEw" title="C9Cqp9XgpGL2fsJDwJPST3PAwKX7kKZgMWD2DN5YKvEw">C9Cq…KvEw</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 3 epochs ago (epoch 1001)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">221</td>
+    <td class="mono"><a href="https://solscan.io/account/CR2vsF87U8VtHxtDwZvgvfigYu7FKsXkFcMxp1CFcsF4" title="CR2vsF87U8VtHxtDwZvgvfigYu7FKsXkFcMxp1CFcsF4">CR2v…csF4</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">222</td>
+    <td class="mono"><a href="https://solscan.io/account/D63J8GKcurZxnCWtMgXBWXaq7V7afDnP3DFVbvi9LEQN" title="D63J8GKcurZxnCWtMgXBWXaq7V7afDnP3DFVbvi9LEQN">D63J…LEQN</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">223</td>
+    <td class="mono"><a href="https://solscan.io/account/DRRk7akh1v3vr9qGfe67nmUdDJuzck3h1rufJGUHq4kQ" title="DRRk7akh1v3vr9qGfe67nmUdDJuzck3h1rufJGUHq4kQ">DRRk…q4kQ</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-u">
+    <td class="num">224</td>
+    <td class="mono"><a href="https://solscan.io/account/DjBH7PtJHtPSn5hJX45BnrkaSCffVLSEX8YUHQZeLSNi" title="DjBH7PtJHtPSn5hJX45BnrkaSCffVLSEX8YUHQZeLSNi">DjBH…LSNi</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill u">UNVERIFIED</span></td>
+    <td class="detail">fresh, but backing could not be read this cycle (RPC limit) — re-verify pending</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">225</td>
+    <td class="mono"><a href="https://solscan.io/account/EB9KVJM6UPe4GovMCeMcpdnFMhUrmYJbtmqtwRTkhijT" title="EB9KVJM6UPe4GovMCeMcpdnFMhUrmYJbtmqtwRTkhijT">EB9K…hijT</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 274 epochs ago (epoch 730)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">226</td>
+    <td class="mono"><a href="https://solscan.io/account/EmgkJiUxuPGTFw6NYtEvcf5MoeyZYV9kATjoqEYNwfCT" title="EmgkJiUxuPGTFw6NYtEvcf5MoeyZYV9kATjoqEYNwfCT">Emgk…wfCT</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 38 epochs ago (epoch 966)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">227</td>
+    <td class="mono"><a href="https://solscan.io/account/FaRP11iM7yao9LQyc8pjnqf1nLR5w2m99GKfGB9hbFJt" title="FaRP11iM7yao9LQyc8pjnqf1nLR5w2m99GKfGB9hbFJt">FaRP…bFJt</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">228</td>
+    <td class="mono"><a href="https://solscan.io/account/Fscp9E6E7v3JWAsHBgYoUwEyGRuWZ3AjSdxv1qiZtetS" title="Fscp9E6E7v3JWAsHBgYoUwEyGRuWZ3AjSdxv1qiZtetS">Fscp…tetS</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">229</td>
+    <td class="mono"><a href="https://solscan.io/account/GWag6WTh9R76ECCGALszsFiPiZppbhkQmGD3Wj85av8W" title="GWag6WTh9R76ECCGALszsFiPiZppbhkQmGD3Wj85av8W">GWag…av8W</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 179 epochs ago (epoch 825)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">230</td>
+    <td class="mono"><a href="https://solscan.io/account/GcnQPduQ6dok4PQijZkbUdPNfn1HMB3mdKQL8SetdZtL" title="GcnQPduQ6dok4PQijZkbUdPNfn1HMB3mdKQL8SetdZtL">GcnQ…dZtL</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">231</td>
+    <td class="mono"><a href="https://solscan.io/account/GtzeGbaQ5uUwE61tKkrqfsN5Xo3ft4MToUKXbcUpRGkZ" title="GtzeGbaQ5uUwE61tKkrqfsN5Xo3ft4MToUKXbcUpRGkZ">Gtze…RGkZ</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 27 epochs ago (epoch 977)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">232</td>
+    <td class="mono"><a href="https://solscan.io/account/GyXut9K5UKQ11CfVTQvaNarvkcvWQ2etAR8BadQWT5NY" title="GyXut9K5UKQ11CfVTQvaNarvkcvWQ2etAR8BadQWT5NY">GyXu…T5NY</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 300 epochs ago (epoch 704)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">233</td>
+    <td class="mono"><a href="https://solscan.io/account/HTzo6s1nWuWDgeK8hcr8AbJMbWaDTA2VZAx9HEcMR7ei" title="HTzo6s1nWuWDgeK8hcr8AbJMbWaDTA2VZAx9HEcMR7ei">HTzo…R7ei</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 298 epochs ago (epoch 706)</td>
+  </tr>
+<tr class="row-s">
+    <td class="num">234</td>
+    <td class="mono"><a href="https://solscan.io/account/HjfBnvfv2GgxumEuZg3XdKvqje9k8dcgh2wHcNhmguQ1" title="HjfBnvfv2GgxumEuZg3XdKvqje9k8dcgh2wHcNhmguQ1">HjfB…guQ1</a></td>
+    <td class="num sol">0</td>
+    <td><span class="pill s">STALE</span></td>
+    <td class="detail">header frozen 244 epochs ago (epoch 760)</td>
+  </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><hr class="dbl"/></div>
+<footer><div class="wrap">
+  Reads only · no protocol cooperation · reproducible from <span class="mono">verify.mjs</span> ·
+  a GREEN survives an independent backing check, not a safety blessing &nbsp;·&nbsp;
+  <span class="lat">redde rationem.</span>
+</div></footer>

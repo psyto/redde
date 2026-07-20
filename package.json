@@ -1,0 +1,13 @@
+{
+  "name": "redde",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Render the account. Solvency, whether they like it or not.",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "verify": "node verify.mjs",
+    "verify:json": "node verify.mjs --json",
+    "probe": "node probe.mjs"
+  }
+}

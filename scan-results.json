@@ -1,0 +1,2330 @@
+{
+  "summary": {
+    "epoch": 1004,
+    "pools": 234,
+    "green": 6,
+    "red": 0,
+    "staleEpoch": 173,
+    "unverified": 55,
+    "totalSolObserved": 33749666.88967557,
+    "totalSolFullyVerified": 26097476.00700961
+  },
+  "board": [
+    {
+      "pool": "Hr9pzexrBge3vgmBNRR8u42CNQgBXdHm4UkUN2DH4a7r",
+      "mint": "BNso1VUJnh4zcfpZa6986Ea66P6TCp59hvtNJ8b1X85",
+      "totalSol": 10189763.180598335,
+      "supply": 9071827.731446316,
+      "epoch": 1004,
+      "status": "GREEN",
+      "reason": "SUPPLY-DRIFT: header exceeds mint by 534 base units (direct token burns); header pricing is conservative vs outstanding shares",
+      "supplyDrift": "534",
+      "redeemableSol": 10189805.41151229,
+      "claimedSol": 10189763.180598335,
+      "usablePdas": 6,
+      "unusablePdas": 0,
+      "marginSol": 42.230913953855634
+    },
+    {
+      "pool": "Jito4APyf642JPZPx3hGc6WWJ8zPKtRbRs4P815Awbb",
+      "mint": "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn",
+      "totalSol": 10029303.191723626,
+      "supply": 7767041.757031179,
+      "epoch": 1004,
+      "status": "GREEN",
+      "reason": "INV-2b: 1 non-canonical account(s) under the authority ignored",
+      "supplyDrift": "0",
+      "redeemableSol": 10029367.748461181,
+      "claimedSol": 10029303.191723626,
+      "usablePdas": 707,
+      "unusablePdas": 0,
+      "marginSol": 64.55673755519092
+    },
+    {
+      "pool": "DpooSqZRL3qCmiq82YyB4zWmLfH3iEqx2gy8f2B6zjru",
+      "mint": "DYNoyS3x5qgbccZg7RPXagm4xQzfnm5iwd9o8pMyJtdE",
+      "totalSol": 1652025.233738006,
+      "supply": 1548937.339986492,
+      "epoch": 1004,
+      "status": "GREEN",
+      "reason": "INV-2b: 2 non-canonical account(s) under the authority ignored",
+      "supplyDrift": "0",
+      "redeemableSol": 1652035.563974914,
+      "claimedSol": 1652025.233738006,
+      "usablePdas": 75,
+      "unusablePdas": 0,
+      "marginSol": 10.33023690781556
+    },
+    {
+      "pool": "pSPcvR8GmG9aKDUbn9nbKYjkxt9hxMS7kF1qqKJaPqJ",
+      "mint": "pSo1f9nQXWgXibFtKf7NWYxb5enAM4qfP6UJSiXRQfL",
+      "totalSol": 1602248.898789541,
+      "supply": 1472532.038404061,
+      "epoch": 1004,
+      "status": "GREEN",
+      "reason": "SUPPLY-DRIFT: header exceeds mint by 256258 base units (direct token burns); header pricing is conservative vs outstanding shares",
+      "supplyDrift": "256258",
+      "redeemableSol": 1602322.00270638,
+      "claimedSol": 1602248.898789541,
+      "usablePdas": 2,
+      "unusablePdas": 0,
+      "marginSol": 73.10391683899797
+    },
+    {
+      "pool": "3fV1sdGeXaNEZj6EPDTpub82pYxcRXwt2oie6jkSzeWi",
+      "mint": "Gekfj7SL2fVpTDxJZmeC46cTYxinjB6gkAnb6EGT6mnn",
+      "totalSol": 1506614.56907074,
+      "supply": 1422464.090044042,
+      "epoch": 1004,
+      "status": "GREEN",
+      "reason": "",
+      "supplyDrift": "0",
+      "redeemableSol": 1506614.56907074,
+      "claimedSol": 1506614.56907074,
+      "usablePdas": 383,
+      "unusablePdas": 0,
+      "marginSol": 0
+    },
+    {
+      "pool": "CtMyWsrUtAwXWiGr9WjHT5fC3p3fgV8cyGpLTo2LJzG1",
+      "mint": "7Q2afV64in6N6SeZsAAB81TJzwDoD6zpqmHkzi9Dcavn",
+      "totalSol": 1401489.03863523,
+      "supply": 1026603.108717763,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Connection rate limits exceeded\"}"
+    },
+    {
+      "pool": "Fu9BYC6tWBo1KMKaP3CFoKfRhqv9akmy3DuYwnCyWiyC",
+      "mint": "vSoLxydx6akxyMD9XEcPvGYNGq6Nn66oqVb3UkGkei7",
+      "totalSol": 1337576.836843466,
+      "supply": 1150528.766088306,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "SUPPLY-DRIFT: header exceeds mint by 432 base units (direct token burns); header pricing is conservative vs outstanding shares",
+      "supplyDrift": "432"
+    },
+    {
+      "pool": "spp1mo6shdcrRyqDK2zdurJ8H5uttZE6H6oVjHxN1QN",
+      "mint": "xSoL18r4U1k2ALa4yF857VDZJqCKecLtty92nscre3o",
+      "totalSol": 1117520.933089359,
+      "supply": 955737.035430016,
+      "epoch": 1004,
+      "status": "GREEN",
+      "reason": "",
+      "supplyDrift": "0",
+      "redeemableSol": 1117527.721035066,
+      "claimedSol": 1117520.933089359,
+      "usablePdas": 58,
+      "unusablePdas": 0,
+      "marginSol": 6.787945707095787
+    },
+    {
+      "pool": "aero2ePURjuEgLKTzcUmF6RypBncBGd7pMUYCoSsVJ6",
+      "mint": "aeroXvCT6tjGVNyTvZy86tFDwE4sYsKCh7FbNDcrcxF",
+      "totalSol": 1088785.51538407,
+      "supply": 952421.449973484,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Connection rate limits exceeded\"}"
+    },
+    {
+      "pool": "stk9ApL5HeVAwPLr3TLhDXdZS8ptVu7zp6ov8HFDuMi",
+      "mint": "bSo13r4TkiE4KumL71LsHTPpL2euBYLFx6h9HP3piy1",
+      "totalSol": 894142.304855976,
+      "supply": 684747.510075215,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Connection rate limits exceeded\"}"
+    },
+    {
+      "pool": "jagEdDepWUgexiu4jxojcRWcVKKwFqgZBBuAoGu2BxM",
+      "mint": "jag58eRBC1c88LaAsRPspTMvoKJPbnzw9p9fREzHqyV",
+      "totalSol": 759022.83111091,
+      "supply": 686929.75815613,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Connection rate limits exceeded\"}"
+    },
+    {
+      "pool": "StKeDUdSu7jMSnPJ1MPqDnk3RdEwD2QbJaisHMebGhw",
+      "mint": "stke7uu3fXHsGqKVVjKnkmj65LRPVrqr4bLG2SJg7rh",
+      "totalSol": 651428.581619958,
+      "supply": 629930.354634906,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Connection rate limits exceeded\"}"
+    },
+    {
+      "pool": "9N69d9o5hqdfDLMiPdFT5VBXpEf4UXSTsbmYLKc9Njpa",
+      "mint": "axiom1dWfDXKn6r4pn3jjaYuLTExG5TdLuAqXQohNuG",
+      "totalSol": 543094.6816868,
+      "supply": 524732.600766474,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Connection rate limits exceeded\"}"
+    },
+    {
+      "pool": "CV6bkrUksMwcEC4jfLTJsbHwF3Y2YurZdWWua95Fpbtd",
+      "mint": "7cBuurYDdaqxnem7KyMTci6SWhjJKroZ6NUjqH2ewEPB",
+      "totalSol": 315549.596771786,
+      "supply": 294531.967040098,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Connection rate limits exceeded\"}"
+    },
+    {
+      "pool": "9qrFrE5qoZ3QfYZrZoeXFNRWfErpjzZKudCAoBTvgKjb",
+      "mint": "bgSoLfRx1wRPehwC9TyG568AGjnf1sQG1MYa8s3FbfY",
+      "totalSol": 146428.335871025,
+      "supply": 125897.643877631,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Connection rate limits exceeded\"}"
+    },
+    {
+      "pool": "CgntPoLka5pD5fesJYhGmUCF8KU1QS1ZmZiuAuMZr2az",
+      "mint": "CgnTSoL3DgY9SFHxcLj6CgCgKKoTBr6tp4CPAEWy25DE",
+      "totalSol": 118981.973436514,
+      "supply": 92427.89562219,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "po1osKDWYF9oiVEGmzKA4eTs8eMveFRMox3bUKazGN2",
+      "mint": "sSo1wxKKr6zW2hqf5hZrp2CawLibcwi1pMBqk5bg2G4",
+      "totalSol": 114452.895628517,
+      "supply": 98500.364831685,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "DqhH94PjkZsjAqEze2BEkWhFQJ6EyU6MdtMphMgnXqeK",
+      "mint": "LSTxxxnJzKDFSLr4dUkPcmCf5VyryEqzPLz5j4bpxFp",
+      "totalSol": 93908.007153404,
+      "supply": 61325.441546415,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "SAVEY1fVMBeRVo9V9rgEz8ENTvHreftd3QgpAKBDFV4",
+      "mint": "SAVEDpx3nFNdzG3ymJfShYnrBuYy7LtQEABZQ3qtTFt",
+      "totalSol": 53238.118398745,
+      "supply": 49215.110664548,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "edgejNWAqkePLpi5sHRxT9vHi7u3kSHP9cocABPKiWZ",
+      "mint": "edge86g9cVz87xcpKpy3J77vbp4wYd9idEV562CCntt",
+      "totalSol": 41604.854016284,
+      "supply": 32239.203530632,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "AdHRYZkiUQg4zPANGHB4XxoUcjbfF5TkAaWJFZ9bQALV",
+      "mint": "J9fihFsaysmQSyebhsHcSShpzhje2aH73jdL9nafg7Ff",
+      "totalSol": 28121.480418224,
+      "supply": 23547.38646596,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "RaiDhwyRoMVxLN9KD7kAXAwHbWKf1TCTe5HFSrPVJaD",
+      "mint": "Ra1so1sTkvX3PorAM9ewqrsUMz9sPSbfFZ5oZUjN4oc",
+      "totalSol": 26776.358543559,
+      "supply": 20257.535160058,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "2qyEeSAWKfU18AFthrF7JA8z8ZCi1yt76Tqs917vwQTV",
+      "mint": "LAinEtNLgpmCP9Rvsf5Hn8W6EhNiKLZQti1xfWMLy6X",
+      "totalSol": 12342.126175896,
+      "supply": 9302.214070543,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "xanDnetFGrZkp49s8brXbg6T215JeDTeSfDF19wBiNQ",
+      "mint": "XAnDeUmMcqFyCdef9jzpNgtZPjTj3xUMj9eXKn2reFN",
+      "totalSol": 6700.899989896,
+      "supply": 5957.455411488,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "So1vW4Bm6ZURzJJHZy1JpsjoVY68z4cDgF4tTLwYMa5",
+      "mint": "ELSoL1owwMWQ9foMsutweCsMKbTPVBD9pFqxQGidTaMC",
+      "totalSol": 5597.579773842,
+      "supply": 4335.894595396,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "sntn1Y9gX7MwcPD6Z4GLCkUAy7iKAZika6RUjDu1paS",
+      "mint": "sntn1oVhhKuytG42jyjneMYnGAtzkpJsBxHNEskTfGp",
+      "totalSol": 3561.729753765,
+      "supply": 3197.476141688,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "FujqyFf2LW95Fsi8zjyYaLJJEdmDzoJjkR2NdpSKwuRS",
+      "mint": "2cWVRi4171yduSmAsNeSScw2u8WyrtAmjerjprWDCvxb",
+      "totalSol": 3522.752920547,
+      "supply": 3000,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "74dxJToX8wgJAueLQNVhSbbQkNd9qeVp6m9mts6M7cUb",
+      "mint": "L33mHftsNpaj39z1omnGbGbuA5eKqSsbmr91rjTod48",
+      "totalSol": 2854.062150665,
+      "supply": 2755.815210827,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "7ge2xKsZXmqPxa3YmXxXmzCp9Hc2ezrTxh6PECaxCwrL",
+      "mint": "GEJpt3Wjmr628FqXxTgxMce1pLntcPV4uFi8ksxMyPQh",
+      "totalSol": 878.748996827,
+      "supply": 711.813309855,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "3DuPtyTAKrxKfHkSPZ5fqCayMcGru1BarAKKTfGDeo2j",
+      "mint": "7SjostN5HL5Q3pV3UmvfAgQzcPx1HzHBXLc3Lgkq4HsJ",
+      "totalSol": 536.965088086,
+      "supply": 501.63644468,
+      "epoch": 783,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 783 < 1004",
+      "lag": 221
+    },
+    {
+      "pool": "starTGMJss5QCaNaNpSHNPQrWV5JcZczRPsc3iA4FTb",
+      "mint": "STARxPuRLr3R6huwJ2ppqoTZ65WtA6S2unEzYiYV8bh",
+      "totalSol": 288.16008147,
+      "supply": 274.86714947,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "65DXyQcPU7CWEdd9Wm1Vnp4WLc2Wi5gVf8QJ7zuMkY4r",
+      "mint": "FtJAhJceaytpUdw4jNzgr9qegPpVWwPi4ZKp25ZmER9X",
+      "totalSol": 212.344926701,
+      "supply": 211.181277487,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "5mpBN1bo3xCFH6Q1ddsqKkUNVQLCdSsYJrjFhRncWT8R",
+      "mint": "FjoaGzpBtXb8XcphCxUPpQEEMNejUsCcXPMNQk5N3Vca",
+      "totalSol": 203.467886273,
+      "supply": 190.119235894,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "RUNxPVMzSsAJFhGG9ok78vZziDmP3i31uBMJV9Uf9UJ",
+      "mint": "RUNx21P7pv9XgYdq6CXteDCjk8by2TGyvgDHoqRqi4s",
+      "totalSol": 109.182975308,
+      "supply": 91.499623014,
+      "epoch": 672,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 672 < 1004",
+      "lag": 332
+    },
+    {
+      "pool": "KobeQvrdg63Z4YXsxX7KT7aHa6sGHoqs6JLSBExZS5z",
+      "mint": "J1toso1L4EzEJN64hADrs17vE5Fv3qJBbnFB3FqrR8uH",
+      "totalSol": 107.428640093,
+      "supply": 95.559675382,
+      "epoch": 672,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 672 < 1004",
+      "lag": 332
+    },
+    {
+      "pool": "cyc1ezCrHkBJ7BNSmE9fBFW2dzTYAbWG8ttgCGYhiHc",
+      "mint": "cyc1eP4hbC6wU2X4ypLoosYTx5z9PYwgRSKDUJcVn3J",
+      "totalSol": 106.393933141,
+      "supply": 100.704594529,
+      "epoch": 991,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 991 < 1004",
+      "lag": 13
+    },
+    {
+      "pool": "DxRFpqBQBC2nKcvh14gD1eizCj9Xi7ruMR3nCR3Hvw8f",
+      "mint": "Zippybh3S5xYYam2nvL6hVJKz1got6ShgV4DyD1XQYF",
+      "totalSol": 87.227326091,
+      "supply": 72.695521138,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "Meso1TUDxhLvKKupvAQpZKqkKrJtpUTiEG9YFXcWXat",
+      "mint": "meSo1XvNGYn1xyTYhnBPFK5EB8JS1mXotK3yfHzqcc6",
+      "totalSol": 81.228005054,
+      "supply": 76.898029241,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "Bnks1YdMj6nL8P4moRFTZnK6PUxsXGjzKU4n15zRzjix",
+      "mint": "BnKsoL8xBYLVMhBCgpmTwHSmedXZvxpazSYvNK3whpz4",
+      "totalSol": 68.13167364,
+      "supply": 67.166293417,
+      "epoch": 714,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 714 < 1004",
+      "lag": 290
+    },
+    {
+      "pool": "muPhLCLW39JpRNwVSETMUmRzpq6ASfoMC6XBphCAENy",
+      "mint": "muSoLw3jb1Rz3vX2KT1QDZB7FwUCuTdhxzuvfRm5aWs",
+      "totalSol": 59.117243331,
+      "supply": 57.132504802,
+      "epoch": 715,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 715 < 1004",
+      "lag": 289
+    },
+    {
+      "pool": "H94wNeKNL76HxsD4qH5HrxrUdMvVvMpJkxYHJK9TiB9h",
+      "mint": "Dj4uh34StsTUhYgGFpHCKXydVaAsvh5Sq61rLftdzT8b",
+      "totalSol": 34.770023737,
+      "supply": 33.659793075,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "EyKyx9LKz7Qbp6PSbBRoMdt8iNYp8PvFVupQTQRMY9AM",
+      "mint": "6umRHtiuBd1PC6HQhfH9ioNsqY4ihZncZXNPiGu3d3rN",
+      "totalSol": 33.744293231,
+      "supply": 15.908670368,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "jrgfKTd1GYHFcpYE4y2wj4oVkbRwckSfw2DTuVaENDn",
+      "mint": "3D23MKXkcfYNWcuJP2nW6KiMV5an4Nc2fC4Q5v9ixW8g",
+      "totalSol": 31.870221305,
+      "supply": 29.835448619,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "41gUpczAF5FqWSmZ8vrcN3t5Cu1Z7xLZqAxccMTdKkVk",
+      "mint": "3XFZhxwSqgrxg9HKN2rxMQkfAaVfYdrxkf9ySpznsywa",
+      "totalSol": 19.015027359,
+      "supply": 15.706054725,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "5PtSUaPPqKFYA98njyTPRu49Y9h6Ny6iHaD4aApFSuQB",
+      "mint": "AJZU5dcBo1Kc7x7Qm2bV4aokSRP99qjoTy6hc6Q5icFk",
+      "totalSol": 11.503637412,
+      "supply": 0.483904749,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "EA9TbD19LM4m1wPMAdUaVsnDDi18RgybY91137Xus7H2",
+      "mint": "GgaigJXoPxbRLuPW2gmVeZAXeY8nKkrtmLBZ3APTYA9",
+      "totalSol": 10.722274858,
+      "supply": 8.883650727,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "FL9w3VmgJaV2acQb8hs7toCi7Pkc2Ht5tayuTJTxQtxF",
+      "mint": "BXiemE5HYgLXfVE95m6PbpWjZiDbAYQrzJfJx2iRhAtC",
+      "totalSol": 10.652948613,
+      "supply": 10.238324962,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "CQC6jgfKwkoFHHMaiY9Ea1kGvQHfMVwA4aQSGZjpW6KL",
+      "mint": "Hgy8fYYDTqrVi67LnJxwAmFNjsiv48vximuBdXTFvv3h",
+      "totalSol": 10.035042301,
+      "supply": 9.77274105,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "mawbf3j7fStQAGDKqEc6rkWGrNBvFNrYpLtncqPCX9e",
+      "mint": "mawaHPsSeCQQzfhQsjMZNAGoUPUzupKEDuxUe7u4cjx",
+      "totalSol": 6.510278733,
+      "supply": 6.510278733,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "art2P2qizszTbnJyj98gwmfYNHJ5hw2B5BiNkSsgxr7",
+      "mint": "arte65Eg9mxCA98Y527EJSX8Z3ZsCGsMcXyQuM3NdNF",
+      "totalSol": 6.434805096,
+      "supply": 6.129990519,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "ECicezrNmRhDpUkV8TLpQKB1Wbb9fhPBvJfroadNBnpp",
+      "mint": "Shiroi9NsD4MqRoxMPtPSGDgGiVu47YH7SP72ysjJk6",
+      "totalSol": 5.145137756,
+      "supply": 5.070076311,
+      "epoch": 953,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 953 < 1004",
+      "lag": 51
+    },
+    {
+      "pool": "bigSoLFHqVAszmU3QpzwPNysDibfEwvRAXgqy3PqdXy",
+      "mint": "bigSoLUpPcya2LPPFeebuHcpUqjd6r7isSMSPn9wpm2",
+      "totalSol": 3.800057901,
+      "supply": 2.729926646,
+      "epoch": 970,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 970 < 1004",
+      "lag": 34
+    },
+    {
+      "pool": "PPPGdj9yHb1kLq45Z2nxCxRKJgJ3RiJTtrN6E3Z2fDf",
+      "mint": "UwUyLDbX59DJwAbagg7aSv5GpiutUc4aDhMPSVzG8KS",
+      "totalSol": 3.676637221,
+      "supply": 2.121327012,
+      "epoch": 724,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 724 < 1004",
+      "lag": 280
+    },
+    {
+      "pool": "5rQq5CQ7hfn6owyRHhhMajxUSMkkTkYFNFpiJT9wP3aL",
+      "mint": "Es2RUioo4WvbhHdGSR65kgHscE4Q1jbmbJRQZEPcqmZ9",
+      "totalSol": 3.317150624,
+      "supply": 1.638232345,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "J4dERi1i8ZhSMFSsc4RbhsoNAEzvfR3jbwknR5CZ4B93",
+      "mint": "9sptkQ9YkvRSogfM9JBskUh3yX29xTkTqFMW77bPzv16",
+      "totalSol": 3,
+      "supply": 3,
+      "epoch": 782,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 782 < 1004",
+      "lag": 222
+    },
+    {
+      "pool": "AJMaj81QA97UD9nQLvpQduRX17PA6jS9U6PfF7Gg6zVR",
+      "mint": "7V3b6CQujMCBD7VteGvL8AaEAmBnTW6YB78n9KLH7AgJ",
+      "totalSol": 2.773032905,
+      "supply": 1.261473658,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "6eaFCH2yx6PLKQGYRzSiYtGQrL5pRaUWE9KF2eX8SsTc",
+      "mint": "9srmF1LG3LmCjXE8bPzACQTQLCfKDMy9E5dxgJS8rLkF",
+      "totalSol": 2.713849208,
+      "supply": 1.638383279,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "urbanCMkUi3rkKbjmH3HntRRnfJLAyC7dq6EYh4Y9Mm",
+      "mint": "urbanWxAZUbg4Uvh9NWU68ZYh82FJZCGCFUMj5J2Phd",
+      "totalSol": 2.66165884,
+      "supply": 2.561182352,
+      "epoch": 684,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 684 < 1004",
+      "lag": 320
+    },
+    {
+      "pool": "9gbzydGwV7zw84t393xctU9Krvcov4ZBMN2YeFCBwDUo",
+      "mint": "4qZcqr2DEmHkEBNvBASqmP5BUYEBQBL13E5brFWjuBzS",
+      "totalSol": 2.619286041,
+      "supply": 2.454344326,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "TopPLqqZb8jHqnsKv3UDetESUohMgkKH9Kb2mgEaUmn",
+      "mint": "TopsoLJ4zgzYqUskJU6u6EUxexzW8Xmcr7Ch6m7gtsZ",
+      "totalSol": 2.513287191,
+      "supply": 2.500625903,
+      "epoch": 762,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 762 < 1004",
+      "lag": 242
+    },
+    {
+      "pool": "BxSG7EpTAPkxh7cAdFF378vDc27PLqK2h5aFVsBYygk4",
+      "mint": "6X8hXNgBqQJnJCxoqYS5s59AqxbyxoAsTowK13okQAZD",
+      "totalSol": 2.477363464,
+      "supply": 0.513660855,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "GC62r3MJmX8Bi1TpvTvNX5A116o5HqRxkwPv1JQ9oDg5",
+      "mint": "EDN99nrvLinR7hiv3UpmHHFGXFcmuHPEcTKXnv6P2d1K",
+      "totalSol": 2.457155389,
+      "supply": 2.357930441,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "CriHHjea1kGUCLSftrK46Tzp1Yf1WK3Mko9gPTJT8MW3",
+      "mint": "joD2UP2mSgCPPfnaK82miUUmL4zjCsr7M13sqGFAheD",
+      "totalSol": 2.443995955,
+      "supply": 1.778492229,
+      "epoch": 962,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 962 < 1004",
+      "lag": 42
+    },
+    {
+      "pool": "3dU15WCqppZYWoWRFJTyMZfmz5NwqV51citxsNQZJY6N",
+      "mint": "95qcsnchJkpNnfKJEQgtpro6jgbLLh9H8FrihGNBVsKj",
+      "totalSol": 2,
+      "supply": 2,
+      "epoch": 877,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 877 < 1004",
+      "lag": 127
+    },
+    {
+      "pool": "sfcKL419amPH8cYwSBpDWA4koSbSiMPNhYN6fWZehaj",
+      "mint": "FUCkKJ2WX4UwQuQTXR9KgbQ9MTgwHV4aKkg76TvAJCiZ",
+      "totalSol": 1.974112,
+      "supply": 1.972954457,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "HQLwnQJFH7t9nBTP4vbdW4eHy62aecfDnj8te8VzqkFL",
+      "mint": "BdMLRC2gKyFu8FRBErazzpEaKmB1jcVB9Eq1rXXFm4EV",
+      "totalSol": 1.880463887,
+      "supply": 1.778233638,
+      "epoch": 1002,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 1002 < 1004",
+      "lag": 2
+    },
+    {
+      "pool": "8yNXFjNEw9Lw1zaFnQtupsgbqecv7rhRAt8VNmJnRr7q",
+      "mint": "HcVd1cyhph9bdMFtxYiB3fGY1s4h77VVzkKMJXNf3YSS",
+      "totalSol": 1.747834158,
+      "supply": 1.743058522,
+      "epoch": 709,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 709 < 1004",
+      "lag": 295
+    },
+    {
+      "pool": "C5V1LcBC6bD2KZXP5smDjiV5fvpLN5KDKtpSNgFAKY4Y",
+      "mint": "E1fCqXp9YbigKB43iBw9CLErRcZAfHxg7PZqpwG5Gsaj",
+      "totalSol": 1.723620881,
+      "supply": 1.197587226,
+      "epoch": 962,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 962 < 1004",
+      "lag": 42
+    },
+    {
+      "pool": "48S4UzpvmPkm6BBmtMtKQGvire9mU57vKUgGQgyQXNY3",
+      "mint": "5Tnn8ZgpP4ubaaLTs6qWT14eyd2pqnQxs7ehMBSMmEHL",
+      "totalSol": 1.663073265,
+      "supply": 0.236863068,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "5TnTqbrucx4GxLxEqtUUAr3cggE6CKV7nBDuT2bL9Gux",
+      "mint": "LSTxxxGW1PWFQj7LCNrk4nf3nMDX4jsatPqBTQgAAAA",
+      "totalSol": 1.453429878,
+      "supply": 1.443948503,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "chrtyCyyThdWjASoayBaQPiZF7QShNNu1zyeSRqmcv5",
+      "mint": "chrtyoZKhQ1Nxfmvpw8tGJ4hm91ZGYRFGKBrg5QEi1p",
+      "totalSol": 1.43158721,
+      "supply": 1.431335077,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "5koaThu11nPM3hCxdg5qz6fPeHcEHw12qvWvK8tExEsN",
+      "mint": "5N3CtZRjKJ8MnuyZ4qJtmSWS9bPCKrR4ouMt6BCasvDJ",
+      "totalSol": 1.379458709,
+      "supply": 1.295268863,
+      "epoch": 977,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 977 < 1004",
+      "lag": 27
+    },
+    {
+      "pool": "9joVGc1XyF4Yp7Rm5aUcnukzCi8s79s3VifbM1JNud1m",
+      "mint": "6eWB3cX6odNXyXhxnTDMxStQ9hw1rr5YFtzzgWbeTepi",
+      "totalSol": 1.35,
+      "supply": 1.35,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "qxUwXfCT5dDALEwodku5n8ewB35f3QNX31ZWYa7shUj",
+      "mint": "HFZ5c4hpoeGw8VH7foyei162d5nmkANLbV5jenr7jJhh",
+      "totalSol": 1.25,
+      "supply": 1.25,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "9QKdRD3gM4J3pChjpo7aLuvSkNiEhLnZEJd18pn7yYuE",
+      "mint": "31dTfeqYKnHR7noKq19i1i6Kpf2HvjD2nuPcoC7u1s4Z",
+      "totalSol": 1.25,
+      "supply": 1.25,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "CrNf4Krwp9Csiaqd7jZXhM36RdftuprmSKPbWg4RPw2y",
+      "mint": "3ZAvKan2xjBjXVo2kLfrpN9hdWYc9hCL6dkqipL8WAwv",
+      "totalSol": 1.25,
+      "supply": 1.25,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "GqEpdFbiNPypxSGtd84nB6yicvd4zKEgFFASsbmDyi4Q",
+      "mint": "F3kZasRUmtQrjPsW9YtyoZvBQkUsuNA1wDEmy9CDF2L3",
+      "totalSol": 1.25,
+      "supply": 1.25,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "2WwgnKfu9NuAiwshph864uD9wyGRCtmvhpsVGy4dHaDo",
+      "mint": "CdNQmTvm56YWoox9twQA4Ha3rY4mZYLnxgsKQg6YXPDT",
+      "totalSol": 1.216981182,
+      "supply": 0.512102128,
+      "epoch": 707,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 707 < 1004",
+      "lag": 297
+    },
+    {
+      "pool": "7973wXh9roiz2Cr1HTr6cF2RSSWq6B4nrfHDLzAriKkN",
+      "mint": "GDT2QgE5Z2wA662TG17shxcoxMH7DLyPNuyMgdhEZNjs",
+      "totalSol": 1.214146695,
+      "supply": 1.101497261,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "8YNRNkFbwWUnjXnCN9o6BEEY2t5RhZc2ecCSuobQp3p",
+      "mint": "9qTUytXyBsbhU1CT8n5EwLGCBVs2Ber8QBxWubocpnjT",
+      "totalSol": 1.185493988,
+      "supply": 1.081767335,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "CsPctShbuicGwGwkfsoP5dLMvRQ2mCNe8hShEGtqR3x4",
+      "mint": "vsoLSX3EuZVp3z3aUzqjbs7gKmswyPwbjLtCadU8xra",
+      "totalSol": 1.123710532,
+      "supply": 0.968366279,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "GhK84y34kY5fnV1m14H2bGtQRxXuGWngrCx5SJrawvv7",
+      "mint": "5Z6ECA84J96LxQgrq6Xm4kq7f2wMeyQNbeJsmsaigMG6",
+      "totalSol": 1.071801134,
+      "supply": 0.359242693,
+      "epoch": 889,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 889 < 1004",
+      "lag": 115
+    },
+    {
+      "pool": "Hot2TiG8JRW8nn9sfLw9AZzc8pm1gvYfotLCPVwyjP69",
+      "mint": "B4jRUhnRtRGsXaTgxmCJMz6gYGL93YCBT4pPwEBEYEAK",
+      "totalSol": 1.070481265,
+      "supply": 0.568605587,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "7vjXLJWQYk3641TPwj9mxNH1TqrhPz2XP9gd1e6Qwfme",
+      "mint": "A47cn9XDtKBmPVL6uTcnmwPmRLMeD1ZPWg3j22zUgDLq",
+      "totalSol": 1.065472651,
+      "supply": 1.06114768,
+      "epoch": 824,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 824 < 1004",
+      "lag": 180
+    },
+    {
+      "pool": "2yWvQCwV8vDuMqxfnp67FTMJkgB8BQCA9XEkhQAp6vkH",
+      "mint": "enderSozQQP3aFMyxkCrs59u283tu7ZowMPCdoM5io6",
+      "totalSol": 1.013591285,
+      "supply": 1,
+      "epoch": 812,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 812 < 1004",
+      "lag": 192
+    },
+    {
+      "pool": "DixapLLvNcFH7FHEQsguc72z6a6w4jeRPXuhpaBLA976",
+      "mint": "MEVq6QPAxHD6Efdk9D5PctQHEh8P4PGgkwJSZvjzcUU",
+      "totalSol": 1,
+      "supply": 1,
+      "epoch": 743,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 743 < 1004",
+      "lag": 261
+    },
+    {
+      "pool": "H5ei32wDqRNKbQ49AUwHiJXdEq3Y15cDQ8dFKnmJpPif",
+      "mint": "GiP3g6bhEqaw8zVFWKCojvpMdY6XUVZTqiAigC2Wcwct",
+      "totalSol": 1,
+      "supply": 1,
+      "epoch": 730,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 730 < 1004",
+      "lag": 274
+    },
+    {
+      "pool": "SAVEZdNX7EwZYsHS9j8oG9Evx39tfwFvvywRXSTfcj6",
+      "mint": "SAVEzeWZHM9FrzSkdPrS8xyE7ok8h57vVW9ybcTifdZ",
+      "totalSol": 0.997711947,
+      "supply": 0.997711947,
+      "epoch": 764,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 764 < 1004",
+      "lag": 240
+    },
+    {
+      "pool": "PicoaQNsCRRmtQyAjWNM2Eg8LzK1HsuWGeCHZ4iaud1",
+      "mint": "pico8jhxxQXdA4r2KBSdqAipepz9yi8rKLN1ThQd2Ct",
+      "totalSol": 0.874462901,
+      "supply": 0.00328703,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "2etSii84mqFwA4JKibonfVNm7p97fDkVFduPqsZN2RYS",
+      "mint": "EgvhX9EhPjhCkZE7kRnCBuYFzxxfXoqHdLP1X26eEvZf",
+      "totalSol": 0.864368588,
+      "supply": 0.862766597,
+      "epoch": 806,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 806 < 1004",
+      "lag": 198
+    },
+    {
+      "pool": "uNstksMm9v49sdoyJ8cstYbBJHU2CmQ9pq8AfchUxhY",
+      "mint": "unsTAkQsjZHKeQhFUn8pq7RiXZ6RsiwiK2LwCAibxev",
+      "totalSol": 0.798226845,
+      "supply": 0.798226845,
+      "epoch": 755,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 755 < 1004",
+      "lag": 249
+    },
+    {
+      "pool": "79pw7EsQXeGE8zPGkptLoWp49kApktHgAqXbLRonoabX",
+      "mint": "Eig7PK57U8cFDLKbJHWp3G7CKxhpitSo4Bv951bhvhcG",
+      "totalSol": 0.781304203,
+      "supply": 0.761270746,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "PALdfXCXcDFkcjkLyN7XTsmY9YSSUP6M74nSeCuVNWS",
+      "mint": "PALNtRwesFEUW6y4Hu45eA23WSSsttoywEjioYv3xuN",
+      "totalSol": 0.753401197,
+      "supply": 0.746984166,
+      "epoch": 769,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 769 < 1004",
+      "lag": 235
+    },
+    {
+      "pool": "BeKFWyu7zBo4sth6yaMSVdae5wXyWdBPAsQsaH8QMF9H",
+      "mint": "7Nw3itm3coaMSmG2DD6tfPkfEc7yeuBkXnKQZC9d79kU",
+      "totalSol": 0.731410246,
+      "supply": 0.400401485,
+      "epoch": 962,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 962 < 1004",
+      "lag": 42
+    },
+    {
+      "pool": "8UwMHJLzdj8ujFKzSTmS1jTRR4maDZDXUPKHpqdQwTra",
+      "mint": "ChQdcbGm9rKgsCJVNV3iFSQPWzH8CYY76sHtjMRLAVZd",
+      "totalSol": 0.690705882,
+      "supply": 0.636370449,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "39W2jWeXCXVXDQY63VAs2k5NDa8dLgRuDa2vF7hRVMuR",
+      "mint": "DuCkGaK16BFuUdrLupJc6QbpvAnneQtZcGxMwivJjcQz",
+      "totalSol": 0.621000001,
+      "supply": 0.620999994,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "6c9hbhRYwd41AUN8Prh1YPUZg34F5QdEm48NFX6tx26i",
+      "mint": "GThaBmbBzk9nqXgJpzVTLm4iJEmmFZfsbFizDm2QjPxg",
+      "totalSol": 0.529693164,
+      "supply": 0.506455059,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "GmRZ6Pte4XUKTWBcUP4WE418R8jcvy18GigjK1TrRmfD",
+      "mint": "LSoLMnYpeFaTmU8q2oKPniwrY4drnda6bN6uQgQyNT9",
+      "totalSol": 0.52445133,
+      "supply": 0.50695467,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "3R4u9rfEkQthXo3pQ8ZXoQVvdCevfbaw4tvxTLjryy5R",
+      "mint": "haSo14V6tC7duZUrVcN3cTUjU422bx6SMHb4FHwjkdU",
+      "totalSol": 0.522303423,
+      "supply": 0.520723519,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "3BBH7H27vcH16i57Dhp4cXo615tQiGMBXtXt6oQDW3tS",
+      "mint": "G2A4YCCT9ZZFmb2c3nsZz9Fg1a5AKx4zaMxUoBokUGT3",
+      "totalSol": 0.522053934,
+      "supply": 0.521780985,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "9jpeBtbarFDfihjb9Nu1cxzRTGcsTUE4P8kf8NFzgYbG",
+      "mint": "FvT3wHWcA726A9E7YDcct2Rr9cdNYgZhezdAPrWB1eRt",
+      "totalSol": 0.52201,
+      "supply": 0.10001,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "XXLuexohbQbB7QSwd72kMuu4df9rtShkMyvYeLihAv6",
+      "mint": "XXaNMRhJ1GMwDGEQjJ4BDdjTT5vx8DbSqneVmSqn7Nc",
+      "totalSol": 0.520232428,
+      "supply": 0.520102622,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "GnruN2d4rmaLB57a8fZ7ndwVyGXpoxwb9gK5c9hSCZqu",
+      "mint": "HfxxHZkXayqLj6HnL5WMovDDbgGLap75crfrrDAyRwX8",
+      "totalSol": 0.52,
+      "supply": 0.52,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "5pAmV6Uo9grpgUcm52HRZJE8jCkrL5jaxgngCbjbb5T8",
+      "mint": "LMBxaejTfPJN9cN3tJSqaj26Sno1UXVSHbzQXCoGkUi",
+      "totalSol": 0.5,
+      "supply": 0.5,
+      "epoch": 740,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 740 < 1004",
+      "lag": 264
+    },
+    {
+      "pool": "HwdVKivtQgmrD27LJfykgFJkXcpKut7QrNN5iiaFebwo",
+      "mint": "dfSopoggNzbJJ91JDUS5Yg6Za7Wq3vL11BUvbraXWJU",
+      "totalSol": 0.490242185,
+      "supply": 0.000872132,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "4rseRxovhVkdiCZ3PHVsMGYPSK9G1gQtc3Todod5viCR",
+      "mint": "9AHPS2GF4nWfN2UssYzD48ZTQycftB2JZzo2qZQ2fm7S",
+      "totalSol": 0.459275368,
+      "supply": 0.371832586,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "CmYo3UKWPauDZUYUndDRwqfAqVCcgdjqnATA6H38cpQz",
+      "mint": "FCug8UqfpzT2ZWGS7TpT42rFFxiwFCx5hYSuezvCBHk4",
+      "totalSol": 0.45601875,
+      "supply": 0.000076848,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "6d9Fg5qPMfcezk5KzyLv7erXo8zrxvNWKQGAcBLf3NQo",
+      "mint": "7J69ZDc6dLFX3DYxVHRrugc7UKj6Pef1xJmUsH2zAxj",
+      "totalSol": 0.452965174,
+      "supply": 0.420922602,
+      "epoch": 787,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 787 < 1004",
+      "lag": 217
+    },
+    {
+      "pool": "GiXYiMJ3kuSvvyD2iRUejWf539Daq84mN9gicPXfh64t",
+      "mint": "7Sobg3heNuzZxfbVcFg7d6A3i9deR6XFDjdJsRWpXfxH",
+      "totalSol": 0.441610493,
+      "supply": 0.341375607,
+      "epoch": 707,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 707 < 1004",
+      "lag": 297
+    },
+    {
+      "pool": "DgrcEAT4DwwGRiXoZFwit27JxvjArex8fQADvcDxMAew",
+      "mint": "6kWimEvkh79fJugE7g4fGbopV37rT6XsWxA7mHzWeCZ7",
+      "totalSol": 0.434880554,
+      "supply": 0.434826398,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "5FVqYhqdEATPcA25DvB2C4kFBa3kiHQiP7bFDVcb2gZY",
+      "mint": "8WfdZJqKumBjgvAWHSKsiRteM8xdrGvFEYrfFcXK2J9f",
+      "totalSol": 0.432032622,
+      "supply": 0.430632214,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "BMrAKJYg86rrcULFYjrF9u39nEPKG1WXkKEUFnbGZFZG",
+      "mint": "5BsEr6hHcSd4sp6BEMbum8ZTQiEVibFKkaN84UK9MXzS",
+      "totalSol": 0.427815592,
+      "supply": 0.007354185,
+      "epoch": 707,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 707 < 1004",
+      "lag": 297
+    },
+    {
+      "pool": "arsSr8wHXPAkDELTKrVxZcqXXWpe5harFqNfLnhFhYs",
+      "mint": "69EGnT8h8PQj5FmBiG7ZNKx63bp3KPTRKoP1finuMsQa",
+      "totalSol": 0.425282881,
+      "supply": 0.425282881,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "4qzwctw2uUmP7qsJCTEgdJWKvz2TgvTyAdpZR1X6nF53",
+      "mint": "4aRy9ha3vfHiBP9WxjtJF3sXNFt2b2uCobS8UUNPufS6",
+      "totalSol": 0.42428288,
+      "supply": 0.42428288,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "31oEwUqY9wJMg31gpHFW2DhRqBsW9FxNKFBHrRxhkK5k",
+      "mint": "DcxnkVD5sJKVowdqgpxQ6nyVgBWKLWeYRwKfUYAQHkRu",
+      "totalSol": 0.42328288,
+      "supply": 0.42328288,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "86T9t54ssBA7MrNmrormHAMfzAZmqWUHMFP36iVbF7jF",
+      "mint": "DgrTrbGFjvXAWtEJhsvjnNqButNJKt1fMeWHGzxZQuED",
+      "totalSol": 0.42328288,
+      "supply": 0.42328288,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "98ijqVPcMqdgSZ2xtCxEzTJDHoZDyg7qNAf1YJy43v8D",
+      "mint": "95iVJaoCbuBFGpMYZULhiNPdRKMBKki3SsLZ7UtkbsR",
+      "totalSol": 0.422000001,
+      "supply": 0.422000001,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "Bwhj7VQVfVjGMSuB5KARpaZuL4vE7qZtF1GChrtZLBFK",
+      "mint": "CYvAfji7ms2TJQiuXsT5pEUfQkc9DxjPrUox9zEWY1KC",
+      "totalSol": 0.422000001,
+      "supply": 0.422000001,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "FGaCAG3kf8hNAHCxzcsdk2moeSE8BJ2Bz17hCaj1bKVd",
+      "mint": "5KGfJRKAjwReNr987NDN13xbmMSYrnej63PvkNYHCJJP",
+      "totalSol": 0.422000001,
+      "supply": 0.422000001,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "pvo1KxTsfVHnkyFwgTCRy7UfyaJzWMYYcHf3mS3nrrL",
+      "mint": "HzDW1HBH4xdBpJpfganebNP2w1hCXBREHghiFR6Ps7BE",
+      "totalSol": 0.422,
+      "supply": 0.422,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "3Mg8qbfdRWDrqnAtZV8k6jToAoUrJdgueBYCJfZi3eTE",
+      "mint": "Anf4rFbQWctd71p6v2nF98BLFg47npG9owu82FQqymR",
+      "totalSol": 0.421000001,
+      "supply": 0.421000001,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "71XMFTFrx14GtKRYAQ8W6Q5ayHgUfYanpM2ejiKaJDdm",
+      "mint": "7MX3e6UkRLibSSzYgLnxM9JvxeKHwd57pqsUTxSpjrLW",
+      "totalSol": 0.421000001,
+      "supply": 0.421000001,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "EaphJdGT9nUprtDeeMqnZ4Ux1k3NFDv4FBdPR66RVzt8",
+      "mint": "E3992A7HQQqy3UQi1nqWAsgejCtVNLffbnqpSYw6NECz",
+      "totalSol": 0.4,
+      "supply": 0.4,
+      "epoch": 815,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 815 < 1004",
+      "lag": 189
+    },
+    {
+      "pool": "7UzBFkL1Rid8Rajp1ADbqQgyeroamzZZUzbCbA7BUmw2",
+      "mint": "8MQniftUiav1apU3dwmH73RFjP2EhRGLJza7NrQ9H2Ur",
+      "totalSol": 0.29058921,
+      "supply": 0.290565426,
+      "epoch": 865,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 865 < 1004",
+      "lag": 139
+    },
+    {
+      "pool": "3LQjR7rGThgogtoB3yUrFQDSGNGESRZGeDvMqLBHVQh6",
+      "mint": "5jFxjWxd6d8U7CJWzAAktcfuzfCknou9oDJxSZfwwDo2",
+      "totalSol": 0.263910272,
+      "supply": 0.032509567,
+      "epoch": 977,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 977 < 1004",
+      "lag": 27
+    },
+    {
+      "pool": "uNRgbrqKSkbkaohFPZtnrycNjY3Biff8zogUcvBi3CQ",
+      "mint": "UnRgBLDdMtwLsUmQ8HR7V5gWE1zWhLyNqS9uhURJD6C",
+      "totalSol": 0.262200081,
+      "supply": 0.249770605,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "5ouCxKRAsm8Joqx5gkhAp1rpJeKPpMzyyBdLw6HBnWiA",
+      "mint": "B46TopbPiYC6jd2pGHA6ew4dXXYHsfVHsBLtfJmJP9CD",
+      "totalSol": 0.238138194,
+      "supply": 0.219686668,
+      "epoch": 933,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 933 < 1004",
+      "lag": 71
+    },
+    {
+      "pool": "4CYXVhWNFF2VeGwLS135Pw4fGfzkpUs9Z3EsGQSR3Fve",
+      "mint": "DCgszX6FMaDrntvhisZySYmAcwHc8cxKhSJnr6dSF15b",
+      "totalSol": 0.236052326,
+      "supply": 0.221640307,
+      "epoch": 777,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 777 < 1004",
+      "lag": 227
+    },
+    {
+      "pool": "3rQ5iPrVXji2fAbWZrRihkXNFZ8D4fQNVRUj5Pfi1jWQ",
+      "mint": "2uRCh1gq5rPDG5iZy3PyCd4i62v6wcUue7aLzANcnF6b",
+      "totalSol": 0.228457375,
+      "supply": 0.197387158,
+      "epoch": 973,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 973 < 1004",
+      "lag": 31
+    },
+    {
+      "pool": "BAiYdV9JQ1eUzG8eX4HSLF9kVFTDRPFdKnF3crSL2oiR",
+      "mint": "DArA8VuBstCbmAeGfbrnCGbTq6tEdVGw115REeehqgan",
+      "totalSol": 0.211041645,
+      "supply": 0.211017486,
+      "epoch": 858,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 858 < 1004",
+      "lag": 146
+    },
+    {
+      "pool": "D7TAFxRvYvcZ36hsZ6dNNyfpLSeg5d4A8aU5BxFeyHgD",
+      "mint": "EjErXpXTQuVprfWaBVQVyVKfQNDN5Vb4dNh7oAMgt7Yt",
+      "totalSol": 0.202781491,
+      "supply": 0.101595112,
+      "epoch": 749,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 749 < 1004",
+      "lag": 255
+    },
+    {
+      "pool": "8pPrkBusoLLH1WPuhckqTMunPHY4PpdAnph7rhkgJvsG",
+      "mint": "xSoL1X6qPT4UZwPXM95BtBeZTNfSensMTUPdaDyFkwF",
+      "totalSol": 0.2,
+      "supply": 0.2,
+      "epoch": 728,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 728 < 1004",
+      "lag": 276
+    },
+    {
+      "pool": "ASG7eDAS58m7WybPywhcZJxxp5s2zdJbs6WbTzReYeg9",
+      "mint": "4phghedUFibJbmmLUjgjUTenZE66s76MgWFP6pLHVMVG",
+      "totalSol": 0.189335391,
+      "supply": 0.025,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "5aX9jYofSatPYP3vbMUsFDWLXbJLKHQtvE36yyh7ixzU",
+      "mint": "9a831xpMSFummo1NKqEmfW2spRy41m5bGLWYwG1ndS6E",
+      "totalSol": 0.159386438,
+      "supply": 0.159312984,
+      "epoch": 793,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 793 < 1004",
+      "lag": 211
+    },
+    {
+      "pool": "GYEZK1XsoDbmDesB4UgUAMyrMxf3uU2syMfg32bdtwBd",
+      "mint": "CBRWEMeQBQEgBfwSWxE1wNpErT3NJXG4LQUoJi3vQx1i",
+      "totalSol": 0.157355809,
+      "supply": 0.141992395,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "CPoTXWBc81q6AeBCoH5QDLAAYT73TfncWxxeXeAL7y2H",
+      "mint": "7trxUi5zK4v3hzWDEzeSmC2UiTGPbfdWbUMyzkZMJB4B",
+      "totalSol": 0.153755916,
+      "supply": 0.151524746,
+      "epoch": 763,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 763 < 1004",
+      "lag": 241
+    },
+    {
+      "pool": "DK1eoDAEpaHt9mCoG7xiP76Sf3ugQTZP4MaNRmtGJnv7",
+      "mint": "4RT3rZ1qYHWywiTpEsGkrq2Qqt1GSp1rHMoVt33VRFt9",
+      "totalSol": 0.141889902,
+      "supply": 0.128385268,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "7qK5cFGgeHd9wfqyar5V8xQdEUd7XrKuedA4A5PiZ64J",
+      "mint": "EbgrZUYtGaCAcsjn2np5RP8sNNrpSvV7LjD3Pva3jB8d",
+      "totalSol": 0.127436025,
+      "supply": 0.127430031,
+      "epoch": 779,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 779 < 1004",
+      "lag": 225
+    },
+    {
+      "pool": "GdCPa6ixv3RUcnZqrkBP4u64zfakGBAy2hcQUGrJMcmU",
+      "mint": "9dvgy1gH6Amscxzgj7vgzNMZKoo5u8HXBccQ6wQ9qsCZ",
+      "totalSol": 0.12,
+      "supply": 0.12,
+      "epoch": 760,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 760 < 1004",
+      "lag": 244
+    },
+    {
+      "pool": "BfRQ1J5Sd2BQADEZX2xBpVFtNdtpScZi7vGyu1gyvKeF",
+      "mint": "GWfgD2oPGZrtpKU3gHd5RxjCuGNiEtAKgmyjZxsqYuYy",
+      "totalSol": 0.113601526,
+      "supply": 0.103349999,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "DUKoJmJX3UiJVewmrJFzfdhQkfmPf2jjAGGWj5kY9nrM",
+      "mint": "6mbpmSnjv97yjNy9qAAWY363SEHjeXgDvffiSCBiGBGf",
+      "totalSol": 0.111507693,
+      "supply": 0.100786996,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "5eR8P5tDegFvc3GsMJ19ofkpTeQ1ZgTP1MpLVT6ctaiB",
+      "mint": "2UvBmjCPHxfCfQXC6SBxkw3Wws3PQyrRVCqv565sxGG9",
+      "totalSol": 0.110000005,
+      "supply": 0.110000005,
+      "epoch": 971,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 971 < 1004",
+      "lag": 33
+    },
+    {
+      "pool": "jagPCXWPBwoah9K4PxzHoh8z7aSru4Vbxq7GKUeEzgY",
+      "mint": "jag7A2z4QNacNi61AXpyRiyUppx5GeLbGEKAapuKCRs",
+      "totalSol": 0.109439832,
+      "supply": 0.109421433,
+      "epoch": 779,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 779 < 1004",
+      "lag": 225
+    },
+    {
+      "pool": "Av65toCmWvWJ1Vrg463cZAwizD8b3TWCCqWzXTv9jNp5",
+      "mint": "8mEfCcyb5Ly5ECN4Sg766oSpwqqa4mP7yDnzuNidEfyv",
+      "totalSol": 0.106473301,
+      "supply": 0.100125505,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "UdTJyvjEvKvzvTKZ7fZ9wEDktxJSTCSmUBLfs89MKKf",
+      "mint": "HSGjAzgAGMfQCULi761ZJSds84WnHidjd6wxXxLDqrZA",
+      "totalSol": 0.105969807,
+      "supply": 0.1,
+      "epoch": 747,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 747 < 1004",
+      "lag": 257
+    },
+    {
+      "pool": "ADs9rmdCbtFmLcCQDGiXaZXkFBSd2AsRhz8La8imFEqt",
+      "mint": "HYso1bYG9ones8atG1qYaoyZQffViFWdvgMcZbmA2Fg",
+      "totalSol": 0.104782943,
+      "supply": 0.100304957,
+      "epoch": 973,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 973 < 1004",
+      "lag": 31
+    },
+    {
+      "pool": "CRRu8vDBv6LSWWHXJFwsk8kzEzRSuSKPuqUJ4Jyv2NmM",
+      "mint": "BAVuryXtjrQVCw9sCrQBGr6cHPVLdPjjAwBKFLWtWj89",
+      "totalSol": 0.104547822,
+      "supply": 0.100044468,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "HVWtmGKP7u9sCa5v8DLGZCt1hK5adqqmn2qGiv4e1JPU",
+      "mint": "uSzJzHxQVymVKSrcdizY3SPu7UY11J7TLCnjz46FSFe",
+      "totalSol": 0.101036729,
+      "supply": 0.10101927,
+      "epoch": 846,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 846 < 1004",
+      "lag": 158
+    },
+    {
+      "pool": "GVKnweuGMcYcbgGw6aC8RB28DuzHXJBBg3d2NvNA5vcg",
+      "mint": "5QX5vYTkvqQhHEHx4FdyRhodcXPi1rejWcoa21L3vJgo",
+      "totalSol": 0.10003634,
+      "supply": 0.100020827,
+      "epoch": 846,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 846 < 1004",
+      "lag": 158
+    },
+    {
+      "pool": "Aa8g77CptJfQVbsnaqEKwuLxNB3GyouYcjzGrJudAVt8",
+      "mint": "UWHc2EJeno9cg174hidPArhf2Y5nNbtWpjr1bzyXGYe",
+      "totalSol": 0.100018088,
+      "supply": 0.100000903,
+      "epoch": 846,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 846 < 1004",
+      "lag": 158
+    },
+    {
+      "pool": "1XPooL7vwQxZ1MaQEjAGwM4fHsoQxBYfXVx1zCGZMkP",
+      "mint": "1ooXSoL7ZSRrhVzAgVLewACFCXaLNqmcHAuSWrWrnBm",
+      "totalSol": 0.09870877,
+      "supply": 0.095269509,
+      "epoch": 984,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 984 < 1004",
+      "lag": 20
+    },
+    {
+      "pool": "SSo9emHvgqeS8a2kpan7AST3evdKkjuhtWApZTceEeM",
+      "mint": "SSooN2K16g7J6BhSVEBY9P2xMzLwoLV5ahtxzKvtvih",
+      "totalSol": 0.097061747,
+      "supply": 0.096856534,
+      "epoch": 764,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 764 < 1004",
+      "lag": 240
+    },
+    {
+      "pool": "Dhv1BGDCaofPAZG9or1eWrG3QceRCWNDpTzegyxB7yAD",
+      "mint": "ARTGV2xxMUX4WiefGmkR5JVWk7cAU2sP9d6kaWBZHGWg",
+      "totalSol": 0.080012661,
+      "supply": 0.079981052,
+      "epoch": 766,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 766 < 1004",
+      "lag": 238
+    },
+    {
+      "pool": "F8h46pYkaqPJNP2MRkUUUtRkf8efCkpoqehn9g1bTTm7",
+      "mint": "C4kq9QRFLAqwYHK7p4Ez54KMZLZNw2yLsiT3KN4FSmdH",
+      "totalSol": 0.056045713,
+      "supply": 0.002004667,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "odc3Lq1tQ495b16WwnndwtG1fhgv6C77pGohL6Vd6xJ",
+      "mint": "odcUHUtic7JVf19RPCdLpZtHZ52eYvN8dRAKsaansed",
+      "totalSol": 0.054951889,
+      "supply": 0.053022614,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "8wun1SeGd3Gz37VM8dM8oS2AS9ghQbQxzovD2zGrMJy7",
+      "mint": "GEYn7mb4hweJCH1oVQxTZa3u26vSHQoLV5crFqm6x37",
+      "totalSol": 0.05,
+      "supply": 0.05,
+      "epoch": 740,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 740 < 1004",
+      "lag": 264
+    },
+    {
+      "pool": "WNkNmgsKAp2uxKnbvqjhpHVxckDXDTjoAKHJZdDqRzJ",
+      "mint": "d9dr4MxdU8BAeCspXqW2CKDrFy6wPmcZBhd6aTqnJJi",
+      "totalSol": 0.043070723,
+      "supply": 0.000002998,
+      "epoch": 966,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 966 < 1004",
+      "lag": 38
+    },
+    {
+      "pool": "85G9V98Y1nMuUCCMutPVzWQrXJNMjgTdxWntH6YMCBxi",
+      "mint": "BE6ALA3gWcm3wT15jPde3SmfeTmrsSRuCNzcMJ8nsYF4",
+      "totalSol": 0.027759531,
+      "supply": 0.027,
+      "epoch": 859,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 859 < 1004",
+      "lag": 145
+    },
+    {
+      "pool": "H4KMVeBi1GxKxxhynB4rZc5QZdjSnsN2HUTSMjcD2MsN",
+      "mint": "DpQErpoLntqq1APev2GX8PhQr7DD3QyUj2N4MzLFotyE",
+      "totalSol": 0.024457096,
+      "supply": 0.000240767,
+      "epoch": 885,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 885 < 1004",
+      "lag": 119
+    },
+    {
+      "pool": "DkR3z2N3kumd2x2LQ5nH3F4csSV9ZiUYoJfHwih6TUFV",
+      "mint": "2H3ZjrsKZUwsQHsze1JP18DLqrUzmHvWpTVHFZgMTogD",
+      "totalSol": 0.022356456,
+      "supply": 0.01693016,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "APACS2udZ4tXA4S8sVFHqKj95M3FHTNtCQeXSxvBJk9k",
+      "mint": "ActiVetN8RWPVrjSEEV1GnUeDixH8qbk1AoFPw5ocqG",
+      "totalSol": 0.020573606,
+      "supply": 0.020543782,
+      "epoch": 734,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 734 < 1004",
+      "lag": 270
+    },
+    {
+      "pool": "7UWBHuD4PeeREd5wpPk8JtEu6gqzXp27R6ocVWcpvovW",
+      "mint": "9ueWe3AEUUCQdN86uCx5S5CQGt9q8MtQ5BhaRzK7A4d2",
+      "totalSol": 0.011630027,
+      "supply": 7.38e-7,
+      "epoch": 971,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 971 < 1004",
+      "lag": 33
+    },
+    {
+      "pool": "APAC1kikJwCLnBhQ3DLLMVj2w7NHWxQPhxpWVy2ozqF5",
+      "mint": "ACtivcpzcMaVTD2B2kxARPBYiPY1orHsTDHpqJKoPab",
+      "totalSol": 0.011628115,
+      "supply": 0.011615251,
+      "epoch": 733,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 733 < 1004",
+      "lag": 271
+    },
+    {
+      "pool": "usdso1sm1FsPtKSFsP9KyBHPsqCrxMkYk9dCZnX3WSx",
+      "mint": "usdso1MHxH9jgB2EfVsQf9WJzQr21AoWxizTFejmejR",
+      "totalSol": 0.010253952,
+      "supply": 0.01,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "SVhYuHZMyXobKkCrcAbF2cq44amK5TiYzmNpKngfwqg",
+      "mint": "3wJYuCVWvNj4aWh5nBdZ782Wz8xVzW74CXr8UepZMG4j",
+      "totalSol": 0.01,
+      "supply": 0.01,
+      "epoch": 934,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 934 < 1004",
+      "lag": 70
+    },
+    {
+      "pool": "FwDGXxbxj8PRkE9XBb9p8b5MXpTTUQHCk6vMTah25n8E",
+      "mint": "FcAS91VsDjMuhdtgN2mERzbFuqURA6nHxHjzuxAgpEke",
+      "totalSol": 0.00965402,
+      "supply": 0.009092734,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "CRRLdgs3Lz2q9GgbQpZXzxkqs2GmxkrFVyujBD9sSwVt",
+      "mint": "EEuZc5mhqZochyUmLtPGdsmaEvPZ3WLLV5koYgQxrXpZ",
+      "totalSol": 0.009034707,
+      "supply": 0.009020173,
+      "epoch": 910,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 910 < 1004",
+      "lag": 94
+    },
+    {
+      "pool": "HaiHC1qUqeQiaFefdeVGrjML21MLNTVrKD92rU9MnWFR",
+      "mint": "8XW3AJijhJpr945c5jzz8yNJKNFh5fYn449ePsRPURyE",
+      "totalSol": 0.004,
+      "supply": 0.0004,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "7argDcoMsXtfPj2nXJQtCd7NpM2Tp7aEpnGMTEPwBLNG",
+      "mint": "eSoLV1T3oS9kPdNuCdCDSSWnKPCpnn3CgqRx2zzoidy",
+      "totalSol": 0.003398844,
+      "supply": 4.7e-8,
+      "epoch": 971,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 971 < 1004",
+      "lag": 33
+    },
+    {
+      "pool": "FXZTLMPRPDecTakyvkDZsTU2U66ynNu2PLc4U6g55k8a",
+      "mint": "EpooazLSC8fKU5BoEomJTgGYyWcbeu57R5xrpES4GLJx",
+      "totalSol": 0.003002,
+      "supply": 0.003002,
+      "epoch": 991,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 991 < 1004",
+      "lag": 13
+    },
+    {
+      "pool": "GB2ZsCAmWRLbdD3NKeda39sdngP8LbPD8hEtr4cZDkTw",
+      "mint": "xPSc8KRXxBNo1CGcGUup2n8KSxPzvH32TrVMd715TEU",
+      "totalSol": 0.0030019,
+      "supply": 0.0030019,
+      "epoch": 971,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 971 < 1004",
+      "lag": 33
+    },
+    {
+      "pool": "FzQCHYFp4HL3L9DLJH3jD5tKT1wikvLb3sXMcmJ9iXYo",
+      "mint": "H57YHkBhwsF2Q6PmMVqzuH3cr2w52co5odt5svCcZdJK",
+      "totalSol": 0.002363827,
+      "supply": 1.5e-7,
+      "epoch": 971,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 971 < 1004",
+      "lag": 33
+    },
+    {
+      "pool": "9jDqMekourwKTvW23DDugpLV9WZTEEhGJdgzS9GQUrsy",
+      "mint": "EfXXRLkJwP8PGrq8wyKpq7DtPcVZT12hdxoorwz6gorw",
+      "totalSol": 0.002363824,
+      "supply": 1.5e-7,
+      "epoch": 971,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 971 < 1004",
+      "lag": 33
+    },
+    {
+      "pool": "DrZJV88DffQr3iwSAYfyrurvyD4HSmtdNLU5KQYEFkMt",
+      "mint": "recEb7q2esrzsrLJ9HgUPQ2VjKYnJYaYxAX6hbdinhn",
+      "totalSol": 0.00100001,
+      "supply": 0.00100001,
+      "epoch": 971,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 971 < 1004",
+      "lag": 33
+    },
+    {
+      "pool": "meowU3igWaiyJo15eTJbT9ozTkSzB84WWngxzoxHtCS",
+      "mint": "2FptwmpZufvrsp1Ppxh3wyuRA6p1LFExEXPwFZf4w68s",
+      "totalSol": 0.000422001,
+      "supply": 1e-9,
+      "epoch": 966,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 966 < 1004",
+      "lag": 38
+    },
+    {
+      "pool": "3rCCqE8pYTQDeeFrVTFvtspTb3btaSiNegdfAFgNcWyn",
+      "mint": "5iMYwJdjMiyqHnFSA87TYVUYvxbgggpVaWjpWqbkyWoR",
+      "totalSol": 0.000422001,
+      "supply": 1e-9,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "F9ZxnUvzK5F4TzKdDxKo9kDbwwqDJQiwJymzvGdvJ7Dt",
+      "mint": "vrDNrpti6jUBLbjqCHfZZTT1hiT8v4BsHrQh8JbmXYH",
+      "totalSol": 0.000421001,
+      "supply": 1e-9,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "DTBQ1XsHERLzDV4dwPpFeBEvGVLfju3jSPnYH3QrXb6F",
+      "mint": "HeVPMRhLhLdw4zAZ5NLmSDiFbKDje1j7GrK2PY8c8teg",
+      "totalSol": 0.000420001,
+      "supply": 1e-9,
+      "epoch": 966,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 966 < 1004",
+      "lag": 38
+    },
+    {
+      "pool": "CCqmcJRXV1YVGfWnekHkx6UPcB87Xrb19jLc8omL6BXH",
+      "mint": "HVaXXXzaavwDT4zzVxgtbqquwCbo4zTCu5cq4aFpDQg4",
+      "totalSol": 0.0001555,
+      "supply": 5e-7,
+      "epoch": 966,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 966 < 1004",
+      "lag": 38
+    },
+    {
+      "pool": "45XSdtqXGKomxypKVdvmE6fNMCU3LFgqZrF5DfHbuoEa",
+      "mint": "7NmfyPwkG376K9v3XQcJKfbHoncaFs9ZTm1iEDt84n4F",
+      "totalSol": 0.0001,
+      "supply": 0.0001,
+      "epoch": 968,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 968 < 1004",
+      "lag": 36
+    },
+    {
+      "pool": "5Av61pgZ9KinUkNmxgDoai13Ej5auruGB6vp29Yeq9bh",
+      "mint": "DrYLDtGzip1JzogBqcPwHRWpifczYDexpc9d9wnUv5M7",
+      "totalSol": 0.000004565,
+      "supply": 0.000004393,
+      "epoch": 812,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 812 < 1004",
+      "lag": 192
+    },
+    {
+      "pool": "6CCrtEHtSN1J8GF5ePrN3Fr1mcZ3CD6ffbhRi6EkTPAv",
+      "mint": "2aq48KWyewVcUYkeoerWaCE2cTA8TV1nHJmvH9TthyHU",
+      "totalSol": 1e-9,
+      "supply": 1e-9,
+      "epoch": 700,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 700 < 1004",
+      "lag": 304
+    },
+    {
+      "pool": "SAVE9LbAKe8w3iCmZUxXAULpVnrf17vfNov3nrirSpH",
+      "mint": "SAVE7sETVBM5ku3Tky5eFjVVF4QDaNj6vqL4dYepubQ",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 764,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 764 < 1004",
+      "lag": 240
+    },
+    {
+      "pool": "STH9epiW2vXYkfzEuG3APoH4ZGETbEXFJFkt4ENmmAq",
+      "mint": "B9uFa2XCy8HSzYgbhcsvJ9MDyyTi9KDZjirUdjLQoFAb",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 966,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 966 < 1004",
+      "lag": 38
+    },
+    {
+      "pool": "T5wFzG7eZv641F657a4pFj8ieoqWmiAyjmPRdCF63Cv",
+      "mint": "6nptxXLmNaniaxzMqVp7pw2jEhHFyG5DvJtGAKhfW5jL",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "21uRprxqPA1rwE7k7vizmKEmA7eGA2HP5XmkAWF4KK53",
+      "mint": "J5gSKyc4NEwtF6zSiX2w2NxxyUQSmV5LYsghZPC698fq",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "2GLZ8WEg7CtG97yrQ6Qs8Ysxmr3Qm7weBRpKawtfmju3",
+      "mint": "8VBXRMhpi7RjR85mvyEESNU2DJC6q7WD9k7UaER7UPuv",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 782,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 782 < 1004",
+      "lag": 222
+    },
+    {
+      "pool": "2GzyHe4HFAzUghfD1SFo1G3x9ZPenCBhVXspBuAD1vdf",
+      "mint": "CKZjSSuTze1Tn5ZcGjvsE2U7UzknnRPKysU35VPfngLa",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "2HkJD6DA9UUjS1cWAJhTCqkk5z4N13XxqB4XYiEdsnEb",
+      "mint": "5rRiKNHhqpzzkkQ2SSSfJCje3EsfmfzYx1zBcHRrieWH",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 778,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 778 < 1004",
+      "lag": 226
+    },
+    {
+      "pool": "2K9T7vZYaNJTaJC2AG7o4MLEHZTefDrBWKium6VvpiAN",
+      "mint": "9qatUAUzDXzRTSWxWqvVpJoNin861y4Hquoz1U819yeE",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 705,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 705 < 1004",
+      "lag": 299
+    },
+    {
+      "pool": "2ne6epNBYHzC8newsUHLKUg9HcawciTbgVSG229z7goA",
+      "mint": "DKjwMkxzyd8eQBJr3HibuBMqRgVPP5PghtpPqinHhNwz",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 716,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 716 < 1004",
+      "lag": 288
+    },
+    {
+      "pool": "3RHs33ubRzEurPfPohnsHxYyLqoPQWJKH3Cp9nDLACiu",
+      "mint": "F8NeQ2NKfwrAGKWwUvcS7BZ6mcr64FnuYA7iEvh6GEr3",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "3SM7gNSE1qsET6yKFV8YswueSTUHtCxxFJYxnp5NJBVG",
+      "mint": "CkSH1h9bE6ZWKpXdWGbmZUAJn1k5UBcF6aH4jxNwbmkp",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "3jGmidghoQRppDeGmQUHS4DGHeNA9Lmj4hViTLY1zeLj",
+      "mint": "Bt3tEHXrVL8SA3RMeQALZrbqD68bpbzX66NHzuNNa4oN",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "3y6tYyaje8UNN2cFsbuc4ndv8c4P2Jpn8ZPewkrZjvFh",
+      "mint": "9o1PqZGXFf4oBG5sWr3vkxneVY7FLjGfoJCW4Lj5SNaT",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "4D8Fa8jQeoWQdGTmzdxSsjU9twqVtcbhzMSBycWSTFmx",
+      "mint": "3tnEwk7eKAtk4D48n2bposZPRoipdsfUDU9jwX343fwS",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "4HY2BpacGdVToWity4CbyipresveiS9HWzU2okScgpCw",
+      "mint": "HKZ3EozQx7rqc6DzdTAdJ2rpXwwACThpLaUs4J4FgLL5",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 977,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 977 < 1004",
+      "lag": 27
+    },
+    {
+      "pool": "4p9XSRbzPzhpguspaXF3EcJ9Y4jHBxRHxryRXb6CyQCR",
+      "mint": "Fjw8QkiiUAKYHYD3X1kaWm5pV1odfQkMdMbaXLcAC5FE",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 966,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 966 < 1004",
+      "lag": 38
+    },
+    {
+      "pool": "4s2LBedPVwA6pEQuFcZbwTPCojUHeMX3DTkqZmLHhZk4",
+      "mint": "3XNuQzWbjEMKDgsPvTqSpfFFUxcVtMLrQ6Ti86VSj28C",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 760,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 760 < 1004",
+      "lag": 244
+    },
+    {
+      "pool": "5EB6ct8h2igvL8dNWLMPkq1k8byxqhAYAjgsBHdRryFN",
+      "mint": "GLwqFJ9WEcR68KA7wNgLrkAgt6Mb6GApckGGjaM5j2Wr",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 668,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 668 < 1004",
+      "lag": 336
+    },
+    {
+      "pool": "5YcEnQehwg2TVshWGnPysk2ivKxgPcaYwxNHKSzxuNfh",
+      "mint": "4qSYmkNaukFsMRWWxfwa3F1DtCwVNfmHgEfgx5b7zjYS",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 966,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 966 < 1004",
+      "lag": 38
+    },
+    {
+      "pool": "5a3vuETDxMHZaACnSsWVVn8FrFKR6uupojh5JKb4rfGy",
+      "mint": "7hPYPNCHoz1ghRac6C9xXMvhh5xjJDYpxATzCp3846Jm",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "62JHWADebkvriYNPvt4W8epLVJpdTbEBhs57Z7kgEUCt",
+      "mint": "6a811GsNkZyQ1Zt1CGxTodyWeWPHmF4fvPWivPDRo2Su",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 730,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 730 < 1004",
+      "lag": 274
+    },
+    {
+      "pool": "62dtjJrayieYy1y44eKJtKrhwZiUwRKwVPTC3jy3P5jG",
+      "mint": "5iD1dgXo4JGKDdg9DJ45Zguwjfya4U5EEC6fQzx8yGzq",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "7rTCeXfMBSLUPSnEP3UsqGAquvkD8a6oYcK8vRKEhiqx",
+      "mint": "5FyT8e3fRKke2wDbzwfQYLbrf8S5FTfpFajYeysMp17P",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 874,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 874 < 1004",
+      "lag": 130
+    },
+    {
+      "pool": "7tNpRZCxckbkfn9KqJR8rw7MyiuAo5z3tAdXJUMbPuuF",
+      "mint": "6w59VwbiEaHTx3nQmKfxEcCx2RLqUDpU9qXac2Ha4fW9",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 778,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 778 < 1004",
+      "lag": 226
+    },
+    {
+      "pool": "8WdQPiykSm6tJTkpo1XSZhiHPKuufYVPG6JqyLyXb2hp",
+      "mint": "5c9CyisXnQFHAVZgiRx2P1C6YRnsCtXHoAQ6C7CZDt9W",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "8b9Lfgrq74ARXx9EzTvHVXEheqWRCtvkhsGth3Rn3F5k",
+      "mint": "AYfwv9fomSdCTC8q9pG9PK76AdRNVSTmAht399DZ3ZQu",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 700,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 700 < 1004",
+      "lag": 304
+    },
+    {
+      "pool": "8hFiFcWFx73RTEv87cZyZn6CSWLTK5gpCzSJwK5z6i2m",
+      "mint": "3p1JSmKqh6V2YEs2rfvMorSCCaYDjgnbJLvPWgnUBtEX",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "9p6Jt1sNEbqoarmM6mHyxHbYNVQf3M9yaAFe4QUBZVQA",
+      "mint": "8wviotGydnZACJveaMjREaqaqtEbpZQ6SgN2XkA48ZFk",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "A5Y93ggrPsYy4y5FU6jaEGbp7fyyopnCqFK5xedrfeTZ",
+      "mint": "GwYDoYYYWMu7bi5cVQEkgGjV7SQqXaQDQb7DhGAo42V9",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 778,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 778 < 1004",
+      "lag": 226
+    },
+    {
+      "pool": "A9riogtiGGb1T27CsovkGsq3mugJsLdioCYjxdoFSrjR",
+      "mint": "AhD1M9mUc77g8nTcbVsfkgzef4fGqoso3iAoxTh16Whk",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 781,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 781 < 1004",
+      "lag": 223
+    },
+    {
+      "pool": "ABw568X33S2LYZqaxmmdk8DMzMzXD9MdLyKXHTkXUFFv",
+      "mint": "7ovpXYGyZDmE1qv3vXLEb7P5jmBhCegtgNofi1U5gTC1",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "AZgCoEK3c4jNatYKkiCuZtBz5khoK2Cp6Rtdy8c3gGPi",
+      "mint": "BAM8ivvFfGah5knD7zcu5oWYKJy3Ko2NRbV5he2EWWNJ",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 977,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 977 < 1004",
+      "lag": 27
+    },
+    {
+      "pool": "AxeDZ9L3g7rWN1iZDrcynjq83SFCdDkNouhfsvNcp24f",
+      "mint": "7488YT1nqxCpVXn4o1p1o1iBN7YkYajoEmkXahzmFcY1",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 778,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 778 < 1004",
+      "lag": 226
+    },
+    {
+      "pool": "BrwxgLTyhqkkHUiBy9J5ExZapK4JDf8dsP7SugkWGPZH",
+      "mint": "DJJ83zR4b39iz3vDZ5ZoiN1afzrGBicxYcXNrhWcMDt9",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "By5XFxXM44HqbBMJMHeZT5CLsYnbFsDuixPBvD5G55XL",
+      "mint": "3ziLFC75yRmJqTGQ9yaLxzWzDtzYmvf7HnVYAC82AiMh",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 760,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 760 < 1004",
+      "lag": 244
+    },
+    {
+      "pool": "C5Du7Zym8C2AKkC1eVNbLAH84LSarr7xNDojSssy6hji",
+      "mint": "GoaTMXTpMXAhxCr9tTCmPnxrTcY7j73EQ43etjM3YwkR",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 738,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 738 < 1004",
+      "lag": 266
+    },
+    {
+      "pool": "C8MqZRhjiau2K4gcGbximFWNhL3gJr9D3b96yoKf9zTM",
+      "mint": "8tzaU6CZwLvqUj1nn55Ux8iNJcFysfY7H26CBUP2oCT3",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 778,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 778 < 1004",
+      "lag": 226
+    },
+    {
+      "pool": "C9Cqp9XgpGL2fsJDwJPST3PAwKX7kKZgMWD2DN5YKvEw",
+      "mint": "AncPu8M79ZdMP8oR2VTTHoqqPjBv8hmwyR5B7uZQetnZ",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 1001,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 1001 < 1004",
+      "lag": 3
+    },
+    {
+      "pool": "CR2vsF87U8VtHxtDwZvgvfigYu7FKsXkFcMxp1CFcsF4",
+      "mint": "4TX4kBJ9jkbk5n8B3aLcvfmF6A4tVscXCPhwREiMFvKd",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "D63J8GKcurZxnCWtMgXBWXaq7V7afDnP3DFVbvi9LEQN",
+      "mint": "AHF62iYXiPBKbAQ2ZuV8zrEbxqY9wb2g7eoGwVVjhBMg",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "DRRk7akh1v3vr9qGfe67nmUdDJuzck3h1rufJGUHq4kQ",
+      "mint": "9iYDf4f9Admifgv5y4pxsacqGTdsfMoxrihqnXF7DTpt",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "DjBH7PtJHtPSn5hJX45BnrkaSCffVLSEX8YUHQZeLSNi",
+      "mint": "5HaTAPMwWSi37fLJFewQeuDpVtGfFZbUqwWssZnqZm52",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 1004,
+      "status": "UNVERIFIED",
+      "reason": "error: getMultipleAccounts: {\"code\":429,\"message\":\"Too many requests for a specific RPC call\"}"
+    },
+    {
+      "pool": "EB9KVJM6UPe4GovMCeMcpdnFMhUrmYJbtmqtwRTkhijT",
+      "mint": "6KV5kS8s7wLY93HGZhqRY4uXTfd9ZBXtMmoKnytrA5Do",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 730,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 730 < 1004",
+      "lag": 274
+    },
+    {
+      "pool": "EmgkJiUxuPGTFw6NYtEvcf5MoeyZYV9kATjoqEYNwfCT",
+      "mint": "DBGG8JPQ4n6XsfMKUbY9pudJWBTbeJPJ7UGbBzpSCjS2",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 966,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 966 < 1004",
+      "lag": 38
+    },
+    {
+      "pool": "FaRP11iM7yao9LQyc8pjnqf1nLR5w2m99GKfGB9hbFJt",
+      "mint": "DjDrNZt7Nnu9zc63LMGFshgDhAALDzU6xvJ7nXHHDMLc",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "Fscp9E6E7v3JWAsHBgYoUwEyGRuWZ3AjSdxv1qiZtetS",
+      "mint": "FpBxGzfaKaQ897JzTH9H6TNz8ieg8UYvdWzs6srcSENe",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "GWag6WTh9R76ECCGALszsFiPiZppbhkQmGD3Wj85av8W",
+      "mint": "FJ9zTDabcxe6xGQ3PnV7mKbFUrMHAxTi8yMDFW8i544N",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 825,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 825 < 1004",
+      "lag": 179
+    },
+    {
+      "pool": "GcnQPduQ6dok4PQijZkbUdPNfn1HMB3mdKQL8SetdZtL",
+      "mint": "69YBwP5pzCKQZmvackahWJArHqpLqDiL2iKGxghAHKRZ",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "GtzeGbaQ5uUwE61tKkrqfsN5Xo3ft4MToUKXbcUpRGkZ",
+      "mint": "DaJBXUqeAf4Z18fedC7kT4RvPSRV1eezAyvxq7xhKhcE",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 977,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 977 < 1004",
+      "lag": 27
+    },
+    {
+      "pool": "GyXut9K5UKQ11CfVTQvaNarvkcvWQ2etAR8BadQWT5NY",
+      "mint": "126D58QKjsrjtHRWnsq7SfJ5DUAazQbuRtbxEsYXNMht",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 704,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 704 < 1004",
+      "lag": 300
+    },
+    {
+      "pool": "HTzo6s1nWuWDgeK8hcr8AbJMbWaDTA2VZAx9HEcMR7ei",
+      "mint": "5SGmGUiPmb5mfKnpTK5oQZc2x4tSt6wutYQHxbkDDsaS",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 706,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 706 < 1004",
+      "lag": 298
+    },
+    {
+      "pool": "HjfBnvfv2GgxumEuZg3XdKvqje9k8dcgh2wHcNhmguQ1",
+      "mint": "FNhVGK6PfCArTgeyASwZHjYWsWcHcPiWhcP9LP21UkjU",
+      "totalSol": 0,
+      "supply": 0,
+      "epoch": 760,
+      "status": "STALE-EPOCH",
+      "reason": "header epoch 760 < 1004",
+      "lag": 244
+    }
+  ]
+}

@@ -1,0 +1,446 @@
+<title>Redde — Solvency, whether they like it or not</title>
+<style>
+  :root {
+    --paper:   #ECE9E2;
+    --panel:   #E4E0D6;
+    --ink:     #17130F;
+    --ink-2:   #5b5347;
+    --hair:    #cbc4b5;
+    --seal:    #8a2226;
+    --seal-ink:#8a2226;
+    --green:   #2f5d46;
+    --amber:   #8a6a1e;
+    --seal-wash: rgba(138,34,38,0.06);
+
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+    --mono:  ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+
+    --measure: 34rem;
+    --edge: clamp(1.25rem, 5vw, 4rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:   #12100c;
+      --panel:   #1a1712;
+      --ink:     #e9e3d6;
+      --ink-2:   #9a9082;
+      --hair:    #2e2a22;
+      --seal:    #cf5a53;
+      --seal-ink:#d9756d;
+      --green:   #7bab8b;
+      --amber:   #c69f52;
+      --seal-wash: rgba(207,90,83,0.10);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper:#ECE9E2; --panel:#E4E0D6; --ink:#17130F; --ink-2:#5b5347; --hair:#cbc4b5;
+    --seal:#8a2226; --seal-ink:#8a2226; --green:#2f5d46; --amber:#8a6a1e; --seal-wash:rgba(138,34,38,0.06);
+  }
+  :root[data-theme="dark"] {
+    --paper:#12100c; --panel:#1a1712; --ink:#e9e3d6; --ink-2:#9a9082; --hair:#2e2a22;
+    --seal:#cf5a53; --seal-ink:#d9756d; --green:#7bab8b; --amber:#c69f52; --seal-wash:rgba(207,90,83,0.10);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .wrap { max-width: 52rem; margin: 0 auto; padding: 0 var(--edge); }
+
+  /* ---- labels & rules ---- */
+  .label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .rule { height: 1px; background: var(--hair); border: 0; margin: 0; }
+  .rule-dbl { height: 3px; border: 0; margin: 0;
+    background: linear-gradient(var(--ink), var(--ink)) top/100% 1px no-repeat,
+                linear-gradient(var(--ink), var(--ink)) bottom/100% 1px no-repeat; }
+
+  /* ---- masthead ---- */
+  header.mast {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 1rem; padding: 1.4rem 0 1.1rem; flex-wrap: wrap;
+  }
+  .mast .mark { font-family: var(--mono); font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; font-size: 0.82rem; }
+  .mast .lat { font-style: italic; color: var(--ink-2); font-size: 0.95rem; }
+
+  /* ---- hero ---- */
+  .hero { padding: clamp(3rem, 9vw, 6.5rem) 0 clamp(2.2rem, 6vw, 4rem); }
+  .hero .eyebrow { margin-bottom: 1.6rem; }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(2.5rem, 8.5vw, 5rem);
+    line-height: 0.99;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    margin: 0 0 1.5rem;
+  }
+  h1 em { font-style: italic; color: var(--seal-ink); }
+  .lede {
+    max-width: var(--measure);
+    font-size: clamp(1.12rem, 2.4vw, 1.34rem);
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .lede strong { font-weight: 600; }
+
+  section { padding: clamp(2.4rem, 6vw, 4rem) 0; }
+  section > .wrap > .eyebrow { margin-bottom: 1.5rem; display: block; }
+  h2 {
+    font-family: var(--serif); font-weight: 600;
+    font-size: clamp(1.55rem, 4vw, 2.15rem); line-height: 1.12;
+    letter-spacing: -0.01em; text-wrap: balance; margin: 0 0 1.1rem;
+  }
+  p { max-width: var(--measure); margin: 0 0 1.1rem; }
+  p:last-child { margin-bottom: 0; }
+  .prose { max-width: var(--measure); }
+
+  /* ---- exhibit panel ---- */
+  .exhibit {
+    background: var(--panel);
+    border: 1px solid var(--hair);
+    border-top: 3px solid var(--seal);
+    padding: clamp(1.4rem, 4vw, 2.4rem);
+    margin-top: 1.5rem;
+  }
+  .exhibit-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: 1.4rem;
+  }
+  .exhibit-head h3 { margin: 0.3rem 0 0; font-weight: 600; font-size: 1.25rem;
+    font-family: var(--serif); letter-spacing: -0.01em; }
+
+  /* wax seal chip */
+  .seal-chip {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.16em;
+    text-transform: uppercase; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 0.5em;
+    padding: 0.5em 0.9em; border-radius: 999px;
+    border: 1.5px solid var(--seal); color: var(--seal-ink);
+    background: var(--seal-wash); white-space: nowrap;
+  }
+  .seal-chip::before {
+    content: ""; width: 0.6em; height: 0.6em; border-radius: 50%;
+    background: var(--seal); box-shadow: 0 0 0 3px var(--seal-wash);
+  }
+  .seal-chip.g { border-color: var(--green); color: var(--green);
+    background: color-mix(in srgb, var(--green) 9%, transparent); }
+  .seal-chip.g::before { background: var(--green);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 12%, transparent); }
+
+  .figures {
+    font-family: var(--mono); font-size: 0.8rem; line-height: 1.7;
+    margin-top: 0.7rem; display: grid;
+    grid-template-columns: auto 1fr; gap: 0.15rem 1rem;
+  }
+  .figures dt { color: var(--ink-2); white-space: nowrap; }
+  .figures dd { margin: 0; font-variant-numeric: tabular-nums; word-break: break-all; }
+  .figures dd b { color: var(--green); font-weight: 600; }
+
+  .inv { border-top: 1px solid var(--hair); padding-top: 1.2rem; margin-top: 1.2rem; }
+  .inv:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+  .inv .name { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em;
+    color: var(--ink-2); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .inv .claim { font-size: 1.02rem; margin: 0 0 0.9rem; max-width: none; }
+  .formula {
+    font-family: var(--mono); font-size: 0.82rem; line-height: 1.75;
+    color: var(--ink); background: var(--paper);
+    border: 1px solid var(--hair); border-left: 2px solid var(--seal);
+    padding: 0.85rem 1rem; overflow-x: auto; white-space: pre;
+  }
+  .formula .op { color: var(--seal-ink); }
+  .footnote { font-size: 0.9rem; color: var(--ink-2); margin-top: 0.9rem; max-width: none; }
+  .footnote code, code { font-family: var(--mono); font-size: 0.85em;
+    background: var(--paper); border: 1px solid var(--hair); border-radius: 3px;
+    padding: 0.08em 0.4em; color: var(--ink); }
+
+  /* ---- stance: three claims ---- */
+  .claims { display: grid; gap: 1px; background: var(--hair);
+    border: 1px solid var(--hair); margin-top: 1.6rem; }
+  .claim {
+    background: var(--paper); padding: 1.5rem clamp(1.1rem, 3vw, 1.8rem);
+    display: grid; grid-template-columns: auto 1fr; gap: 1.1rem; align-items: start;
+  }
+  .claim .n { font-family: var(--mono); font-size: 0.95rem; color: var(--seal-ink);
+    font-weight: 600; padding-top: 0.15rem; font-variant-numeric: tabular-nums; }
+  .claim h4 { margin: 0 0 0.4rem; font-family: var(--serif); font-weight: 600;
+    font-size: 1.15rem; letter-spacing: -0.005em; }
+  .claim p { margin: 0; font-size: 0.98rem; max-width: none; color: var(--ink); }
+
+  /* ---- verdict legend ---- */
+  .legend { display: grid; gap: 0.9rem; margin-top: 1.4rem; }
+  .verd { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1.1rem;
+    align-items: baseline; padding-bottom: 0.9rem; border-bottom: 1px solid var(--hair); }
+  .verd:last-child { border-bottom: 0; }
+  .vtag { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.14em;
+    font-weight: 600; text-transform: uppercase; }
+  .vtag.g { color: var(--green); }
+  .vtag.r { color: var(--seal-ink); }
+  .vtag.s { color: var(--amber); }
+  .verd p { margin: 0; font-size: 0.97rem; max-width: none; }
+
+  /* ---- footer ---- */
+  footer { padding: 3rem 0 4rem; }
+  footer .grid { display: flex; justify-content: space-between; gap: 1rem;
+    flex-wrap: wrap; align-items: baseline; margin-top: 1.4rem; }
+  footer .lat { font-style: italic; font-size: 1.2rem; color: var(--seal-ink); }
+  footer .meta { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em;
+    color: var(--ink-2); text-transform: uppercase; }
+  a { color: var(--seal-ink); text-decoration: none; border-bottom: 1px solid var(--hair); }
+  a:hover { border-bottom-color: var(--seal); }
+  a:focus-visible { outline: 2px solid var(--seal); outline-offset: 3px; }
+
+  /* hero seal stamp animation */
+  .stamp-in { animation: stamp 0.5s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes stamp {
+    0% { opacity: 0; transform: scale(1.14) rotate(-3deg); }
+    100% { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stamp-in { animation: none; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <span class="mark">Redde</span>
+    <span class="lat">redde rationem — render the account</span>
+  </header>
+</div>
+<div class="wrap"><hr class="rule-dbl" /></div>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="label eyebrow">A permissionless solvency verifier</span>
+    <h1>Solvency,<br />whether they<br /><em>like it or not.</em></h1>
+    <p class="lede">
+      On-chain finance runs on self-attestation. A dashboard says <em>1:1</em>. An
+      audit says <em>as of last quarter</em>. Redde reconstructs the claim from
+      mainnet state — <strong>without the protocol's consent, cooperation, or
+      self-report</strong> — and renders a verdict every epoch.
+    </p>
+  </div>
+</div>
+
+<div class="wrap"><hr class="rule" /></div>
+
+<section>
+  <div class="wrap prose">
+    <span class="label eyebrow">The problem</span>
+    <h2>Every number that matters reaches you as a claim.</h2>
+    <p>
+      Someone computed the peg, the backing, the collateral ratio — chose how to
+      present it, and published it. The chain holds the truth; the dashboard holds
+      the story. Most of the time the story is true. You have no way to know
+      <em>which</em> time.
+    </p>
+    <p>
+      Audits are quarterly and consensual — the auditor is chosen and paid by the
+      audited. Attestations are snapshots, signed by the party with the most to
+      lose from an honest one. None of them is recomputed from the chain, right
+      now, by someone who does not care whether the answer is convenient.
+    </p>
+  </div>
+</section>
+
+<div class="wrap"><hr class="rule" /></div>
+
+<section>
+  <div class="wrap">
+    <span class="label eyebrow">Exhibit A · JitoSOL · pool epoch 1004</span>
+    <h2>The first target, recomputed from the accounts it controls.</h2>
+    <p class="prose">
+      JitoSOL is the largest Solana liquid-staking token. The public claim:
+      <em>every share is redeemable for its pro-rata amount of staked SOL.</em>
+      Redde did not ask Jito. It authenticated the pool against the canonical
+      stake-pool program, derived the <em>canonical PDA set</em> from the
+      validator list — reserve, every validator, every transient — and read those
+      <em>actual stake accounts</em> straight off the Stake program. It found one
+      further account pointing its withdrawer at the pool authority but absent from
+      the list, and <em>excluded it</em>: a solvency proof counts only what the
+      protocol's own accounting recognizes. Reproduce the verdict with one command
+      and any RPC that serves <code>getProgramAccounts</code>.
+    </p>
+
+    <div class="exhibit">
+      <div class="exhibit-head">
+        <div>
+          <span class="label">Case file</span>
+          <h3>SPL stake-pool backing</h3>
+        </div>
+        <span class="seal-chip g stamp-in">▣ Green · claim survives</span>
+      </div>
+
+      <div class="inv">
+        <div class="name">INV-1 — no excess minting · hold ✓</div>
+        <p class="claim">
+          The mint's on-chain supply must not exceed the shares the pool header
+          accounts for. More shares than that is over-issuance. Fewer is safe and
+          normal — a holder's direct token burn lowers supply without touching the
+          header, pricing the pool conservatively.
+        </p>
+        <div class="formula">mint.supply <span class="op">&lt;=</span> header.pool_token_supply</div>
+        <dl class="figures">
+          <dt>mint.supply</dt><dd>7,766,973.567841257 JitoSOL</dd>
+          <dt>header accounts for</dt><dd>7,766,973.567841257 shares</dd>
+          <dt>excess</dt><dd><b>none — no shares beyond the pool's accounting</b></dd>
+        </dl>
+      </div>
+
+      <div class="inv">
+        <div class="name">INV-2a — validator-list reconciliation · hold ✓</div>
+        <p class="claim">
+          The header must not exceed the pool's own validator-list accounting. A
+          gate against a self-contradicting header — <em>not</em> a backing proof:
+          both sides are the pool's self-report.
+        </p>
+        <div class="formula">reserve.lamports <span class="op">+</span> Σ record(active <span class="op">+</span> transient) <span class="op">>=</span> header.total_lamports</div>
+      </div>
+
+      <div class="inv">
+        <div class="name">INV-2b — canonical backing proof · hold ✓</div>
+        <p class="claim">
+          The <em>usable</em> lamports in the stake accounts the pool controls must
+          cover the value it claims. Redde sums only canonical PDAs derived from the
+          validator list, and only those whose staker, withdrawer, lockup, and vote
+          delegation prove the pool can actually spend them — lamports parked at the
+          right address under the wrong authority are not backing.
+        </p>
+        <div class="formula">Σ usable_canonical_pda.lamports <span class="op">−</span> reserve_rent <span class="op">>=</span> header.total_lamports</div>
+        <dl class="figures">
+          <dt>redeemable backing</dt><dd>10,029,277.7499 SOL</dd>
+          <dt>header claims</dt><dd>10,029,213.1932 SOL</dd>
+          <dt>usable PDAs</dt><dd>707 usable · 0 unusable · 1 non-canonical ignored</dd>
+          <dt>margin</dt><dd><b>+64.56 SOL — genuine over-collateral in pool PDAs</b></dd>
+        </dl>
+        <p class="footnote">
+          Read with <em>zero cooperation from Jito</em>, at a single finalized slot,
+          with a mutation guard over pool and validator list across the window. The
+          withdraw authority comes from the stored bump; each validator and
+          transient PDA from an on-curve program-address search; each account's
+          usable state is verified; the reserve's rent-exempt reserve is excluded as
+          non-redeemable. A <em>GREEN</em> means the claim survives an independent
+          backing check — not a safety blessing. A <em>RED</em> means the chain
+          contradicts the claim. A stale, mutating, or unreadable pool renders
+          <em>STALE</em>, never GREEN. Reads only, no debug trace. Run:
+          <code>node verify.mjs</code>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><hr class="rule" /></div>
+
+<section>
+  <div class="wrap">
+    <span class="label eyebrow">The stance</span>
+    <h2>The verifier must be independent of the verified.</h2>
+    <div class="claims">
+      <div class="claim">
+        <span class="n">i</span>
+        <div>
+          <h4>Solvency is a property of state, not of a press release.</h4>
+          <p>
+            If a protocol claims 1:1 backing, the accounts on mainnet either satisfy
+            that claim or they do not. The verdict needs the chain and the
+            arithmetic. Consent is not an input.
+          </p>
+        </div>
+      </div>
+      <div class="claim">
+        <span class="n">ii</span>
+        <div>
+          <h4>When the same party makes the claim and grades it, there is no assurance — only a brand.</h4>
+          <p>
+            A prime broker running its own risk engine, a stablecoin reporting its
+            own reserves, an L1 marketing its own health. The industry sells vertical
+            integration as if the throat were not also the one making the promise.
+            Independence is not inefficiency. It is the product.
+          </p>
+        </div>
+      </div>
+      <div class="claim">
+        <span class="n">iii</span>
+        <div>
+          <h4>A claim that cannot be recomputed is already a finding.</h4>
+          <p>
+            When the backing is off-chain, the accounts opaque, the proof a signed
+            JPEG — the verdict is not <em>pass</em>. It is <em>STALE</em>, and STALE
+            is a color. Unverifiability is a property worth publishing.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><hr class="rule" /></div>
+
+<section>
+  <div class="wrap">
+    <span class="label eyebrow">How a verdict renders</span>
+    <h2>Three colors. No fourth.</h2>
+    <div class="legend prose">
+      <div class="verd">
+        <span class="vtag g">▣ Green</span>
+        <p>Every declared invariant holds. The claim survives recomputation against current mainnet state.</p>
+      </div>
+      <div class="verd">
+        <span class="vtag r">◆ Red</span>
+        <p>An invariant fails. The chain state contradicts the claim — reproducible by anyone with the spec.</p>
+      </div>
+      <div class="verd">
+        <span class="vtag s">▨ Stale</span>
+        <p>The claim cannot be recomputed now — opaque accounts, off-chain backing, dead RPC. Not a pass.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><hr class="rule" /></div>
+
+<section>
+  <div class="wrap prose">
+    <span class="label eyebrow">The honesty boundary</span>
+    <h2>The weapon is only credible if it never fires on a target it cannot hit cleanly.</h2>
+    <p>
+      Redde publishes <em>only</em> what it can independently recompute from public
+      claims and public state. It will not manufacture a RED for attention. It will
+      not target private internals it has no public claim to check against. Restraint
+      is what makes the RED, when it comes, undeniable.
+    </p>
+    <p>
+      The ask it makes of the industry is small and total: <strong>declare your
+      invariant.</strong> State the property your users are trusting, in terms that
+      can be recomputed from the chain. Then let it be recomputed, continuously, by
+      someone you did not hire. Refusing to declare one is an answer too.
+    </p>
+  </div>
+</section>
+
+<div class="wrap"><hr class="rule-dbl" /></div>
+
+<footer>
+  <div class="wrap">
+    <span class="label">Redde · slice 1 · reads-only reference implementation</span>
+    <div class="grid">
+      <span class="lat">redde rationem.</span>
+      <span class="meta">Invariant declared in the open · method reproducible · verifier independent of the verified</span>
+    </div>
+  </div>
+</footer>
