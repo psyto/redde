@@ -1,4 +1,4 @@
-# Invariant specification — Slice 1
+# Invariant specification — class #1: SPL stake pools
 
 **Target class:** a Solana liquid-staking token (LST) backed by an SPL
 stake pool. The public claim: *every LST share is redeemable for its pro-rata
@@ -6,7 +6,15 @@ amount of staked SOL — the pool's stated value is actually staked.*
 
 Redde does not take the pool's word for its own value. It authenticates the
 pool, gates on freshness, and recomputes the claim from **actual** stake
-accounts — then compares.
+accounts — then compares. Implemented in `verify.mjs`.
+
+> Invariant class #2 (Marinade / mSOL — non-SPL, Anchor custody) is implemented
+> in `verify-marinade.mjs` and specified in `CODEX_HANDOFF_6.md`: backing is
+> sourced from Marinade's own `stake_list` (not an authority scan), liability is
+> `mint * virtual_value / msol_supply` (`msol_price` is display-only and unused),
+> the LP leg is excluded, and unstake tickets are deducted and reconciled to the
+> header. The engine (PDA derivation, rent-net backing, freshness gate,
+> full-snapshot mutation guard) is shared.
 
 ## Authenticity gates (fail → STALE)
 

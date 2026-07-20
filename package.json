@@ -8,6 +8,9 @@
   "scripts": {
     "verify": "node verify.mjs",
     "verify:json": "node verify.mjs --json",
+    "verify:marinade": "node verify-marinade.mjs",
+    "scan": "node scan.mjs",
+    "board": "node gen-board.mjs",
     "probe": "node probe.mjs"
   }
 }
