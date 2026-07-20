@@ -1,0 +1,53 @@
+{
+  "block": 25576918,
+  "rows": [
+    {
+      "id": "lido",
+      "chain": "ethereum",
+      "vm": "evm",
+      "protocol": "Lido",
+      "symbol": "stETH",
+      "target": "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
+      "verdict": "STALE",
+      "verifiabilityClass": "oracle-trusted",
+      "liabilityEth": "9,189,857.560",
+      "claimedEth": "9,189,857.560",
+      "independentEth": "1,251.884",
+      "oracleReportedEth": "9,188,605.675",
+      "independentPct": "0.0136",
+      "note": "0.0136% of backing is independently observable on the execution layer; the remaining 9,188,605.675 ETH is beacon-chain validator balance reported by an oracle — not recomputable from EL state."
+    },
+    {
+      "id": "reth",
+      "chain": "ethereum",
+      "vm": "evm",
+      "protocol": "RocketPool",
+      "symbol": "rETH",
+      "target": "0xae78736Cd615f374D3085123A210448E74Fc6393",
+      "verdict": "STALE",
+      "verifiabilityClass": "oracle-trusted",
+      "liabilityEth": "375,993.581",
+      "claimedEth": "375,994.289",
+      "independentEth": "178.293",
+      "oracleReportedEth": "375,815.287",
+      "independentPct": "0.0474",
+      "note": "0.0474% of backing is independently observable on the EL (deposit pool + rETH buffer); the rest is minipool validator balance on the beacon chain, submitted by the oracle DAO (getTotalETHBalance = 375,994.289 ETH) — not recomputable from EL state."
+    },
+    {
+      "id": "wsteth-base",
+      "chain": "base",
+      "vm": "evm",
+      "protocol": "Lido (bridged)",
+      "symbol": "wstETH",
+      "target": "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452",
+      "verdict": "GREEN",
+      "verifiabilityClass": "bridge-escrow",
+      "liabilityEth": "31,413.027",
+      "claimedEth": "31,413.027",
+      "independentEth": "32,225.582",
+      "oracleReportedEth": "0.000",
+      "independentPct": "102.5866",
+      "note": "L1 escrow holds 32,225.582 wstETH backing 31,413.027 on Base (margin +812.554); fully recomputed from execution-layer state on both sides."
+    }
+  ]
+}

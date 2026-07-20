@@ -1,0 +1,35 @@
+{
+  "verdict": "GREEN",
+  "target": "Jito4APyf642JPZPx3hGc6WWJ8zPKtRbRs4P815Awbb",
+  "epoch": 1005,
+  "currentEpoch": 1005,
+  "validators": 702,
+  "snapshotSlot": 434183724,
+  "withdrawAuthority": "6iQKfEyhr3bZMotVkW6beNZz5CPAkiwvgV2CTje9pVSS",
+  "inv1": {
+    "claimedSupply": "7768196330369760",
+    "mintSupply": "7768196330369760",
+    "ok": true,
+    "supplyDelta": "0",
+    "requiredBacking": "10033713834447057"
+  },
+  "inv2a": {
+    "listControlled": "10033713836729937",
+    "claimedTotal": "10033713834447057",
+    "ok": true
+  },
+  "inv2b": {
+    "available": true,
+    "ok": true,
+    "redeemableBacking": "10033760683295563",
+    "reserveRent": "2282880",
+    "requiredBacking": "10033713834447057",
+    "claimedTotal": "10033713834447057",
+    "usablePdas": 705,
+    "unusablePdas": 0,
+    "nonCanonicalIgnored": 1
+  },
+  "notes": [
+    "INV-2b: 1 non-canonical account(s) under the authority ignored"
+  ]
+}
