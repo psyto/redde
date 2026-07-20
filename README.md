@@ -66,6 +66,8 @@ finding.
 - `verify.mjs` — the SPL stake-pool checker. Zero deps (Node 18+).
 - `verify-marinade.mjs` — the Marinade (mSOL) checker, invariant class #2. Zero deps.
 - `scan.mjs` — audit every SPL stake pool → 3-state board data (`scan-results.json`).
+- `attest.mjs` / `verify-attestation.mjs` — turn a verdict into an ed25519-signed,
+  content-addressed attestation, and verify it against a pinned signer.
 - `enumerate.mjs` — list all SPL stake pools (scouting).
 - `gen-board.mjs` — render `site/board.html` from the scan + Marinade result.
 - `probe.mjs`, `probe-marinade.mjs`, `probe-marinade2.mjs` — layout/offset probes
@@ -139,6 +141,39 @@ rebuilding the machine.
 - **Class #2 — Marinade.** `verify-marinade.mjs` + `CODEX_HANDOFF_6.md`. M-INV-1,
   M-INV-2b (stake_list-sourced backing ≥ liability), with `msol_price` and LP leg
   excluded and unstake tickets deducted.
+
+## Signed attestations (seam-ready)
+
+A verdict can be emitted as an ed25519-signed, content-addressed attestation —
+same trust model as a non-custodial release gate. **Signature validity and
+authorization are separate outcomes**, because a validly-signed `RED` is still a
+valid signature over a "no" — treating it as success would be the whole bug.
+
+```
+node verify.mjs --json          | node attest.mjs --class spl        # signed attestation
+node verify-marinade.mjs --json | node attest.mjs --class marinade
+
+# authorize a real action — ALL of --pin, --expect-class, --expect-target required:
+... | node verify-attestation.mjs --pin <signer> --expect-class marinade \
+        --expect-target <pubkey>            # AUTHORIZED (exit 0) only if pinned-signer,
+                                            # unexpired GREEN for that exact class+target
+... | node verify-attestation.mjs           # VALID BUT NON-AUTHORIZING (exit 2) — inspection
+```
+
+The attestation binds `{domain, class, target, epoch, verdict, liability,
+backing, report_commitment, issued_at_slot, expiry_slot, signer}`, signed over a
+context-prefixed content hash. The verifier exits **0 only** for a pinned-signer,
+schema-valid, unexpired **GREEN** matching the caller's demanded class + target;
+every other case (wrong signer, `RED`/`STALE`, wrong/replayed target or class,
+expired, tampered, or unpinned) fails closed with a non-zero exit — a money path
+cannot mistake a valid signature for an authorization. Expiry is checked against
+the finalized RPC slot (or `--at-slot`), fail-closed. `report_commitment` commits
+to the checker's *reported* numbers, not the raw chain inputs — so it is a
+convenience, and the real check is to re-run the checker and reproduce the verdict.
+
+This is the drop-in shape that folds into an independent non-custodial
+verification gate as a `SolvencyAttestation` slot the moment a real
+solvency-gated flow needs it — deliberately not folded speculatively.
 
 ## Roadmap
 

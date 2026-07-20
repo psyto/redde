@@ -11,6 +11,8 @@
     "verify:marinade": "node verify-marinade.mjs",
     "scan": "node scan.mjs",
     "board": "node gen-board.mjs",
+    "attest": "node attest.mjs",
+    "verify:attestation": "node verify-attestation.mjs",
     "probe": "node probe.mjs"
   }
 }

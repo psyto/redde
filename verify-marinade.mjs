@@ -184,7 +184,7 @@ async function check() {
   else verdict="STALE"; // fresh backing not fully proven, or records stale
 
   return {
-    verdict, target:STATE, currentEpoch, stakeRecords:cnt, staleRecords,
+    verdict, target:STATE, currentEpoch, snapshotSlot:snap.slot, stakeRecords:cnt, staleRecords,
     mintSupply:mintSupply.toString(), msolSupply:msolSupply.toString(), supplyDelta:supplyDelta.toString(),
     virtualValue:virtualValue.toString(), liability:liability.toString(),
     inv2b: backing==null?{available:false}:{available:true,ok:inv2b,backing:backing.toString(),
