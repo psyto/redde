@@ -1,0 +1,24 @@
+{
+  "verdict": "GREEN",
+  "target": "8szGkuLTAux9XMgZ2vtY39jVSowEcpBfFfD8hXSEqdGC",
+  "currentEpoch": 1004,
+  "stakeRecords": 48,
+  "staleRecords": 0,
+  "mintSupply": "1708592412459116",
+  "msolSupply": "1708592415393434",
+  "supplyDelta": "2934318",
+  "virtualValue": "2383199200198962",
+  "liability": "2383199196106081",
+  "inv2b": {
+    "available": true,
+    "ok": true,
+    "backing": "2383216708229618",
+    "usableStakes": 48,
+    "unusableStakes": 0,
+    "tickets": "30139448109539",
+    "ticketCount": 1077
+  },
+  "notes": [
+    "SUPPLY-DRIFT: state exceeds mint by 2934318 (direct burns); conservative for holders"
+  ]
+}

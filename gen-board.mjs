@@ -3,8 +3,11 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
 const { summary, board } = JSON.parse(readFileSync(new URL("./scan-results.json", import.meta.url)));
+let marinade = null;
+try { marinade = JSON.parse(readFileSync(new URL("./marinade-result.json", import.meta.url))); } catch {}
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const n0 = (x) => Math.round(x).toLocaleString("en-US");
+const n3 = (lamports) => (Number(BigInt(lamports)) / 1e9).toLocaleString("en-US", { maximumFractionDigits: 3 });
 const short = (a) => `${a.slice(0, 4)}…${a.slice(-4)}`;
 const STATUS = {
   GREEN: { cls: "g", label: "GREEN" },
@@ -35,6 +38,27 @@ const rows = board.map((r, i) => {
 }).join("\n");
 
 const tile = (label, value, cls = "") => `<div class="tile ${cls}"><div class="tval">${value}</div><div class="tlabel">${label}</div></div>`;
+
+function marinadeCard(m) {
+  if (!m || !m.inv2b || !m.inv2b.available) return "";
+  const st = STATUS[m.verdict] ?? { cls: "u", label: m.verdict };
+  const margin = (BigInt(m.inv2b.backing) - BigInt(m.liability)).toString();
+  return `<div class="wrap"><div class="class2">
+    <div class="c2head">
+      <span class="label">Invariant class #2 · Marinade (mSOL) · non-SPL, Anchor custody</span>
+      <span class="pill ${st.cls}">${st.label}</span>
+    </div>
+    <p class="c2lede">The same engine, a second architecture. Backing reconstructed from Marinade's own
+    <span class="mono">stake_list</span> — ${m.inv2b.usableStakes} stake accounts, rent-netted, ${m.inv2b.ticketCount}
+    unstake tickets deducted and reconciled to the header — with zero cooperation. <span class="mono">msol_price</span>
+    (display-only) and the LP leg are excluded.</p>
+    <dl class="c2figs">
+      <div><dt>redeemable liability</dt><dd>${n3(m.liability)} SOL</dd></div>
+      <div><dt>independent net backing</dt><dd>${n3(m.inv2b.backing)} SOL</dd></div>
+      <div><dt>margin</dt><dd class="pos">+${n3(margin)} SOL</dd></div>
+    </dl>
+  </div></div>`;
+}
 
 const html = `<title>Redde — The Board</title>
 <style>
@@ -68,6 +92,14 @@ const html = `<title>Redde — The Board</title>
   .tlabel{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-top:.35rem;}
   .tile.g .tval{color:var(--green);} .tile.s .tval{color:var(--amber);} .tile.r .tval{color:var(--seal);} .tile.u .tval{color:var(--grey);}
   .coverage{font-size:.95rem;color:var(--ink-2);max-width:44rem;margin:.4rem 0 0;}
+  .class2{border:1px solid var(--hair);border-top:3px solid var(--green);background:var(--panel);padding:clamp(1.2rem,3vw,2rem);margin:2.2rem 0 .5rem;}
+  .c2head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:.9rem;}
+  .c2lede{max-width:44rem;font-size:.98rem;color:var(--ink);margin:0 0 1.2rem;}
+  .c2figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);}
+  .c2figs>div{background:var(--paper);padding:1rem 1.1rem;}
+  .c2figs dt{font-family:var(--mono);font-size:.64rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-2);}
+  .c2figs dd{margin:.3rem 0 0;font-family:var(--mono);font-size:1.15rem;font-weight:600;font-variant-numeric:tabular-nums;}
+  .c2figs dd.pos{color:var(--green);}
   section{padding:2rem 0 3rem;}
   .tablewrap{overflow-x:auto;border:1px solid var(--hair);margin-top:1.2rem;}
   table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:38rem;}
@@ -94,10 +126,11 @@ const html = `<title>Redde — The Board</title>
 
 <div class="wrap">
   <div class="hero">
-    <span class="label">Every SPL stake pool on Solana · epoch ${summary.epoch}</span>
+    <span class="label">Every SPL stake pool + Marinade · epoch ${summary.epoch}</span>
     <h1>We ran it against <em>all of them.</em></h1>
-    <p class="lede">Redde audited every liquid-staking stake pool on Solana mainnet,
-    with zero cooperation from any of them. This is the board.</p>
+    <p class="lede">Redde audited every liquid-staking stake pool on Solana mainnet — and
+    Marinade, a second architecture — with zero cooperation from any of them, using one engine.
+    This is the board.</p>
   </div>
 
   <div class="tiles">
@@ -118,9 +151,11 @@ const html = `<title>Redde — The Board</title>
   honest board of what could be proven now.</p>
 </div>
 
+${marinadeCard(marinade)}
+
 <section>
   <div class="wrap">
-    <span class="label">The board · sorted by size</span>
+    <span class="label">Invariant class #1 · SPL stake pools · sorted by size</span>
     <div class="tablewrap">
       <table>
         <thead><tr><th>#</th><th>Pool</th><th>SOL</th><th>Verdict</th><th>Detail</th></tr></thead>
