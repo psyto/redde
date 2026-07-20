@@ -83,7 +83,7 @@
         <td class="num">32,226 <span class="unit">ETH</span></td>
         <td class="num cov">100%+</td>
       </tr>
-      <tr class="note-row"><td></td><td colspan="6" class="note">L1 escrow holds 32,225.582 wstETH backing 31,413.027 on Base (margin +812.554); fully recomputed from execution-layer state on both sides.</td></tr>
+      <tr class="note-row"><td></td><td colspan="6" class="note">L1 escrow holds 32,225.582 wstETH backing 31,413.027 on Base (margin +812.554); both sides read from execution-layer state (non-atomic cross-chain snapshot).</td></tr>
       <tr>
         <td><span class="chain">Ethereum</span><span class="vm">EVM</span></td>
         <td class="asset">rETH</td>
@@ -115,7 +115,7 @@
       Every number here is reproducible: <code>node verify.mjs</code> (Solana) · <code>node verify-eth.mjs</code> (EVM).
       No RED is ever manufactured.
     </p>
-    <p class="meta">Ethereum/Base snapshot: block 25576918 · Solana: epoch 1005 · zero-dep checkers, public RPC.</p>
+    <p class="meta">Ethereum/Base snapshot: block 25577020 · Solana: epoch 1005 · zero-dep checkers, public RPC.</p>
   </div>
 </body>
 </html>

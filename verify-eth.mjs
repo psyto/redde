@@ -74,10 +74,10 @@ const storageKey = (...parts) => hex(keccak256(parts.flatMap(p => typeof p === "
 // ───────────────────────────── JSON-RPC (block-pinned) ─────────────────────────
 let RID = 0;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-async function rpc(url, method, params, tries = 4) {
+async function rpc(url, method, params, tries = 6) {
   let lastErr;
   for (let attempt = 0; attempt < tries; attempt++) {
-    if (attempt) await sleep(200 * attempt);
+    if (attempt) await sleep(300 * attempt);   // 0.3s..1.5s backoff on transient empties / rate limits
     try {
       const res = await fetch(url, { method: "POST", headers: { "content-type": "application/json" },
         body: JSON.stringify({ jsonrpc: "2.0", id: ++RID, method, params }) });
@@ -104,6 +104,14 @@ const fmt = (wei) => {
   return `${whole.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}.${frac.toString().padStart(3, "0")}`;
 };
 const pct = (num, den) => den === 0n ? "0" : (Number((num * 1000000n) / den) / 10000).toFixed(4);
+const ZERO_ADDR = "0x0000000000000000000000000000000000000000";
+
+// an unverifiable row: fail closed, never a false GREEN/RED, with the reason attached.
+const unverifiable = (chain, vm, protocol, symbol, target, cls, note) => ({
+  chain, vm, protocol, symbol, target, verdict: "STALE", verifiabilityClass: cls,
+  liabilityEth: "0", claimedEth: "0", independentEth: "0", oracleReportedEth: "0",
+  independentPct: "0", note,
+});
 
 // ───────────────────────────────── verifiers ──────────────────────────────────
 
@@ -135,6 +143,10 @@ async function verifyRETH(block) {
   const getAddr = selector("getAddress(bytes32)");
   const resolve = async (name) => "0x" + (await call(L1, STORAGE, getAddr + pad32(storageKey("contract.address", name)), block)).slice(26);
   const [depositPool, netBalances] = await Promise.all([resolve("rocketDepositPool"), resolve("rocketNetworkBalances")]);
+  // gate: a zero address means RocketStorage did not resolve the name — do not read 0x0.
+  if (depositPool === ZERO_ADDR || netBalances === ZERO_ADDR)
+    return unverifiable("ethereum", "evm", "RocketPool", "rETH", RETH, "contract-resolution",
+      "RocketStorage returned a zero address for a registry name — unresolved, not decoding.");
   const [supplyH, rateH, dpBalH, rethBalH, oracleH] = await Promise.all([
     call(L1, RETH, selector("totalSupply()"), block),
     call(L1, RETH, selector("getExchangeRate()"), block),
@@ -143,6 +155,11 @@ async function verifyRETH(block) {
     call(L1, netBalances, selector("getTotalETHBalance()"), block),
   ]);
   const supply = big(supplyH), rate = big(rateH);
+  // gate: exchange rate must be in a plausible band, else ABI/oracle drift — fail closed.
+  const rateF = Number(rate) / 1e18;
+  if (!(rateF >= 1.0 && rateF <= 2.0))
+    return unverifiable("ethereum", "evm", "RocketPool", "rETH", RETH, "abi-oracle-drift",
+      `getExchangeRate=${rateF} outside the plausible band [1.0, 2.0] — not decoding.`);
   const liability = supply * rate / WEI;
   const observed = big(dpBalH) + big(rethBalH);      // ETH RocketPool holds on the EL
   const oracleTotal = big(oracleH);                   // oDAO-submitted total (includes beacon)
@@ -162,22 +179,40 @@ async function verifyRETH(block) {
 // conservatively as STALE("escrow unverified"), never a manufactured RED.
 async function verifyWstethBase(block) {
   const L1_WSTETH = "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0";
-  const ESCROW = "0x9de443AdC5A411E83F1878Ef24C3F52C61571e72"; // Lido L1 bridge escrow for Base
+  // ESCROW: Lido's Base-specific L1ERC20TokenBridge. Reviewed constant — empirically the
+  // OP standard bridge (0x3154Cf16…) holds a negligible balance, so Base wstETH does NOT
+  // route through it; Lido deploys a dedicated bridge per L2. This is an ASSUMPTION pinned
+  // here, not resolved on-chain; expanding L2 coverage requires validating each escrow the
+  // same way. Because the comparison is cross-chain and NOT atomic, this checker never
+  // emits RED here — only GREEN (coverage confirmed at this read) or STALE (not confirmed).
+  const ESCROW = "0x9de443AdC5A411E83F1878Ef24C3F52C61571e72";
   const L2_WSTETH = "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452";
+
+  // gate: the L2 RPC must actually be Base (8453), else we could compare against wrong-chain data.
+  const cidH = await rpc(L2_BASE, "eth_chainId", []);
+  if (parseInt(cidH, 16) !== 8453)
+    return unverifiable("base", "evm", "Lido (bridged)", "wstETH", L2_WSTETH, "l2-wrong-chain",
+      `L2 RPC chainId ${parseInt(cidH, 16)} != 8453 (Base) — refusing to compare against wrong-chain state.`);
+
   const balOf = selector("balanceOf(address)");
   const [lockedH, l2SupplyH] = await Promise.all([
     call(L1, L1_WSTETH, balOf + pad32(ESCROW), block),
-    call(L2_BASE, L2_WSTETH, selector("totalSupply()")),   // L2 read at its own head
+    call(L2_BASE, L2_WSTETH, selector("totalSupply()")),   // L2 read at its own head (non-atomic vs L1)
   ]);
   const locked = big(lockedH), l2Supply = big(l2SupplyH);
   let verdict, cls, note;
-  if (l2Supply === 0n) { verdict = "STALE"; cls = "l2-unreachable"; note = "could not read L2 supply."; }
-  else if (locked >= l2Supply) { verdict = "GREEN"; cls = "bridge-escrow";
-    note = `L1 escrow holds ${fmt(locked)} wstETH backing ${fmt(l2Supply)} on Base (margin +${fmt(locked - l2Supply)}); fully recomputed from execution-layer state on both sides.`; }
-  else if (l2Supply - locked > locked / 10n) { verdict = "STALE"; cls = "escrow-unverified";
-    note = `escrow holds only ${fmt(locked)} vs ${fmt(l2Supply)} on L2 — treating as unverified escrow, not a solvency claim.`; }
-  else { verdict = "RED"; cls = "bridge-escrow";
-    note = `L1 escrow ${fmt(locked)} < L2 supply ${fmt(l2Supply)} — bridged supply exceeds locked collateral.`; }
+  if (l2Supply === 0n) {
+    verdict = "STALE"; cls = "l2-unreachable"; note = "could not read L2 supply.";
+  } else if (locked >= l2Supply) {
+    verdict = "GREEN"; cls = "bridge-escrow";
+    note = `L1 escrow holds ${fmt(locked)} wstETH backing ${fmt(l2Supply)} on Base (margin +${fmt(locked - l2Supply)}); both sides read from execution-layer state (non-atomic cross-chain snapshot).`;
+  } else {
+    // shortfall could be a real under-collateralization OR cross-chain read skew OR a wrong
+    // escrow assumption. A non-atomic read cannot distinguish them, so we fail closed to
+    // STALE rather than manufacture a RED. RED here waits for an atomic, escrow-resolved check.
+    verdict = "STALE"; cls = "coverage-unconfirmed";
+    note = `L1 escrow ${fmt(locked)} < L2 supply ${fmt(l2Supply)} at this non-atomic read — coverage not confirmed (skew / escrow assumption / real shortfall are indistinguishable here). Not a solvency claim; RED withheld pending an atomic escrow-resolved check.`;
+  }
   return { chain: "base", vm: "evm", protocol: "Lido (bridged)", symbol: "wstETH", target: L2_WSTETH,
     verdict, verifiabilityClass: cls, liabilityEth: fmt(l2Supply), claimedEth: fmt(l2Supply),
     independentEth: fmt(locked), oracleReportedEth: fmt(0n), independentPct: pct(locked, l2Supply), note };

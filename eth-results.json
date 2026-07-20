@@ -1,5 +1,5 @@
 {
-  "block": 25576918,
+  "block": 25577020,
   "rows": [
     {
       "id": "lido",
@@ -10,9 +10,9 @@
       "target": "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
       "verdict": "STALE",
       "verifiabilityClass": "oracle-trusted",
-      "liabilityEth": "9,189,857.560",
-      "claimedEth": "9,189,857.560",
-      "independentEth": "1,251.884",
+      "liabilityEth": "9,189,857.680",
+      "claimedEth": "9,189,857.680",
+      "independentEth": "1,252.004",
       "oracleReportedEth": "9,188,605.675",
       "independentPct": "0.0136",
       "note": "0.0136% of backing is independently observable on the execution layer; the remaining 9,188,605.675 ETH is beacon-chain validator balance reported by an oracle — not recomputable from EL state."
@@ -47,7 +47,7 @@
       "independentEth": "32,225.582",
       "oracleReportedEth": "0.000",
       "independentPct": "102.5866",
-      "note": "L1 escrow holds 32,225.582 wstETH backing 31,413.027 on Base (margin +812.554); fully recomputed from execution-layer state on both sides."
+      "note": "L1 escrow holds 32,225.582 wstETH backing 31,413.027 on Base (margin +812.554); both sides read from execution-layer state (non-atomic cross-chain snapshot)."
     }
   ]
 }
