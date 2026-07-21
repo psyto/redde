@@ -1,12 +1,14 @@
-// redde-reexec — re-execution tier, slice 2 (B1): EXECUTE the redemption, don't read the price.
+// redde-reexec — re-execution tier, slice 2: SWEEP. Point the engine at many vaults and
+// find the ones whose redemption does NOT do what their price says.
 //
-// B0 proved the harness (local revm == node eth_call). B1 shows what execution reaches
-// that a static read cannot: it SIMULATES redeem() for a real holder against forked
-// mainnet state and observes whether the assets actually come out. A vault's exchange
-// rate / convertToAssets can read perfectly healthy while redeem() reverts (cooldown,
-// pause, illiquidity) — you only learn that by executing the withdrawal path.
+// For each ERC-4626 vault we find a real holder, read previewRedeem (the price a naive
+// user trusts), then SIMULATE redeem() for that holder against forked mainnet state in a
+// local revm and see what actually comes out. A vault can read perfectly healthy and yet
+// its redeem() reverts (cooldown / pause / illiquidity) or underpays — you only learn
+// that by executing the withdrawal path. Wrong/non-4626 addresses fail a validation gate
+// and are skipped, never mis-reported.
 //
-//   ETH_RPC_URL=<L1> node target: sDAI (liquid) + sUSDe (cooldown), redemption simulated.
+//   ETH_RPC_URL=<L1> cargo run
 // Zero cloud deps beyond revm + a blocking JSON-RPC client. RPC key via ETH_RPC_URL.
 
 use std::cell::RefCell;
@@ -34,13 +36,17 @@ impl DBErrorMarker for DbError {}
 struct RpcDb {
     url: String,
     block: String,
+    block_number: U256,     // real number of the pinned block
+    block_timestamp: U256,  // real timestamp of the pinned block (critical: rate-accruing
+                            // vaults compute `now - lastUpdate`; a default 0 underflows → Panic)
     accounts: RefCell<HashMap<Address, AccountInfo>>,
     storage: RefCell<HashMap<(Address, U256), U256>>,
     code: RefCell<HashMap<B256, Bytecode>>,
 }
 impl RpcDb {
-    fn new(url: String, block: String) -> Self {
-        RpcDb { url, block, accounts: RefCell::new(HashMap::new()),
+    fn new(url: String, block: String, block_number: U256, block_timestamp: U256) -> Self {
+        RpcDb { url, block, block_number, block_timestamp,
+            accounts: RefCell::new(HashMap::new()),
             storage: RefCell::new(HashMap::new()), code: RefCell::new(HashMap::new()) }
     }
     fn rpc(&self, method: &str, params: serde_json::Value) -> Result<serde_json::Value, DbError> {
@@ -68,6 +74,10 @@ impl RpcDb {
     fn nonce_of(&self, a: Address) -> u64 {
         let v = self.rpc("eth_getTransactionCount", serde_json::json!([format!("{a:#x}"), self.block])).unwrap_or(serde_json::json!("0x0"));
         u64::from_str_radix(v.as_str().unwrap_or("0x0").trim_start_matches("0x"), 16).unwrap_or(0)
+    }
+    fn has_code(&self, a: Address) -> bool {
+        self.rpc("eth_getCode", serde_json::json!([format!("{a:#x}"), self.block])).ok()
+            .and_then(|v| v.as_str().map(|s| s.trim_start_matches("0x").len() > 0)).unwrap_or(false)
     }
 }
 impl DatabaseRef for RpcDb {
@@ -117,8 +127,8 @@ fn ret_u256(b: &Bytes) -> U256 { if b.len() >= 32 { U256::from_be_slice(&b[..32]
 // ── execute a call in a fresh local revm over the RPC-backed state ─────────────
 fn exec(db: &RpcDb, caller: Address, nonce: u64, target: Address, data: Bytes) -> Result<ExecutionResult, String> {
     // simulate like eth_call: a holder may be a contract, so lift the tx-pool-only checks
-    // (EIP-3607 code-sender, base fee, nonce, balance). We are testing whether redeem's
-    // LOGIC honors the claim, not whether this exact tx would be minable.
+    // (EIP-3607 code-sender, base fee, nonce, balance). We test whether redeem's LOGIC
+    // honors the claim, not whether this exact tx would be minable.
     let mut evm = Context::mainnet()
         .with_db(WrapDatabaseRef(db))
         .modify_cfg_chained(|c| {
@@ -127,12 +137,19 @@ fn exec(db: &RpcDb, caller: Address, nonce: u64, target: Address, data: Bytes) -
             c.disable_nonce_check = true;
             c.disable_balance_check = true;
         })
+        // execute in the pinned block's real temporal context (eth_call semantics), or
+        // rate-accruing vaults underflow on `now - lastUpdate` and Panic — a false finding.
+        .modify_block_chained(|b| {
+            b.number = db.block_number;
+            b.timestamp = db.block_timestamp;
+            b.basefee = 0;
+        })
         .build_mainnet();
     let tx = TxEnv::builder().caller(caller).nonce(nonce)
         .kind(TxKind::Call(target)).data(data).gas_limit(60_000_000).gas_price(0).build_fill();
     evm.transact_one(tx).map_err(|e| format!("{e:?}"))
 }
-// a read via the node's eth_call (used for the "price" side and holder discovery)
+// a read via the node's eth_call (the "price" side and holder discovery)
 fn node_call_u256(db: &RpcDb, target: Address, data: &Bytes) -> U256 {
     let d = format!("0x{}", hex::encode(data));
     match db.rpc("eth_call", serde_json::json!([{ "to": format!("{target:#x}"), "data": d }, db.block])) {
@@ -140,6 +157,17 @@ fn node_call_u256(db: &RpcDb, target: Address, data: &Bytes) -> U256 {
             if s.is_empty() { U256::ZERO } else { U256::from_str_radix(s, 16).unwrap_or(U256::ZERO) } }
         Err(_) => U256::ZERO,
     }
+}
+// read an address-returning view (low 20 bytes of the word)
+fn node_call_addr(db: &RpcDb, target: Address, data: &Bytes) -> Address {
+    Address::from_slice(&node_call_u256(db, target, data).to_be_bytes::<32>()[12..])
+}
+// the ERC-4626 asset() and its decimals (assets are denominated in the asset, not shares)
+fn asset_decimals(db: &RpcDb, vault: Address, share_dec: u32) -> u32 {
+    let asset = node_call_addr(db, vault, &calldata(sel("asset()"), &[]));
+    if asset == Address::ZERO { return share_dec; }
+    let d = node_call_u256(db, asset, &calldata(sel("decimals()"), &[])).to::<u64>() as u32;
+    if (1..=36).contains(&d) { d } else { share_dec }
 }
 fn decode_revert(b: &Bytes) -> String {
     if b.len() >= 68 && b[0..4] == [0x08, 0xc3, 0x79, 0xa0] {
@@ -150,23 +178,52 @@ fn decode_revert(b: &Bytes) -> String {
     if b.len() >= 4 {
         // name known custom errors by re-deriving their selectors (no hardcoded 4-bytes)
         let known = ["OperationNotAllowed()", "ExcessiveRedeemAmount()", "ExcessiveWithdrawAmount()",
-            "InvalidCooldown()", "MinSharesViolation()", "EnforcedPause()"];
+            "InvalidCooldown()", "MinSharesViolation()", "EnforcedPause()", "NotWhitelisted()",
+            "WithdrawMoreThanMax()", "ZeroShares()", "InsufficientLiquidity()", "TransferError()"];
         for sig in known {
-            if b[0..4] == sel(sig) { return format!("{sig}"); }
+            if b[0..4] == sel(sig) { return sig.to_string(); }
         }
         format!("custom error 0x{}", hex::encode(&b[0..4]))
-    } else { "no data".into() }
+    } else { "no data (empty revert)".into() }
 }
 
-// ── find a real current holder of `vault` via recent Transfer logs ─────────────
-// Free-tier eth_getLogs caps the range at 10 blocks, so scan recent 10-block windows
-// for Transfer recipients and keep the largest current holder found.
+fn parse_addr(s: &str) -> Option<Address> {
+    let b = hex::decode(s.trim_start_matches("0x")).ok()?;
+    if b.len() == 20 { Some(Address::from_slice(&b)) } else { None }
+}
+
+// ── find a real current holder of `vault` ──────────────────────────────────────
+// Prefer Alchemy's getAssetTransfers (no 10-block limit → reaches low-activity vaults);
+// fall back to scanning recent Transfer logs in 10-block windows on a plain RPC.
 fn find_holder(db: &RpcDb, vault: Address, latest: u64) -> Option<(Address, U256)> {
-    let topic = format!("0x{}", hex::encode(keccak256(b"Transfer(address,address,uint256)").as_slice()));
     let bal_sel = sel("balanceOf(address)");
+    // path 1: getAssetTransfers (Alchemy). One call, recent-first, wide range.
+    {
+        let params = serde_json::json!([{ "fromBlock": "0x0", "toBlock": "latest",
+            "contractAddresses": [format!("{vault:#x}")], "category": ["erc20"],
+            "order": "desc", "maxCount": "0x64", "excludeZeroValue": true }]);
+        if let Ok(v) = db.rpc("alchemy_getAssetTransfers", params) {
+            let mut best: Option<(Address, U256)> = None;
+            let mut seen = std::collections::HashSet::new();
+            if let Some(arr) = v.get("transfers").and_then(|t| t.as_array()) {
+                for t in arr {
+                    for key in ["to", "from"] {
+                        let addr = match t.get(key).and_then(|x| x.as_str()).and_then(parse_addr) { Some(a) => a, None => continue };
+                        if addr == Address::ZERO || !seen.insert(addr) { continue; }
+                        let bal = node_call_u256(db, vault, &calldata(bal_sel, &[word_addr(addr)]));
+                        if bal > best.as_ref().map(|b| b.1).unwrap_or(U256::ZERO) { best = Some((addr, bal)); }
+                        if seen.len() >= 80 { break; }
+                    }
+                }
+            }
+            if let Some(b) = best { if b.1 > U256::ZERO { return Some(b); } }
+        }
+    }
+    // path 2: fallback — recent Transfer logs in 10-block windows (plain RPC).
+    let topic = format!("0x{}", hex::encode(keccak256(b"Transfer(address,address,uint256)").as_slice()));
     let mut best: Option<(Address, U256)> = None;
     let mut seen = std::collections::HashSet::new();
-    for w in 0..40u64 {
+    for w in 0..24u64 {
         let to_b = latest.saturating_sub(10 * w);
         let from_b = to_b.saturating_sub(9);
         let logs = match db.rpc("eth_getLogs", serde_json::json!([{
@@ -177,7 +234,6 @@ fn find_holder(db: &RpcDb, vault: Address, latest: u64) -> Option<(Address, U256
         if let Some(arr) = logs.as_array() {
             for lg in arr.iter().rev() {
                 let topics = match lg.get("topics").and_then(|t| t.as_array()) { Some(t) if t.len() >= 3 => t, _ => continue };
-                // consider both sender and recipient of each Transfer as candidate holders
                 for ti in [1usize, 2] {
                     let bytes = hex::decode(topics[ti].as_str().unwrap_or("").trim_start_matches("0x")).unwrap_or_default();
                     if bytes.len() != 32 { continue; }
@@ -188,9 +244,8 @@ fn find_holder(db: &RpcDb, vault: Address, latest: u64) -> Option<(Address, U256
                 }
             }
         }
-        // stop once we've found a non-dust holder and scanned several windows
-        if w >= 6 { if let Some(b) = &best { if b.1 > U256::ZERO { break; } } }
-        if seen.len() >= 80 { break; }
+        if w >= 4 { if let Some(b) = &best { if b.1 > U256::ZERO { break; } } }
+        if seen.len() >= 60 { break; }
     }
     best.filter(|b| b.1 > U256::ZERO)
 }
@@ -200,67 +255,131 @@ fn fmt_amt(x: U256, dec: u32) -> String {
     format!("{}.{:03}", x / unit, (x % unit) * U256::from(1000) / unit)
 }
 
-// ── simulate a full redemption and report whether the assets actually come out ─
-fn simulate_redeem(db: &RpcDb, name: &str, vault: Address, dec: u32, latest: u64) {
-    let bar = "─".repeat(74);
-    println!("{bar}\n  {name}   ({vault:#x})");
-    let (holder, shares) = match find_holder(db, vault, latest) {
-        Some(h) => h, None => { println!("  ⚠️  no current holder found in recent logs — skipped"); return; }
-    };
-    // the READ a naive user would trust:
-    let preview = node_call_u256(db, vault, &calldata(sel("previewRedeem(uint256)"), &[word_u256(shares)]));
-    println!("  holder        {holder:#x}");
-    println!("  shares        {}", fmt_amt(shares, dec));
-    println!("  previewRedeem {} (what the READ promises)", fmt_amt(preview, dec));
+// gate: does this address behave like an ERC-4626 vault? returns share decimals.
+fn validate_vault(db: &RpcDb, vault: Address) -> Option<u32> {
+    if !db.has_code(vault) { return None; }
+    if node_call_u256(db, vault, &calldata(sel("asset()"), &[])) == U256::ZERO { return None; }
+    let dec = node_call_u256(db, vault, &calldata(sel("decimals()"), &[]));
+    let dec = dec.to::<u64>() as u32;
+    if !(1..=36).contains(&dec) { return None; }
+    Some(dec)
+}
 
-    // the EXECUTION: actually run redeem(shares, holder, holder) as the holder.
+#[derive(Clone)]
+enum Verdict { Green, RedUnderpay(U256, u32), Blocked(String), Weird(String), NoHolder, NotVault }
+
+// assess one vault; prints a detail block and returns the verdict for the summary.
+fn assess(db: &RpcDb, label: &str, vault: Address, latest: u64) -> Verdict {
+    let bar = "─".repeat(74);
+    println!("{bar}\n  {label}   ({vault:#x})");
+    let sdec = match validate_vault(db, vault) {
+        Some(d) => d, None => { println!("  ·· not an ERC-4626 vault at this block — skipped"); return Verdict::NotVault; }
+    };
+    let adec = asset_decimals(db, vault, sdec); // assets (previewRedeem/redeem) use the asset's decimals
+    let (holder, shares) = match find_holder(db, vault, latest) {
+        Some(h) => h, None => { println!("  ·· no current holder found in recent logs — skipped"); return Verdict::NoHolder; }
+    };
+    let preview = node_call_u256(db, vault, &calldata(sel("previewRedeem(uint256)"), &[word_u256(shares)]));
+    println!("  holder {holder:#x}  shares {}  previewRedeem {}", fmt_amt(shares, sdec), fmt_amt(preview, adec));
+    // guard: a zero/failed previewRedeem is inconclusive — never let it become a false GREEN.
+    if preview == U256::ZERO {
+        println!("  ·· previewRedeem returned 0 (reverted / edge) — inconclusive, skipped");
+        return Verdict::Weird("previewRedeem==0".into());
+    }
+
     let nonce = db.nonce_of(holder);
-    let data = calldata(sel("redeem(uint256,address,address)"),
-        &[word_u256(shares), word_addr(holder), word_addr(holder)]);
+    let data = calldata(sel("redeem(uint256,address,address)"), &[word_u256(shares), word_addr(holder), word_addr(holder)]);
     match exec(db, holder, nonce, vault, data) {
         Ok(ExecutionResult::Success { output: Output::Call(b), gas_used, .. }) => {
             let actual = ret_u256(&b);
-            println!("  redeem()      {} (what EXECUTION delivers, gas {gas_used})", fmt_amt(actual, dec));
-            // tolerate sub-basis-point rounding (previewRedeem vs redeem round at different
-            // points); only a MATERIAL shortfall is a finding — never cry RED on dust.
             let shortfall = preview.saturating_sub(actual);
-            let material = shortfall * U256::from(10_000) > preview; // > 1 basis point (0.01%)
-            if actual >= preview {
-                println!("  ✅ GREEN — redemption executes and delivers ≥ the promised amount.");
-                println!("     Not read, EXECUTED: the assets actually leave the vault.");
-            } else if !material {
-                println!("  ✅ GREEN — redemption executes and delivers the promised amount");
-                println!("     (short by {} — sub-basis-point rounding, not leakage).", fmt_amt(shortfall, dec));
+            let material = shortfall * U256::from(10_000) > preview; // > 1 bp
+            if actual >= preview || !material {
+                println!("  redeem() -> {} (gas {gas_used})   ✅ GREEN — execution delivers the promised amount", fmt_amt(actual, adec));
+                Verdict::Green
             } else {
-                println!("  🔴 RED — redeem delivered materially LESS than previewRedeem promised");
-                println!("     (short by {} = undisclosed fee / leakage / ERC-4626 violation).", fmt_amt(shortfall, dec));
+                println!("  redeem() -> {} (gas {gas_used})   🔴 RED — short by {} vs previewRedeem", fmt_amt(actual, adec), fmt_amt(shortfall, adec));
+                Verdict::RedUnderpay(shortfall, adec)
             }
         }
         Ok(ExecutionResult::Revert { output, .. }) => {
-            println!("  redeem()      REVERTED — {}", decode_revert(&output));
-            println!("  🟠 FINDING — the price reads healthy, but you cannot actually redeem right now.");
-            println!("     A static read would have told you nothing. Execution reveals it.");
+            let e = decode_revert(&output);
+            println!("  redeem() -> REVERTED — {e}   🟠 the price reads healthy, but you can't redeem now");
+            Verdict::Blocked(e)
         }
-        Ok(ExecutionResult::Halt { reason, .. }) => println!("  redeem()      HALT — {reason:?}"),
-        Ok(ExecutionResult::Success { .. }) => println!("  redeem()      unexpected CREATE output"),
-        Err(e) => println!("  redeem()      tx error — {e}"),
+        Ok(ExecutionResult::Halt { reason, .. }) => { let e = format!("{reason:?}"); println!("  redeem() -> HALT — {e}"); Verdict::Weird(e) }
+        Ok(ExecutionResult::Success { .. }) => { println!("  redeem() -> unexpected CREATE output"); Verdict::Weird("create".into()) }
+        Err(e) => { println!("  redeem() -> tx error — {e}"); Verdict::Weird(e) }
     }
 }
 
 fn main() {
     let url = std::env::var("ETH_RPC_URL").unwrap_or_else(|_| "https://eth.llamarpc.com".into());
-    let probe = RpcDb::new(url.clone(), "latest".into());
+    let probe = RpcDb::new(url.clone(), "latest".into(), U256::ZERO, U256::ZERO);
     let blk = probe.rpc("eth_blockNumber", serde_json::json!([])).expect("blockNumber");
     let block = blk.as_str().unwrap().to_string();
     let latest = u64::from_str_radix(block.trim_start_matches("0x"), 16).unwrap();
-    let db = RpcDb::new(url, block.clone());
+    // pin the block's real number + timestamp so the local EVM runs in its temporal context.
+    let header = probe.rpc("eth_getBlockByNumber", serde_json::json!([block, false])).expect("getBlock");
+    let hx = |v: &serde_json::Value, k: &str| U256::from_str_radix(
+        v.get(k).and_then(|x| x.as_str()).unwrap_or("0x0").trim_start_matches("0x"), 16).unwrap_or(U256::ZERO);
+    let (bnum, btime) = (hx(&header, "number"), hx(&header, "timestamp"));
+    let db = RpcDb::new(url, block.clone(), bnum, btime);
 
-    println!("Redde · re-execution tier · slice 2 B1 (simulate the redemption)   block {latest}");
+    println!("Redde · re-execution tier · redemption sweep   block {latest}");
     println!("The read is the price. The verdict is what redeem() actually does.");
+    println!("(labels are hints; the address is authoritative. Non-4626 addresses are skipped.)");
 
-    let susds = Address::from_str("0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD").unwrap();
-    let susde = Address::from_str("0x9D39A5DE30e57443BfF2A8307A4256c8797A3497").unwrap();
-    simulate_redeem(&db, "sUSDS (Sky Savings USDS, ERC-4626)", susds, 18, latest);
-    simulate_redeem(&db, "sUSDe (Ethena staked USDe, ERC-4626 + cooldown)", susde, 18, latest);
-    println!("{}", "─".repeat(74));
+    // A curated probe set of mainnet ERC-4626 vaults — not exhaustive. The validation gate
+    // safely skips anything that is not a live 4626 at this block.
+    let targets: &[(&str, &str)] = &[
+        ("sDAI  (Maker Savings DAI)",        "0x83F20F44975D03b1b09e64809B757c47f942BEeA"),
+        ("sUSDS (Sky Savings USDS)",         "0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD"),
+        ("sUSDe (Ethena staked USDe)",       "0x9D39A5DE30e57443BfF2A8307A4256c8797A3497"),
+        ("sfrxETH (Frax staked ETH)",        "0xac3E018457B222d93114458476f3E3416Abbe38F"),
+        ("sFRAX (Staked FRAX)",              "0xA663B02CF0a4b149d2aD41910CB81e23e1c41c32"),
+        ("wUSDM (Mountain wrapped USDM)",    "0x57F5E098CaD7A3D1Eed53991D4d66C45C9AF7812"),
+        ("wOETH (Origin wrapped OETH)",      "0xDcEe70654261AF21C44c093C300eD3Bb97b78192"),
+        ("stUSD (Angle staked USDA)",        "0x0022228a2cc5E7eF0274A7Baa600d44da5aB5776"),
+        ("stEUR (Angle staked EURA)",        "0x004626A008B1aCdC4c74ab51644093b155e59A23"),
+        ("Steakhouse USDC (MetaMorpho)",     "0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB"),
+        ("Gauntlet USDC Prime (MetaMorpho)", "0xdd0f28e19C1780eb6396170735D45153D261490d"),
+        ("Flagship USDT (MetaMorpho)",       "0x95EeF579155cd2C5510F312c8fA39208c3Be01a8"),
+    ];
+
+    let mut results: Vec<(String, String, Verdict)> = Vec::new();
+    for (label, addr) in targets {
+        let vault = match Address::from_str(addr) { Ok(a) => a, Err(_) => continue };
+        let v = assess(&db, label, vault, latest);
+        results.push((label.to_string(), (*addr).to_string(), v));
+    }
+
+    // ── summary ───────────────────────────────────────────────────────────────
+    let bar = "═".repeat(74);
+    println!("\n{bar}\n  SWEEP SUMMARY\n{bar}");
+    let mut green = 0; let mut skipped = 0;
+    let mut blocked: Vec<(&String, &String, &String)> = Vec::new();
+    let mut red: Vec<(&String, &String)> = Vec::new();
+    for (label, addr, v) in &results {
+        match v {
+            Verdict::Green => green += 1,
+            Verdict::NotVault | Verdict::NoHolder => skipped += 1,
+            Verdict::Blocked(e) => blocked.push((label, addr, e)),
+            Verdict::RedUnderpay(..) => red.push((label, addr)),
+            Verdict::Weird(_) => skipped += 1,
+        }
+    }
+    println!("  redemption honored (GREEN): {green}     skipped (non-4626 / no holder): {skipped}");
+    if !blocked.is_empty() {
+        println!("\n  🟠 redemption BLOCKED at this block (read looks healthy, redeem() reverts):");
+        for (label, addr, e) in &blocked { println!("     - {label}  [{e}]  {addr}"); }
+        println!("     (cooldown / pause / whitelist / illiquidity — a static price never shows this)");
+    }
+    if !red.is_empty() {
+        println!("\n  🔴 MATERIAL UNDERPAY (redeem delivers < previewRedeem):");
+        for (label, addr) in &red { println!("     - {label}  {addr}"); }
+    } else {
+        println!("\n  🔴 material underpay: none found in this set.");
+    }
+    println!("{bar}");
 }
