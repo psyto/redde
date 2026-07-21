@@ -25,6 +25,10 @@ One engine, two liquid-staking architectures, zero cooperation. No RED has ever
 been manufactured; every candidate RED was caught and diagnosed before publishing
 (an INV-1 over-strictness, an authority-scan spoofing gap, a record-stride error).
 
+The same engine now runs on Ethereum and its L2s — the **cross-VM league** below —
+and no longer only *reads* the state it verifies: the **re-execution tier** verifies
+state against the block's `stateRoot` and executes contract logic in a local EVM.
+
 Documented limitation: `isOnCurve` does not enforce strict Ed25519 point
 canonicality (negligible for sha256-derived PDAs; tighten before treating
 derivation as adversarial).
@@ -70,12 +74,22 @@ finding.
   content-addressed attestation, and verify it against a pinned signer.
 - `enumerate.mjs` — list all SPL stake pools (scouting).
 - `gen-board.mjs` — render `site/board.html` from the scan + Marinade result.
+- `keccak.mjs` — the single audited keccak256 for both legs (self-tests on import).
+- `verify-eth.mjs` — the EVM leg (invariant class #3: EVM liquid-staking backing).
+  Lido stETH / RocketPool rETH / Base wstETH. Zero deps.
+- `gen-crossvm-board.mjs` — render `site/crossvm.html` (the cross-VM league) from a
+  live Solana verdict plus the EVM results.
+- `reexec.mjs` — re-execution tier, slice 1: `eth_getProof` + Merkle-proof
+  verification against the block `stateRoot`. Zero deps.
+- `reexec-rs/` — re-execution tier, slice 2: a Rust + revm harness that executes
+  contract bytecode locally against RPC-fetched state (see `reexec-rs/README.md`).
 - `probe.mjs`, `probe-marinade.mjs`, `probe-marinade2.mjs` — layout/offset probes
   used to confirm byte layouts empirically against mainnet.
 - `review/` — the adversarial-review log: 8 rounds of red-teaming (builder ↔
   independent reviewer) that caught every false GREEN / false RED before shipping.
 - `site/index.html` — the manifesto + JitoSOL exhibit (the weapon's face).
 - `site/board.html` — the full-population board across both invariant classes.
+- `site/crossvm.html` — the cross-VM verifier league (Solana SVM + Ethereum/Base EVM).
 
 ## Run
 
@@ -91,6 +105,17 @@ node verify-marinade.mjs --json
 node scan.mjs                      # audit all SPL stake pools -> scan-results.json
 node verify-marinade.mjs --json > marinade-result.json
 node gen-board.mjs                 # build site/board.html from the two above
+
+# EVM leg + cross-VM league (any Ethereum L1 + Base RPC; reads only). Keys via env.
+export ETH_RPC_URL=...             # L1
+export L2_RPC_URL=...              # Base (default https://mainnet.base.org)
+node verify-eth.mjs                # Lido stETH / RocketPool rETH / Base wstETH
+node verify-eth.mjs --json > eth-results.json
+node gen-crossvm-board.mjs         # build site/crossvm.html
+
+# re-execution tier
+node reexec.mjs                    # slice 1: prove EL balances against the block stateRoot
+cd reexec-rs && cargo run          # slice 2: local revm execution (B1 redeem simulation)
 ```
 
 A `GREEN`/`RED` verdict needs an RPC that serves `getProgramAccounts` for the
@@ -175,14 +200,76 @@ This is the drop-in shape that folds into an independent non-custodial
 verification gate as a `SolvencyAttestation` slot the moment a real
 solvency-gated flow needs it — deliberately not folded speculatively.
 
+## The cross-VM league (EVM leg)
+
+`verify-eth.mjs` points the same invariant — *is the claimed staking backing
+actually there?* — at Ethereum and its L2s, and the answer splits not by trust but
+by **architecture**:
+
+- **Solana / Base (bridged)** — the backing is on a chain the checker can read, so it
+  is recomputed to the lamport / wei: `GREEN` (or `RED`). For Base wstETH the check is
+  `L1 escrow balance ≥ L2 supply`.
+- **Ethereum LSTs (Lido stETH, RocketPool rETH)** — the backing lives on the beacon
+  chain and reaches the execution-layer contract through an **oracle**. The only
+  backing independently observable from execution-layer state is the ETH the contract
+  actually holds (its buffer — under 0.05% of the claim). The honest verdict is
+  therefore `STALE` — *"this claim cannot be recomputed from the chain I can read"* —
+  which, per the manifesto, is itself a finding. **This is not an insolvency claim.**
+
+A further annotation, the **verifiability-class**, records *why* a verdict is what it
+is: `fully-recomputable` (Solana stake accounts), `bridge-escrow` (L1 lock vs L2
+supply), or `oracle-trusted` (beacon balance the oracle reports). `site/crossvm.html`
+shows the scale — how much of each claim is independently recomputable — it does
+**not** crown a "healthiest chain." The reader ranks; the verifier holds the scale.
+
+Selectors and storage keys are derived from an audited in-file keccak256
+(`keccak.mjs`, self-tested on load), never guessed. The EVM leg never emits a `RED`
+on a non-atomic cross-chain read: a shortfall it cannot distinguish from skew or a
+wrong escrow assumption fails closed to `STALE`.
+
+## The re-execution tier
+
+Reads trust the RPC. The re-execution tier does not.
+
+- **Slice 1 — trustless state** (`reexec.mjs`, zero-dep). Fetches state *with* its
+  Merkle proof (`eth_getProof`) and verifies that proof against the block's committed
+  `stateRoot` by walking the trie node-by-node — keccak each node, check it against
+  its parent. An RPC cannot forge one account or slot without breaking the `stateRoot`
+  every other observer of that block sees. A tampered root is rejected; inline
+  (<32-byte) trie nodes fail closed to unverified, never a false pass. Honesty
+  boundary: this proves consistency with the *committed* stateRoot; proving that root
+  against consensus is a separate step.
+
+- **Slice 2 — local execution** (`reexec-rs/`, Rust + revm, standalone). Loads a
+  contract's code and the storage slots a call touches from a pinned block and runs
+  the bytecode in a **local revm** — trusting neither the node's reads nor its
+  execution.
+  - **B0**: ran `stETH.totalSupply()` locally and matched the node's `eth_call` to the
+    wei, resolving stETH's proxy delegatecall through our own DB — the harness is real,
+    not a passthrough.
+  - **B1**: simulates ERC-4626 `redeem()` for a real holder against forked state and
+    reports whether the assets actually come out — *the read is the price, the verdict
+    is what redeem() does.* On mainnet: **sUSDS → GREEN** (execution delivers the
+    promised assets); **sUSDe → FINDING** (the price reads healthy, but `redeem()`
+    reverts with `OperationNotAllowed()` — Ethena's cooldown; you cannot redeem right
+    now, which a static read never shows). A sub-basis-point rounding gap between
+    `previewRedeem` and `redeem` is tolerated as dust, never cried as a `RED`.
+
+This is the engine shape a pre-deployment agent-mandate verifier needs: execute
+behavior against forked state and check it honors the claim.
+
 ## Roadmap
 
 1. ✅ One target, one invariant, live independent backing proof (Slice 1).
 2. ✅ N targets — every SPL stake pool as a 3-state board (Slice 2).
 3. ✅ A second invariant class proving the engine generalizes (Slice 3, Marinade).
 4. A dedicated RPC to close the `UNVERIFIED` coverage gap → complete SPL coverage.
-5. Off-chain-backed assets (stablecoins, wrapped tokens): the honest verdict is
-   `STALE` — "this peg cannot be verified from the chain" — which is itself a finding.
+5. ✅ Off-chain / oracle-reported backing → honest `STALE`. Realized as the EVM leg's
+   `oracle-trusted` verdict: an LST whose backing is beacon-chain state the oracle
+   reports is `STALE by architecture`, itself a finding.
 6. Continuous run → a public status page that turns RED in real time.
-7. Re-execution (not just reads): replay protocol logic against forked state to
-   check invariants static reads cannot reach.
+7. ✅ Re-execution (not just reads) — started. Slice 1 verifies state against the block
+   `stateRoot` (`reexec.mjs`); slice 2 executes contract logic in a local revm
+   (`reexec-rs/`), catching invariants static reads cannot reach (e.g. a redemption
+   that reverts under cooldown). Next: state-transition invariants (donation/inflation)
+   and porting the engine into a pre-deployment agent-mandate verifier.
