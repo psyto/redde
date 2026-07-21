@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-revm = "29"
+revm = { version = "29", features = ["optional_eip3607", "optional_no_base_fee", "optional_balance_check"] }
 ureq = { version = "2", features = ["json"] }
 serde_json = "1"
 hex = "0.4"
