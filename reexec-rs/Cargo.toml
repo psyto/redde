@@ -4,8 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-revm = { version = "29", features = ["optional_eip3607", "optional_no_base_fee", "optional_balance_check"] }
-ureq = { version = "2", features = ["json"] }
+reexec-core = { git = "https://github.com/psyto/reexec-core", rev = "e305b19", features = ["rpc"] }
+# Only primitive types and the `DatabaseRef` adapter are used directly; execution stays in
+# reexec-core.  This resolves to the same v38 engine as reexec-core.
+revm = { version = "=38.0.0", default-features = false }
+ureq = { version = "2", default-features = false, features = ["json", "tls"] }
 serde_json = "1"
 hex = "0.4"
 

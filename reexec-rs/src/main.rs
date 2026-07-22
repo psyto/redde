@@ -11,53 +11,26 @@
 //   ETH_RPC_URL=<L1> cargo run
 // Zero cloud deps beyond revm + a blocking JSON-RPC client. RPC key via ETH_RPC_URL.
 
-use std::cell::RefCell;
-use std::collections::HashMap;
 use std::str::FromStr;
 
-use revm::bytecode::Bytecode;
-use revm::context::result::{ExecutionResult, Output};
-use revm::context::TxEnv;
-use revm::database_interface::{DBErrorMarker, DatabaseRef, WrapDatabaseRef};
-use revm::primitives::{keccak256, Address, Bytes, TxKind, B256, KECCAK_EMPTY, U256};
-use revm::state::AccountInfo;
-use revm::{Context, ExecuteEvm, MainBuilder, MainContext};
+use reexec_core::rpc::RpcDb as EngineRpcDb;
+use reexec_core::{run_evm_with_db, BlockEnv, ExecutionOutcome, ExecutionPolicy, TxRequest};
+use revm::database_interface::WrapDatabaseRef;
+use revm::primitives::{keccak256, Address, Bytes, U256};
 
-// ── error ───────────────────────────────────────────────────────────────────
-#[derive(Debug)]
-struct DbError(String);
-impl std::fmt::Display for DbError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
-    }
-}
-impl std::error::Error for DbError {}
-impl DBErrorMarker for DbError {}
-
-// ── revm DatabaseRef backed by a pinned-block JSON-RPC endpoint ───────────────
-struct RpcDb {
+// ── remote reader for the sweep's price and holder-discovery side ─────────────
+//
+// This is deliberately not an EVM state source.  Local execution is exclusively provided by
+// reexec-core's RpcDb, which pins its own EIP-1898 state view.
+struct ReadRpc {
     url: String,
     block: String,
-    block_number: U256,    // real number of the pinned block
-    block_timestamp: U256, // real timestamp of the pinned block (critical: rate-accruing
-    // vaults compute `now - lastUpdate`; a default 0 underflows → Panic)
-    accounts: RefCell<HashMap<Address, AccountInfo>>,
-    storage: RefCell<HashMap<(Address, U256), U256>>,
-    code: RefCell<HashMap<B256, Bytecode>>,
 }
-impl RpcDb {
-    fn new(url: String, block: String, block_number: U256, block_timestamp: U256) -> Self {
-        RpcDb {
-            url,
-            block,
-            block_number,
-            block_timestamp,
-            accounts: RefCell::new(HashMap::new()),
-            storage: RefCell::new(HashMap::new()),
-            code: RefCell::new(HashMap::new()),
-        }
+impl ReadRpc {
+    fn new(url: String, block: String) -> Self {
+        Self { url, block }
     }
-    fn rpc(&self, method: &str, params: serde_json::Value) -> Result<serde_json::Value, DbError> {
+    fn rpc(&self, method: &str, params: serde_json::Value) -> Result<serde_json::Value, String> {
         let body =
             serde_json::json!({ "jsonrpc": "2.0", "id": 1, "method": method, "params": params });
         let mut last = String::new();
@@ -69,36 +42,19 @@ impl RpcDb {
                 Ok(resp) => match resp.into_json::<serde_json::Value>() {
                     Ok(v) => {
                         if let Some(e) = v.get("error") {
-                            return Err(DbError(format!("{method}: {e}")));
+                            return Err(format!("{method}: {e}"));
                         }
                         return v
                             .get("result")
                             .cloned()
-                            .ok_or_else(|| DbError(format!("{method}: no result")));
+                            .ok_or_else(|| format!("{method}: no result"));
                     }
                     Err(e) => last = format!("{method}: decode {e}"),
                 },
                 Err(e) => last = format!("{method}: {e}"),
             }
         }
-        Err(DbError(last))
-    }
-    fn hex_u256(v: &serde_json::Value) -> U256 {
-        let s = v.as_str().unwrap_or("0x0").trim_start_matches("0x");
-        if s.is_empty() {
-            U256::ZERO
-        } else {
-            U256::from_str_radix(s, 16).unwrap_or(U256::ZERO)
-        }
-    }
-    fn nonce_of(&self, a: Address) -> u64 {
-        let v = self
-            .rpc(
-                "eth_getTransactionCount",
-                serde_json::json!([format!("{a:#x}"), self.block]),
-            )
-            .unwrap_or(serde_json::json!("0x0"));
-        u64::from_str_radix(v.as_str().unwrap_or("0x0").trim_start_matches("0x"), 16).unwrap_or(0)
+        Err(last)
     }
     fn has_code(&self, a: Address) -> bool {
         self.rpc(
@@ -108,57 +64,6 @@ impl RpcDb {
         .ok()
         .and_then(|v| v.as_str().map(|s| s.trim_start_matches("0x").len() > 0))
         .unwrap_or(false)
-    }
-}
-impl DatabaseRef for RpcDb {
-    type Error = DbError;
-    fn basic_ref(&self, address: Address) -> Result<Option<AccountInfo>, DbError> {
-        if let Some(a) = self.accounts.borrow().get(&address) {
-            return Ok(Some(a.clone()));
-        }
-        let addr = format!("{address:#x}");
-        let bal =
-            Self::hex_u256(&self.rpc("eth_getBalance", serde_json::json!([addr, self.block]))?);
-        let nv = self.rpc(
-            "eth_getTransactionCount",
-            serde_json::json!([addr, self.block]),
-        )?;
-        let nonce = u64::from_str_radix(nv.as_str().unwrap_or("0x0").trim_start_matches("0x"), 16)
-            .unwrap_or(0);
-        let cv = self.rpc("eth_getCode", serde_json::json!([addr, self.block]))?;
-        let ch = cv.as_str().unwrap_or("0x").trim_start_matches("0x");
-        let info = if ch.is_empty() {
-            AccountInfo::new(bal, nonce, KECCAK_EMPTY, Bytecode::default())
-        } else {
-            let raw = hex::decode(ch).map_err(|e| DbError(format!("code hex: {e}")))?;
-            let bc = Bytecode::new_raw(Bytes::from(raw));
-            let h = bc.hash_slow();
-            self.code.borrow_mut().insert(h, bc.clone());
-            AccountInfo::new(bal, nonce, h, bc)
-        };
-        self.accounts.borrow_mut().insert(address, info.clone());
-        Ok(Some(info))
-    }
-    fn code_by_hash_ref(&self, h: B256) -> Result<Bytecode, DbError> {
-        self.code
-            .borrow()
-            .get(&h)
-            .cloned()
-            .ok_or_else(|| DbError(format!("code miss {h:#x}")))
-    }
-    fn storage_ref(&self, address: Address, index: U256) -> Result<U256, DbError> {
-        if let Some(v) = self.storage.borrow().get(&(address, index)) {
-            return Ok(*v);
-        }
-        let v = Self::hex_u256(&self.rpc(
-            "eth_getStorageAt",
-            serde_json::json!([format!("{address:#x}"), format!("0x{index:x}"), self.block]),
-        )?);
-        self.storage.borrow_mut().insert((address, index), v);
-        Ok(v)
-    }
-    fn block_hash_ref(&self, _n: u64) -> Result<B256, DbError> {
-        Ok(B256::ZERO)
     }
 }
 
@@ -190,45 +95,8 @@ fn ret_u256(b: &Bytes) -> U256 {
     }
 }
 
-// ── execute a call in a fresh local revm over the RPC-backed state ─────────────
-fn exec(
-    db: &RpcDb,
-    caller: Address,
-    nonce: u64,
-    target: Address,
-    data: Bytes,
-) -> Result<ExecutionResult, String> {
-    // simulate like eth_call: a holder may be a contract, so lift the tx-pool-only checks
-    // (EIP-3607 code-sender, base fee, nonce, balance). We test whether redeem's LOGIC
-    // honors the claim, not whether this exact tx would be minable.
-    let mut evm = Context::mainnet()
-        .with_db(WrapDatabaseRef(db))
-        .modify_cfg_chained(|c| {
-            c.disable_eip3607 = true;
-            c.disable_base_fee = true;
-            c.disable_nonce_check = true;
-            c.disable_balance_check = true;
-        })
-        // execute in the pinned block's real temporal context (eth_call semantics), or
-        // rate-accruing vaults underflow on `now - lastUpdate` and Panic — a false finding.
-        .modify_block_chained(|b| {
-            b.number = db.block_number;
-            b.timestamp = db.block_timestamp;
-            b.basefee = 0;
-        })
-        .build_mainnet();
-    let tx = TxEnv::builder()
-        .caller(caller)
-        .nonce(nonce)
-        .kind(TxKind::Call(target))
-        .data(data)
-        .gas_limit(60_000_000)
-        .gas_price(0)
-        .build_fill();
-    evm.transact_one(tx).map_err(|e| format!("{e:?}"))
-}
 // a read via the node's eth_call (the "price" side and holder discovery)
-fn node_call_u256(db: &RpcDb, target: Address, data: &Bytes) -> U256 {
+fn node_call_u256(db: &ReadRpc, target: Address, data: &Bytes) -> U256 {
     let d = format!("0x{}", hex::encode(data));
     match db.rpc(
         "eth_call",
@@ -246,11 +114,11 @@ fn node_call_u256(db: &RpcDb, target: Address, data: &Bytes) -> U256 {
     }
 }
 // read an address-returning view (low 20 bytes of the word)
-fn node_call_addr(db: &RpcDb, target: Address, data: &Bytes) -> Address {
+fn node_call_addr(db: &ReadRpc, target: Address, data: &Bytes) -> Address {
     Address::from_slice(&node_call_u256(db, target, data).to_be_bytes::<32>()[12..])
 }
 // the ERC-4626 asset() and its decimals (assets are denominated in the asset, not shares)
-fn asset_decimals(db: &RpcDb, vault: Address, share_dec: u32) -> u32 {
+fn asset_decimals(db: &ReadRpc, vault: Address, share_dec: u32) -> u32 {
     let asset = node_call_addr(db, vault, &calldata(sel("asset()"), &[]));
     if asset == Address::ZERO {
         return share_dec;
@@ -309,7 +177,7 @@ fn parse_addr(s: &str) -> Option<Address> {
 // ── find a real current holder of `vault` ──────────────────────────────────────
 // Prefer Alchemy's getAssetTransfers (no 10-block limit → reaches low-activity vaults);
 // fall back to scanning recent Transfer logs in 10-block windows on a plain RPC.
-fn find_holder(db: &RpcDb, vault: Address, latest: u64) -> Option<(Address, U256)> {
+fn find_holder(db: &ReadRpc, vault: Address, latest: u64) -> Option<(Address, U256)> {
     let bal_sel = sel("balanceOf(address)");
     // path 1: getAssetTransfers (Alchemy). One call, recent-first, wide range.
     {
@@ -409,7 +277,7 @@ fn fmt_amt(x: U256, dec: u32) -> String {
 }
 
 // gate: does this address behave like an ERC-4626 vault? returns share decimals.
-fn validate_vault(db: &RpcDb, vault: Address) -> Option<u32> {
+fn validate_vault(db: &ReadRpc, vault: Address) -> Option<u32> {
     if !db.has_code(vault) {
         return None;
     }
@@ -468,7 +336,13 @@ fn write_golden(path: &str, block: u64, results: &[(String, String, Verdict)]) {
 }
 
 // assess one vault; prints a detail block and returns the verdict for the summary.
-fn assess(db: &RpcDb, label: &str, vault: Address, latest: u64) -> Verdict {
+fn assess(
+    db: &ReadRpc,
+    engine_db: &EngineRpcDb,
+    label: &str,
+    vault: Address,
+    latest: u64,
+) -> Verdict {
     let bar = "─".repeat(74);
     println!("{bar}\n  {label}   ({vault:#x})");
     let sdec = match validate_vault(db, vault) {
@@ -502,18 +376,52 @@ fn assess(db: &RpcDb, label: &str, vault: Address, latest: u64) -> Verdict {
         return Verdict::Weird("previewRedeem==0".into());
     }
 
-    let nonce = db.nonce_of(holder);
     let data = calldata(
         sel("redeem(uint256,address,address)"),
         &[word_u256(shares), word_addr(holder), word_addr(holder)],
     );
-    match exec(db, holder, nonce, vault, data) {
-        Ok(ExecutionResult::Success {
-            output: Output::Call(b),
-            gas_used,
-            ..
-        }) => {
-            let actual = ret_u256(&b);
+    let pin = engine_db.pinned_block();
+    let block_env = BlockEnv {
+        number: pin.number,
+        timestamp: pin.timestamp,
+        basefee: 0,
+        coinbase: "0x0000000000000000000000000000000000000000".into(),
+        chain_id: 1,
+        prevrandao: None,
+    };
+    // revm v38 enforces the current protocol's 2^24 maximum transaction gas. The old 60M
+    // blanket allowance was never consumed by this sweep; use the protocol maximum so this
+    // call reaches redeem() under the new engine instead of failing pre-execution validation.
+    let tx = TxRequest::call(format!("{holder:#x}"), format!("{vault:#x}"), 0, 16_777_216)
+        .with_input(data.to_vec())
+        .with_gas_price(0);
+    // CallSimulation preserves the former eth_call-style relaxation: sender code, base fee,
+    // nonce, and balance checks are all disabled. The holder nonce therefore remains immaterial,
+    // exactly as it was under the prior local configuration.
+    match run_evm_with_db(
+        WrapDatabaseRef(engine_db),
+        engine_db,
+        &tx,
+        Some(&block_env),
+        &[],
+        ExecutionPolicy::CallSimulation,
+        false,
+    ) {
+        Ok(
+            report @ reexec_core::ExecutionReport {
+                outcome: ExecutionOutcome::Success { .. },
+                ..
+            },
+        ) => {
+            let actual = match &report.outcome {
+                ExecutionOutcome::Success { returndata, .. } => {
+                    let bytes =
+                        hex::decode(returndata.trim_start_matches("0x")).unwrap_or_default();
+                    ret_u256(&Bytes::from(bytes))
+                }
+                _ => unreachable!("matched success outcome"),
+            };
+            let gas_used = report.gas_used;
             let shortfall = preview.saturating_sub(actual);
             let material = shortfall * U256::from(10_000) > preview; // > 1 bp
             if actual >= preview || !material {
@@ -528,21 +436,26 @@ fn assess(db: &RpcDb, label: &str, vault: Address, latest: u64) -> Verdict {
                 Verdict::RedUnderpay(shortfall, adec)
             }
         }
-        Ok(ExecutionResult::Revert { output, .. }) => {
-            let e = decode_revert(&output);
+        Ok(reexec_core::ExecutionReport {
+            outcome: ExecutionOutcome::Revert { returndata },
+            ..
+        }) => {
+            let bytes =
+                Bytes::from(hex::decode(returndata.trim_start_matches("0x")).unwrap_or_default());
+            let e = decode_revert(&bytes);
             println!("  redeem() -> REVERTED — {e}   🟠 the price reads healthy, but you can't redeem now");
             Verdict::Blocked(e)
         }
-        Ok(ExecutionResult::Halt { reason, .. }) => {
-            let e = format!("{reason:?}");
+        Ok(reexec_core::ExecutionReport {
+            outcome: ExecutionOutcome::Halt { reason },
+            ..
+        }) => {
+            let e = reason;
             println!("  redeem() -> HALT — {e}");
             Verdict::Weird(e)
         }
-        Ok(ExecutionResult::Success { .. }) => {
-            println!("  redeem() -> unexpected CREATE output");
-            Verdict::Weird("create".into())
-        }
         Err(e) => {
+            let e = e.to_string();
             println!("  redeem() -> tx error — {e}");
             Verdict::Weird(e)
         }
@@ -551,7 +464,7 @@ fn assess(db: &RpcDb, label: &str, vault: Address, latest: u64) -> Verdict {
 
 fn main() {
     let url = std::env::var("ETH_RPC_URL").unwrap_or_else(|_| "https://eth.llamarpc.com".into());
-    let probe = RpcDb::new(url.clone(), "latest".into(), U256::ZERO, U256::ZERO);
+    let probe = ReadRpc::new(url.clone(), "latest".into());
     let requested_block = std::env::var("REDDE_BLOCK").ok().or_else(|| {
         std::env::args()
             .skip(1)
@@ -573,22 +486,8 @@ fn main() {
             .to_string(),
     };
     let latest = u64::from_str_radix(block.trim_start_matches("0x"), 16).unwrap();
-    // pin the block's real number + timestamp so the local EVM runs in its temporal context.
-    let header = probe
-        .rpc("eth_getBlockByNumber", serde_json::json!([block, false]))
-        .expect("getBlock");
-    let hx = |v: &serde_json::Value, k: &str| {
-        U256::from_str_radix(
-            v.get(k)
-                .and_then(|x| x.as_str())
-                .unwrap_or("0x0")
-                .trim_start_matches("0x"),
-            16,
-        )
-        .unwrap_or(U256::ZERO)
-    };
-    let (bnum, btime) = (hx(&header, "number"), hx(&header, "timestamp"));
-    let db = RpcDb::new(url, block.clone(), bnum, btime);
+    let db = ReadRpc::new(url.clone(), block.clone());
+    let engine_db = EngineRpcDb::new(url, &block).expect("pin reexec-core database");
 
     println!("Redde · re-execution tier · redemption sweep   block {latest}");
     println!("The read is the price. The verdict is what redeem() actually does.");
@@ -653,7 +552,7 @@ fn main() {
             Ok(a) => a,
             Err(_) => continue,
         };
-        let v = assess(&db, label, vault, latest);
+        let v = assess(&db, &engine_db, label, vault, latest);
         results.push((label.to_string(), (*addr).to_string(), v));
     }
 
