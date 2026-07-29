@@ -37,29 +37,11 @@ if (!existsSync(DIR)) mkdirSync(DIR);
 const STATE = new URL(`./data/${pfx}crawl-state.json`, import.meta.url);
 const OUT = new URL(`./data/${pfx}window-usdc-sigs.jsonl`, import.meta.url);
 
+import { makeCrawlRpc } from "../../core/rpc.mjs";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-async function rpc(method, params, tries = 9) {
-  let delay = 800;
-  for (let i = 0; i < tries; i++) {
-    try {
-      const r = await fetch(RPC, {
-        method: "POST", headers: { "content-type": "application/json" },
-        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
-      });
-      if (r.status === 429 || r.status === 403 || r.status >= 500) {
-        await sleep(delay); delay = Math.min(delay * 2, 30000); continue;
-      }
-      const j = await r.json();
-      if (j.error) {
-        // transient rate errors sometimes arrive in-body — back off and retry
-        await sleep(delay); delay = Math.min(delay * 2, 30000); continue;
-      }
-      return j.result;
-    } catch { await sleep(delay); delay = Math.min(delay * 2, 30000); }
-  }
-  throw new Error(`${method}: exhausted retries`);
-}
+// crawler rpc (aggressive backoff; crawl throws on exhaustion) now from ../../core.
+const rpc = makeCrawlRpc(RPC, { baseDelayMs: 800, throwOnExhaust: true });
 
 let state = { cursor: null, pages: 0, stored: 0, oldestSeen: null, reachedGenesis: false };
 if (existsSync(STATE)) { state = JSON.parse(readFileSync(STATE, "utf8")); console.log("resume", state); }

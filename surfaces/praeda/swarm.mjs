@@ -37,20 +37,9 @@ const OUT = new URL(`./data/${pfx}swarm.json`, import.meta.url);
 const PARTIAL = new URL(`./data/${pfx}swarm-partial.json`, import.meta.url);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-async function rpc(method, params, tries = 9) {
-  let delay = 700;
-  for (let i = 0; i < tries; i++) {
-    try {
-      const r = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" },
-        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) });
-      if (r.status === 429 || r.status === 403 || r.status >= 500) { await sleep(delay); delay = Math.min(delay * 2, 30000); continue; }
-      const j = await r.json();
-      if (j.error) { await sleep(delay); delay = Math.min(delay * 2, 30000); continue; }
-      return j.result;
-    } catch { await sleep(delay); delay = Math.min(delay * 2, 30000); }
-  }
-  return null;
-}
+import { makeCrawlRpc } from "../../core/rpc.mjs";
+// crawler rpc (aggressive backoff, null on exhaustion) now comes from ../../core.
+const rpc = makeCrawlRpc(RPC);
 
 // Sampled reserve curve → D(t): 0 through the sampled peak, else the sampled
 // fraction of peak-to-trough decline completed. L = 1 − D.

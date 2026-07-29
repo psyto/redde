@@ -13,22 +13,11 @@ const DLMM = "LBUZKhRxPF3XUpBCjp4YzTKgLccjZhTSDM9YuVaPwxo";
 const LIBRA = "Bo9jh3wsmcC2AjakLWzNmKJ3SgtZmXEcSaW7L2FAvUsU";
 const WSOL = "So11111111111111111111111111111111111111112";
 const USDC = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
-const B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-const b58 = (b) => { let n = 0n; for (const x of b) n = n * 256n + BigInt(x); let s = ""; while (n > 0n) { s = B58[Number(n % 58n)] + s; n /= 58n; } let z = 0; for (const x of b) { if (x === 0) z++; else break; } return "1".repeat(z) + s; };
+import { makeCrawlRpc } from "../../core/rpc.mjs";
+import { b58encode as b58 } from "../../core/solana.mjs";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-async function rpc(method, params, tries = 20) {
-  let d = 1500;
-  for (let i = 0; i < tries; i++) {
-    try {
-      const r = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) });
-      if (r.status === 429 || r.status === 403 || r.status >= 500) { await sleep(d); d = Math.min(d * 1.6, 45000); continue; }
-      const j = await r.json();
-      if (j.error) { await sleep(d); d = Math.min(d * 1.6, 45000); continue; }
-      return j.result;
-    } catch { await sleep(d); d = Math.min(d * 1.6, 45000); }
-  }
-  return null;
-}
+// crawler rpc (aggressive backoff, null on exhaustion) now comes from ../../core.
+const rpc = makeCrawlRpc(RPC, { tries: 20, baseDelayMs: 1500, factor: 1.6, maxDelayMs: 45000 });
 const pools = [];
 for (const off of [88, 120]) {
   const res = await rpc("getProgramAccounts", [DLMM, { encoding: "base64", dataSlice: { offset: 88, length: 64 }, filters: [{ memcmp: { offset: off, bytes: LIBRA } }] }]);

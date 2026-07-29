@@ -82,6 +82,50 @@ export function makeRpc(url, opts = {}) {
   };
 }
 
+/**
+ * Build a *crawler* caller bound to `url`: aggressive exponential backoff on
+ * HTTP 429/403/5xx and on any JSON-RPC error, and — unlike {@link makeRpc} — it
+ * returns `null` (never throws) once `tries` are exhausted. This is the contract
+ * praeda's archival crawlers depend on (callers test `if (!res)`), where a pruned
+ * history or rate limit is an expected, non-exceptional outcome.
+ * @param {string} url
+ * @param {object} [opts]
+ * @param {number} [opts.tries=9]
+ * @param {number} [opts.baseDelayMs=700]
+ * @param {number} [opts.factor=2]        backoff multiplier
+ * @param {number} [opts.maxDelayMs=30000]
+ * @param {boolean} [opts.throwOnExhaust=false]
+ *        On exhaustion, throw `"<method>: exhausted retries"` instead of returning
+ *        null. (praeda/crawl relied on the throw; curve/swarm/find-sol-pool on null.)
+ */
+export function makeCrawlRpc(url, opts = {}) {
+  const { tries = 9, baseDelayMs = 700, factor = 2, maxDelayMs = 30000, throwOnExhaust = false } = opts;
+  // Consistent with the never-throw contract: an unconfigured endpoint yields
+  // null on every call (the crawlers ran with no RPC env by returning null too).
+  if (!url) return async () => { if (throwOnExhaust) throw new Error('rpc: no endpoint'); return null; };
+  return async function rpc(method, params) {
+    let delay = baseDelayMs;
+    const back = async () => { await sleep(delay); delay = Math.min(delay * factor, maxDelayMs); };
+    for (let i = 0; i < tries; i++) {
+      try {
+        const r = await fetch(url, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
+        });
+        if (r.status === 429 || r.status === 403 || r.status >= 500) { await back(); continue; }
+        const j = await r.json();
+        if (j.error) { await back(); continue; }
+        return j.result;
+      } catch {
+        await back();
+      }
+    }
+    if (throwOnExhaust) throw new Error(`${method}: exhausted retries`); // archival pruning / rate limit
+    return null;
+  };
+}
+
 /** Solana mainnet caller (defaults to public endpoint). */
 export const solanaRpc = (url = process.env.RPC || 'https://api.mainnet-beta.solana.com', opts) =>
   makeRpc(url, opts);

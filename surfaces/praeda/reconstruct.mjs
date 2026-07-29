@@ -79,16 +79,8 @@ const CASE = {
   reference: { referenceSlot: null, manifest: null }, // { hash, assets: [...] }
 };
 
-async function rpc(method, params) {
-  const r = await fetch(RPC, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
-  });
-  const j = await r.json();
-  if (j.error) throw new Error(`${method}: ${JSON.stringify(j.error)}`);
-  return j.result;
-}
+import { solanaRpc } from "../../core/rpc.mjs";
+const rpc = solanaRpc(RPC, { tries: 1 }); // was an inline single-shot throwing rpc
 
 /**
  * Archival gate — can this endpoint even serve W's history? A 2022 window is
