@@ -30,12 +30,8 @@ const VERDICTS = new Set(["GREEN", "RED", "STALE"]);
 const MAX_TTL_SLOTS = 216_000;
 const RPC = process.env.SOLANA_RPC_URL || "https://api.mainnet-beta.solana.com";
 
-const B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-function b58d(str) {
-  const b = []; for (const c of str) { let carry = B58.indexOf(c); if (carry < 0) throw new Error("bad base58"); for (let j = 0; j < b.length; j++) { carry += b[j] * 58; b[j] = carry & 255; carry >>= 8; } while (carry) { b.push(carry & 255); carry >>= 8; } }
-  let z = 0; for (const c of str) { if (c === "1") z++; else break; }
-  return Buffer.from([...new Array(z).fill(0), ...b.reverse()]);
-}
+import { b58decode as b58d } from "../../core/solana.mjs";
+import { jsonRpc } from "../../core/rpc.mjs";
 function canonical(v) {
   if (Array.isArray(v)) return "[" + v.map(canonical).join(",") + "]";
   if (v && typeof v === "object") return "{" + Object.keys(v).sort().map((k) => JSON.stringify(k) + ":" + canonical(v[k])).join(",") + "}";
@@ -68,10 +64,9 @@ function schemaErrors(b) {
 }
 
 async function finalizedSlot() {
-  const r = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "getSlot", params: [{ commitment: "finalized" }] }) });
-  const j = await r.json();
-  if (j.error || !isInt(j.result)) throw new Error("getSlot failed");
-  return j.result;
+  const slot = await jsonRpc(RPC, "getSlot", [{ commitment: "finalized" }]);
+  if (!isInt(slot)) throw new Error("getSlot failed");
+  return slot;
 }
 
 // ---- establish VALIDITY (well-formed + hash + signature) ----

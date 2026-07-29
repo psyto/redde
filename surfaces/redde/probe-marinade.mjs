@@ -11,20 +11,10 @@ const STATE = "8szGkuLTAux9XMgZ2vtY39jVSowEcpBfFfD8hXSEqdGC";
 const MSOL_MINT = "mSoLzYCxHdYgdzU16g5QSh3i5K3z3KZK7ytfqcJm7So";
 const PRICE_DENOM = 0x1_0000_0000n; // 2^32
 
-const B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-function b58e(buf) {
-  const b = [...buf]; let z = 0; while (z < b.length && b[z] === 0) z++;
-  const e = []; let s = z;
-  while (s < b.length) { let r = 0; for (let i = s; i < b.length; i++) { const a = (r << 8) + b[i]; b[i] = (a / 58) | 0; r = a % 58; } e.push(B58[r]); if (b[s] === 0) s++; }
-  return "1".repeat(z) + e.reverse().join("");
-}
-function b58d(str) {
-  const b = []; for (const c of str) { let carry = B58.indexOf(c); if (carry < 0) throw new Error("b58"); for (let j = 0; j < b.length; j++) { carry += b[j] * 58; b[j] = carry & 255; carry >>= 8; } while (carry) { b.push(carry & 255); carry >>= 8; } }
-  let z = 0; for (const c of str) { if (c === "1") z++; else break; }
-  return Buffer.from([...new Array(z).fill(0), ...b.reverse()]);
-}
+import { solanaRpc } from "../../core/rpc.mjs";
+import { b58encode as b58e, b58decode as b58d } from "../../core/solana.mjs";
 function cpa(seeds, prog) { const h = createHash("sha256"); for (const s of seeds) h.update(s); h.update(b58d(prog)); h.update(Buffer.from("ProgramDerivedAddress")); return b58e(h.digest()); }
-async function rpc(m, p) { const r = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: m, params: p }) }); const j = await r.json(); if (j.error) throw new Error(JSON.stringify(j.error)); return j.result; }
+const rpc = solanaRpc(RPC, { tries: 1 });
 async function acct(pk) { const r = await rpc("getAccountInfo", [pk, { encoding: "base64" }]); return r?.value ? { owner: r.value.owner, lamports: BigInt(r.value.lamports), data: Buffer.from(r.value.data[0], "base64") } : null; }
 const u64 = (b, o) => b.readBigUInt64LE(o);
 const sol = (l) => (Number(l) / 1e9).toLocaleString("en-US", { maximumFractionDigits: 3 });

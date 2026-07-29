@@ -38,10 +38,9 @@ const REC = { base: 8, epoch: 40, status: 49 };
 const STK = { rent: 4, staker: 12, withdrawer: 44 };
 const MINT_SUPPLY = 36;
 
-// ---- base58 ----
-const B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-function b58e(buf){const b=[...buf];let z=0;while(z<b.length&&b[z]===0)z++;const e=[];let s=z;while(s<b.length){let r=0;for(let i=s;i<b.length;i++){const a=(r<<8)+b[i];b[i]=(a/58)|0;r=a%58;}e.push(B58[r]);if(b[s]===0)s++;}return "1".repeat(z)+e.reverse().join("");}
-function b58d(str){const b=[];for(const c of str){let carry=B58.indexOf(c);if(carry<0)throw new Error("b58");for(let j=0;j<b.length;j++){carry+=b[j]*58;b[j]=carry&255;carry>>=8;}while(carry){b.push(carry&255);carry>>=8;}}let z=0;for(const c of str){if(c==="1")z++;else break;}const o=Buffer.from([...new Array(z).fill(0),...b.reverse()]);if(o.length!==32)throw new Error("pk!=32");return o;}
+// ---- base58 (from ../../core; b58e == core b58encode, b58d == core b58decode) ----
+import { solanaRpc } from "../../core/rpc.mjs";
+import { b58encode as b58e, b58decode as b58d } from "../../core/solana.mjs";
 // ---- ed25519 on-curve (findProgramAddress) ----
 const P=(1n<<255n)-19n,D=37095705934669439343138083508754565189542113879843219016388785533085940283555n,II=19681161376707505956807079304988542015446066515923890162744021073123829784752n;
 const fm=(a)=>((a%P)+P)%P;function fp(b,e){let r=1n;b=fm(b);while(e>0n){if(e&1n)r=fm(r*b);b=fm(b*b);e>>=1n;}return r;}const fi=(a)=>fp(a,P-2n);
@@ -50,9 +49,9 @@ const progB = b58d(MARINADE);
 function cpa(seeds){const h=createHash("sha256");for(const s of seeds)h.update(s);h.update(progB);h.update(Buffer.from("ProgramDerivedAddress"));return b58e(h.digest());}
 function anchorDisc(name){return createHash("sha256").update(`account:${name}`).digest().subarray(0,8);}
 
-async function rpc(m,p){const r=await fetch(RPC,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:m,params:p})});const j=await r.json();if(j.error)throw new Error(`${m}: ${JSON.stringify(j.error)}`);return j.result;}
-const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
-async function rpcWait(m,p,t=8){for(let i=0;;i++){try{return await rpc(m,p);}catch(e){if(i<t-1&&/-32016|Minimum context slot/.test(e.message)){await sleep(400);continue;}throw e;}}}
+// rpc/rpcWait from ../../core, retry policy preserved (single-shot; -32016 wait ×8).
+const rpc = solanaRpc(RPC, { tries: 1 });
+const rpcWait = solanaRpc(RPC, { tries: 8, retryOn: /-32016|Minimum context slot/ });
 const dec=(v)=>v?{owner:v.owner,lamports:BigInt(v.lamports),data:Buffer.from(v.data[0],"base64")}:null;
 async function getMulti(keys,minSlot){const cfg={encoding:"base64",commitment:"finalized"};if(minSlot!=null)cfg.minContextSlot=minSlot;const r=await rpcWait("getMultipleAccounts",[keys,cfg]);return{slot:r.context.slot,values:r.value.map(dec)};}
 const u64=(b,o)=>b.readBigUInt64LE(o);

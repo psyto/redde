@@ -18,6 +18,8 @@
  * inflate backing and forge a GREEN.
  */
 import { createHash } from "node:crypto";
+import { solanaRpc } from "../../core/rpc.mjs";
+import { b58encode, b58decode, pk } from "../../core/solana.mjs";
 
 const RPC = process.env.SOLANA_RPC_URL || "https://api.mainnet-beta.solana.com";
 const STAKE_POOL_PROGRAM = "SPoo1Ku8WFXoNDMHPsrGSTSG1Y47rzgn41SLUNakuHy";
@@ -41,38 +43,8 @@ const STAKE_WITHDRAWER_OFFSET = STAKE.withdrawer;
 const MINT_SUPPLY_OFFSET = 36;
 
 // ---- base58 (canonical division method; no leading-zero bug) ----
-const B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-function b58encode(buf) {
-  const bytes = [...buf];
-  let zeros = 0;
-  while (zeros < bytes.length && bytes[zeros] === 0) zeros++;
-  const enc = [];
-  let start = zeros;
-  while (start < bytes.length) {
-    let rem = 0;
-    for (let i = start; i < bytes.length; i++) {
-      const acc = (rem << 8) + bytes[i];
-      bytes[i] = (acc / 58) | 0; rem = acc % 58;
-    }
-    enc.push(B58[rem]);
-    if (bytes[start] === 0) start++;
-  }
-  return "1".repeat(zeros) + enc.reverse().join("");
-}
-function b58decode(str) {
-  const bytes = [];
-  for (const ch of str) {
-    let carry = B58.indexOf(ch);
-    if (carry < 0) throw new Error("bad base58 char");
-    for (let j = 0; j < bytes.length; j++) { carry += bytes[j] * 58; bytes[j] = carry & 0xff; carry >>= 8; }
-    while (carry > 0) { bytes.push(carry & 0xff); carry >>= 8; }
-  }
-  let zeros = 0;
-  for (const ch of str) { if (ch === "1") zeros++; else break; }
-  const out = Buffer.from([...new Array(zeros).fill(0), ...bytes.reverse()]);
-  if (out.length !== 32) throw new Error(`pubkey not 32 bytes: ${str}`);
-  return out;
-}
+// base58 (b58encode/b58decode/pk) now come from ../../core (were inline here;
+// byte-for-byte identical incl. leading-zero / all-ones encoding).
 
 // ---- ed25519 on-curve check (for findProgramAddress) ----
 const P = (1n << 255n) - 19n;
@@ -120,27 +92,12 @@ function createProgramAddress(seeds, programIdBytes) {
 const u32le = (n) => { const b = Buffer.alloc(4); b.writeUInt32LE(n >>> 0); return b; };
 
 // ---- RPC ----
-async function rpc(method, params) {
-  const r = await fetch(RPC, {
-    method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
-  });
-  const j = await r.json();
-  if (j.error) throw new Error(`${method}: ${JSON.stringify(j.error)}`);
-  return j.result;
-}
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-// Retry -32016 ("minimum context slot not reached") — load-balanced RPC replicas
-// can momentarily lag the slot another call just observed.
-async function rpcWait(method, params, tries = 8) {
-  for (let i = 0; ; i++) {
-    try { return await rpc(method, params); }
-    catch (e) {
-      if (i < tries - 1 && /-32016|Minimum context slot/.test(e.message)) { await sleep(400); continue; }
-      throw e;
-    }
-  }
-}
+// rpc/rpcWait now come from ../../core, preserving the exact retry policy:
+// base rpc is single-shot; rpcWait retries only -32016 ("minimum context slot
+// not reached") up to 8× — load-balanced RPC replicas can momentarily lag the
+// slot another call just observed.
+const rpc = solanaRpc(RPC, { tries: 1 });
+const rpcWait = solanaRpc(RPC, { tries: 8, retryOn: /-32016|Minimum context slot/ });
 const dec = (v) => (v ? { owner: v.owner, lamports: BigInt(v.lamports), data: Buffer.from(v.data[0], "base64") } : null);
 async function getMultiple(pubkeys, minContextSlot) {
   const cfg = { encoding: "base64", commitment: "finalized" };
@@ -149,7 +106,6 @@ async function getMultiple(pubkeys, minContextSlot) {
   return { slot: res.context.slot, values: res.value.map(dec) };
 }
 const u64 = (b, o) => b.readBigUInt64LE(o);
-const pk = (b, o) => b58encode(b.subarray(o, o + 32));
 
 // Canonical backing PDA set derived from the validator list — the ONLY accounts
 // that legitimately back shares. reserve + per-validator + per-transient.

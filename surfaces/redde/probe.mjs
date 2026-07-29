@@ -10,35 +10,10 @@ const RPC = process.env.SOLANA_RPC_URL || "https://api.mainnet-beta.solana.com";
 const POOL = process.argv[2] || "Jito4APyf642JPZPx3hGc6WWJ8zPKtRbRs4P815Awbb";
 const KNOWN_JITO_MINT = "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn";
 
-const B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-function b58encode(bytes) {
-  let zeros = 0;
-  while (zeros < bytes.length && bytes[zeros] === 0) zeros++;
-  const digits = [0];
-  for (let i = zeros; i < bytes.length; i++) {
-    let carry = bytes[i];
-    for (let j = 0; j < digits.length; j++) {
-      carry += digits[j] << 8;
-      digits[j] = carry % 58;
-      carry = (carry / 58) | 0;
-    }
-    while (carry) { digits.push(carry % 58); carry = (carry / 58) | 0; }
-  }
-  let out = "1".repeat(zeros);
-  for (let i = digits.length - 1; i >= 0; i--) out += B58[digits[i]];
-  return out;
-}
-
-async function rpc(method, params) {
-  const r = await fetch(RPC, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
-  });
-  const j = await r.json();
-  if (j.error) throw new Error(`${method}: ${JSON.stringify(j.error)}`);
-  return j.result;
-}
+// base58 (b58encode/pk) + rpc now come from ../../core (were inline here).
+import { solanaRpc } from "../../core/rpc.mjs";
+import { b58encode, pk } from "../../core/solana.mjs";
+const rpc = solanaRpc(RPC, { tries: 1 });
 
 async function getAccount(pubkey) {
   const res = await rpc("getAccountInfo", [pubkey, { encoding: "base64" }]);
@@ -50,7 +25,6 @@ async function getAccount(pubkey) {
 }
 
 const u64 = (buf, off) => buf.readBigUInt64LE(off);
-const pk = (buf, off) => b58encode(buf.subarray(off, off + 32));
 
 const OFF = {
   validatorList: 98,

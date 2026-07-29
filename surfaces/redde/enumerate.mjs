@@ -6,24 +6,11 @@ const RPC = process.env.SOLANA_RPC_URL || "https://api.mainnet-beta.solana.com";
 const STAKE_POOL_PROGRAM = "SPoo1Ku8WFXoNDMHPsrGSTSG1Y47rzgn41SLUNakuHy";
 const OFF = { poolMint: 162, totalLamports: 258, poolTokenSupply: 266, lastUpdateEpoch: 274 };
 
-const B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-function b58(buf) {
-  const bytes = [...buf]; let zeros = 0;
-  while (zeros < bytes.length && bytes[zeros] === 0) zeros++;
-  const enc = []; let start = zeros;
-  while (start < bytes.length) {
-    let rem = 0;
-    for (let i = start; i < bytes.length; i++) { const acc = (rem << 8) + bytes[i]; bytes[i] = (acc / 58) | 0; rem = acc % 58; }
-    enc.push(B58[rem]); if (bytes[start] === 0) start++;
-  }
-  return "1".repeat(zeros) + enc.reverse().join("");
-}
-async function rpc(method, params) {
-  const r = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) });
-  const j = await r.json(); if (j.error) throw new Error(JSON.stringify(j.error)); return j.result;
-}
+// base58 (b58) + rpc now come from ../../core (were inline here).
+import { solanaRpc } from "../../core/rpc.mjs";
+import { b58encode as b58, pk } from "../../core/solana.mjs";
+const rpc = solanaRpc(RPC, { tries: 1 });
 const u64 = (b, o) => b.readBigUInt64LE(o);
-const pk = (b, o) => b58(b.subarray(o, o + 32));
 
 const { epoch } = await rpc("getEpochInfo", [{ commitment: "finalized" }]);
 const accts = await rpc("getProgramAccounts", [STAKE_POOL_PROGRAM, {
