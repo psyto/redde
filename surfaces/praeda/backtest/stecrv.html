@@ -1,0 +1,281 @@
+<title>Praeda — Backtest — the exit was empty a month early</title>
+<style>
+  :root {
+    --coal:#0e0c0b; --panel:#17130f; --panel-2:#1e1813; --ink:#ece5d8; --ink-2:#9a9082;
+    --hair:#2b2620; --out:#cf4b3a; --out-ink:#e06152; --in:#6f8aa0; --in-ink:#8ea9bf;
+    --bone:#b6ab97; --gold:#c69f52; --gold-wash:rgba(198,159,82,0.10); --out-wash:rgba(207,75,58,0.10);
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+    --edge:clamp(1.25rem,5vw,4rem);
+  }
+  @media (prefers-color-scheme: light){ :root{
+    --coal:#efe9dd; --panel:#e6e0d3; --panel-2:#ded7c8; --ink:#1a1611; --ink-2:#5b5347;
+    --hair:#cabfad; --out:#a5301f; --out-ink:#8f2a1c; --in:#3f6076; --in-ink:#345066;
+    --bone:#5b5044; --gold:#8a6a1e; --gold-wash:rgba(138,106,30,0.10); --out-wash:rgba(165,48,31,0.09); } }
+  :root[data-theme="light"]{
+    --coal:#efe9dd; --panel:#e6e0d3; --panel-2:#ded7c8; --ink:#1a1611; --ink-2:#5b5347;
+    --hair:#cabfad; --out:#a5301f; --out-ink:#8f2a1c; --in:#3f6076; --in-ink:#345066;
+    --bone:#5b5044; --gold:#8a6a1e; --gold-wash:rgba(138,106,30,0.10); --out-wash:rgba(165,48,31,0.09); }
+  :root[data-theme="dark"]{
+    --coal:#0e0c0b; --panel:#17130f; --panel-2:#1e1813; --ink:#ece5d8; --ink-2:#9a9082;
+    --hair:#2b2620; --out:#cf4b3a; --out-ink:#e06152; --in:#6f8aa0; --in-ink:#8ea9bf;
+    --bone:#b6ab97; --gold:#c69f52; --gold-wash:rgba(198,159,82,0.10); --out-wash:rgba(207,75,58,0.10); }
+
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; background:var(--coal); color:var(--ink);
+    font-family:var(--serif); font-size:1.0625rem; line-height:1.55;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  .wrap { max-width:60rem; margin:0 auto; padding:0 var(--edge); }
+  .label { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.22em;
+    text-transform:uppercase; color:var(--ink-2); }
+  .rule { height:1px; background:var(--hair); border:0; margin:0; }
+  em { font-style:italic; }
+  code { font-family:var(--mono); font-size:0.85em; color:var(--bone); }
+
+  header.mast { display:flex; justify-content:space-between; align-items:baseline;
+    gap:1rem; padding:1.4rem 0 1.1rem; flex-wrap:wrap; }
+  .mast .mark { font-family:var(--mono); font-weight:600; letter-spacing:0.24em;
+    text-transform:uppercase; font-size:0.82rem; color:var(--gold); }
+  .mast .lat { font-style:italic; color:var(--ink-2); font-size:0.95rem; }
+
+  .chip { font-family:var(--mono); font-size:0.64rem; letter-spacing:0.16em;
+    text-transform:uppercase; font-weight:600; display:inline-flex; align-items:center;
+    gap:0.5em; padding:0.45em 0.8em; border-radius:999px; white-space:nowrap; }
+  .chip.warn { border:1.5px solid var(--gold); color:var(--gold); }
+  .chip.repro { border:1.5px solid var(--in-ink); color:var(--in-ink); }
+  .chip .dot { width:0.5em; height:0.5em; border-radius:50%; background:currentColor; }
+
+  .stage { padding:clamp(2rem,5vw,3.4rem) 0 clamp(1.4rem,3vw,2rem); }
+  .stage .eyebrow { display:flex; gap:0.7rem; margin-bottom:1.6rem; flex-wrap:wrap; align-items:center; }
+  h1 { font-family:var(--serif); font-weight:600; font-size:clamp(2.1rem,6vw,3.5rem);
+    line-height:1.0; letter-spacing:-0.02em; text-wrap:balance; margin:0 0 0.9rem; }
+  h1 em { font-style:italic; color:var(--gold); }
+  .thesis { font-family:var(--mono); font-size:0.82rem; letter-spacing:0.01em; color:var(--ink-2);
+    margin:0 0 1.8rem; max-width:40rem; line-height:1.6; }
+  .thesis b { color:var(--bone); font-weight:600; }
+
+  .readout { display:flex; align-items:baseline; gap:1rem 2rem; flex-wrap:wrap; margin-bottom:0.6rem; }
+  .rblock .k { font-family:var(--mono); font-size:0.64rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--ink-2); margin-bottom:0.5rem; }
+  .rblock .v { font-family:var(--mono); font-weight:600; font-size:clamp(2.4rem,8vw,4.4rem); line-height:0.9;
+    letter-spacing:-0.03em; font-variant-numeric:tabular-nums; }
+  .rblock .v.share { color:var(--gold); } .rblock .v.eth { color:var(--out-ink); font-size:clamp(1.6rem,4.5vw,2.4rem); }
+  .rblock .s { font-family:var(--mono); font-size:0.7rem; color:var(--ink-2); margin-top:0.5rem; }
+
+  .chart { margin-top:1.2rem; }
+  .chart svg { width:100%; height:auto; display:block; }
+  .ax { font-family:var(--mono); font-size:12px; fill:var(--ink-2); letter-spacing:0.03em; }
+  .curveline { fill:none; stroke:var(--out); stroke-width:2.5; stroke-linejoin:round; }
+  .curvearea { fill:var(--out-wash); stroke:none; }
+  .gridline { stroke:var(--hair); stroke-width:1; }
+  .threshold { stroke:var(--gold); stroke-width:1.5; stroke-dasharray:5 4; }
+  .thlabel { font-family:var(--mono); font-size:11px; fill:var(--gold); letter-spacing:0.04em; }
+  .evline { stroke:var(--bone); stroke-width:1.25; stroke-dasharray:2 3; }
+  .evline.sig { stroke:var(--gold); stroke-width:1.75; stroke-dasharray:none; }
+  .evlabel { font-family:var(--mono); font-size:11px; fill:var(--bone); letter-spacing:0.02em; }
+  .evlabel.sig { fill:var(--gold); font-weight:600; }
+  .leadshade { fill:var(--gold-wash); }
+  .leadlabel { font-family:var(--mono); font-size:12px; font-weight:600; fill:var(--gold); letter-spacing:0.03em; }
+  .endcap { fill:var(--out); }
+  @media (prefers-reduced-motion:no-preference){
+    .fadein { opacity:0; animation:fade 0.8s ease-out 2.2s forwards; }
+    @keyframes fade { to { opacity:1; } }
+  }
+  .cap { font-family:var(--mono); font-size:0.72rem; color:var(--ink-2); margin-top:0.9rem; line-height:1.6; }
+
+  section { padding:clamp(1.9rem,4.5vw,3rem) 0; }
+  .eyebrow-b { display:block; margin-bottom:1.1rem; }
+  h2 { font-family:var(--serif); font-weight:600; font-size:clamp(1.9rem,5.5vw,2.9rem);
+    line-height:1.04; letter-spacing:-0.015em; text-wrap:balance; margin:0 0 1.2rem; }
+  h2 em { font-style:italic; color:var(--gold); }
+
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--hair); border:1px solid var(--hair); }
+  @media (max-width:640px){ .stats { grid-template-columns:repeat(2,1fr); } }
+  .stat { background:var(--panel); padding:1.15rem clamp(0.9rem,2.2vw,1.4rem); }
+  .stat .k { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--ink-2); margin-bottom:0.5rem; }
+  .stat .v { font-family:var(--mono); font-size:clamp(1.4rem,3.3vw,1.9rem); font-weight:600; line-height:1;
+    letter-spacing:-0.02em; font-variant-numeric:tabular-nums; }
+  .stat .v.gold { color:var(--gold); } .stat .v.out { color:var(--out-ink); }
+  .stat .s { font-family:var(--mono); font-size:0.64rem; color:var(--ink-2); margin-top:0.4rem; }
+
+  /* the lead timeline */
+  .timeline { background:var(--panel); border:1px solid var(--hair); border-top:3px solid var(--gold);
+    padding:clamp(1.4rem,3.5vw,2.2rem); }
+  .track { position:relative; height:3px; background:var(--hair); margin:2.4rem 0 2.8rem; }
+  .track .seg { position:absolute; height:3px; background:var(--gold); left:8%; width:64%; }
+  .pin { position:absolute; top:-6px; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; }
+  .pin .dot { width:14px; height:14px; border-radius:50%; border:2px solid var(--coal); }
+  .pin.sig .dot { background:var(--gold); } .pin.ev .dot { background:var(--bone); }
+  .pin .lab { font-family:var(--mono); font-size:0.68rem; margin-top:0.6rem; white-space:nowrap; text-align:center; line-height:1.4; }
+  .pin.sig .lab { color:var(--gold); font-weight:600; } .pin.ev .lab { color:var(--ink-2); }
+  .pin .lab b { display:block; color:var(--bone); font-weight:600; }
+  .leadbadge { position:absolute; top:-42px; left:40%; transform:translateX(-50%); font-family:var(--mono);
+    font-weight:600; font-size:0.9rem; color:var(--gold); white-space:nowrap; }
+
+  .pair { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--hair); border:1px solid var(--hair); }
+  @media (max-width:640px){ .pair { grid-template-columns:1fr; } }
+  .cell { background:var(--panel); padding:1.6rem clamp(1.1rem,3vw,1.8rem); }
+  .cell .k { font-family:var(--mono); font-size:0.64rem; letter-spacing:0.13em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:0.7rem; }
+  .cell .big { font-family:var(--serif); font-weight:600; font-size:1.15rem; line-height:1.28; margin-bottom:0.7rem; }
+  .cell .sub { font-family:var(--mono); font-size:0.78rem; color:var(--ink-2); line-height:1.55; }
+  .cell .sub code { color:var(--bone); }
+
+  footer { padding:clamp(2rem,5vw,3rem) 0 3rem; border-top:1px solid var(--hair); margin-top:1.6rem; }
+  footer .line { display:flex; justify-content:space-between; gap:1rem 2rem; flex-wrap:wrap;
+    font-family:var(--mono); font-size:0.78rem; color:var(--ink-2); line-height:1.7; }
+  footer b { color:var(--bone); font-weight:600; }
+  footer a { color:var(--in-ink); text-decoration:none; border-bottom:1px solid var(--hair); }
+  footer a:hover { border-color:var(--in-ink); }
+  :focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <span class="mark">Praeda · Backtest</span>
+    <span class="lat">the powder is measurable</span>
+  </header>
+</div>
+<hr class="rule" />
+
+<div class="wrap">
+  <div class="stage">
+    <div class="eyebrow">
+      <span class="chip warn"><span class="dot"></span>Early warning</span>
+      <span class="chip repro">Reproducible from state</span>
+      <span class="label">Lido stETH · Curve steCRV · 2022</span>
+    </div>
+    <h1>The exit was empty a <em>month</em> before the freeze.</h1>
+    <p class="thesis">A healthy stETH/ETH pool sits balanced at ~50%. As real ETH fled, the pool tilted to
+      <b>82% stETH</b> — the exit door crowding. Read from state, block by block. <b>The alarm crossed on
+      May 13. Celsius froze withdrawals on June 12.</b></p>
+
+    <div class="readout">
+      <div class="rblock">
+        <div class="k">stETH share of the exit pool</div>
+        <div class="v share" id="rshare">50.3%</div>
+      </div>
+      <div class="rblock">
+        <div class="k">ETH left in the pool</div>
+        <div class="v eth" id="reth">789k</div>
+        <div class="s" id="rdate">2022-04-20</div>
+      </div>
+    </div>
+
+    <div class="chart" id="chart" aria-label="stETH share of the Curve steCRV pool rising from a balanced 50% in April 2022 to 82% by mid-June, crossing 70% on May 13 — a month before Celsius froze withdrawals on June 12."></div>
+    <div class="cap">stETH share = stETH ÷ (stETH + ETH), from <code>balanceOf</code> and <code>eth_getBalance</code>
+      on the pool at every sampled block. The 70% line is the fragility threshold; the markers are external events.</div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="k">Baseline (April)</div><div class="v">50.2%</div><div class="s">balanced · healthy</div></div>
+      <div class="stat"><div class="k">Peak (Jun 14)</div><div class="v gold">81.8%</div><div class="s">exit crowded</div></div>
+      <div class="stat"><div class="k">ETH in pool</div><div class="v out">789k → 111k</div><div class="s">−86% hard exit asset</div></div>
+      <div class="stat"><div class="k">Warning lead</div><div class="v gold">30 days</div><div class="s">signal → freeze</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="label eyebrow-b">The lead · alarm first, collapse later</span>
+    <h2>The signal fired <em>weeks</em> before the collapse was acknowledged.</h2>
+    <div class="timeline">
+      <div class="track">
+        <div class="seg"></div>
+        <div class="leadbadge">← 30 days of warning →</div>
+        <div class="pin sig" style="left:8%"><span class="dot"></span><span class="lab">May 13<b>share &gt; 70%</b></span></div>
+        <div class="pin ev" style="left:72%"><span class="dot"></span><span class="lab">Jun 12<b>Celsius froze</b></span></div>
+        <div class="pin ev" style="left:92%"><span class="dot"></span><span class="lab">Jun 18<b>stETH bottom</b></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="label eyebrow-b">What this is — and is not</span>
+    <div class="pair">
+      <div class="cell">
+        <div class="k">What it detects</div>
+        <div class="big">Fragility you can recompute — not a prophecy.</div>
+        <div class="sub">A single re-executable invariant — <em>is the exit pool balanced?</em> — flagged the
+          liquidity drain weeks early. The powder, measured. Not the spark.</div>
+      </div>
+      <div class="cell">
+        <div class="k">The honest bound</div>
+        <div class="big">stETH did not go to zero. It recovered.</div>
+        <div class="sub">This is an early warning of a <em>liquidity crisis</em> and its leveraged casualties
+          (Celsius froze, 3AC failed) — not a claim of insolvency, and not a code-exploit prediction. The May
+          wave carries UST contagion; the fact — <code>ETH left the exit</code> — holds regardless.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="line">
+      <span><b>The same re-execution engine, pointed forward.</b><br />Praeda reads the past · this reads the powder · both publish only what state proves</span>
+      <span>Reproducible by anyone —<br /><a href="https://github.com/psyto/praeda">github.com/psyto/praeda</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // stETH share of the Curve steCRV pool. [tFrac, sharePct, ethThousands] per sampled block.
+  const CURVE = [[0,50.3,789],[0.0239,50.5,777],[0.0478,49.9,811],[0.0718,50.1,807],[0.0959,50.6,799],[0.1199,49.5,837],[0.1441,50.3,819],[0.168,50.5,815],[0.1922,50.5,811],[0.2162,50.4,811],[0.2406,50.3,814],[0.2649,51.2,785],[0.2893,56,693],[0.3137,58.2,692],[0.3381,54.4,733],[0.3627,70.2,271],[0.3871,70.2,254],[0.4113,67.3,276],[0.4356,66.3,293],[0.4603,67.1,333],[0.4852,66.7,337],[0.5102,71.3,291],[0.5348,69.8,305],[0.5598,69.8,305],[0.5847,71,292],[0.6096,69.9,303],[0.6346,68.8,305],[0.6595,68.5,309],[0.6845,69.3,302],[0.7093,69.5,299],[0.7354,69.5,300],[0.7615,69.2,264],[0.7875,72.4,247],[0.8137,79.5,137],[0.8397,76.3,159],[0.8662,81.8,111],[0.8926,81,115],[0.9188,81.1,115],[0.9452,81.2,117],[0.9716,80.8,120],[1,79.8,127]];
+  const SIG = 0.3651, CELSIUS = 0.8358, BOTTOM = 0.93; // event x-fractions
+  const W = 1000, H = 380, PT = 26, PB = 42, PL = 52, PR = 16;
+  const LO = 45, HI = 85, iw = W - PL - PR, ih = H - PT - PB;
+  const X = t => PL + t * iw, Y = s => PT + (1 - (s - LO) / (HI - LO)) * ih;
+  const D0 = Date.UTC(2022, 3, 20), D1 = Date.UTC(2022, 5, 22);
+  const dateAt = t => new Date(D0 + (D1 - D0) * t).toISOString().slice(0, 10);
+  const at = (t, i) => { if (t <= 0) return CURVE[0][i]; if (t >= 1) return CURVE.at(-1)[i];
+    for (let k = 1; k < CURVE.length; k++) if (CURVE[k][0] >= t) { const [a] = CURVE[k - 1], [b] = CURVE[k];
+      const w = (t - a) / (b - a); return CURVE[k - 1][i] + (CURVE[k][i] - CURVE[k - 1][i]) * w; } return CURVE.at(-1)[i]; };
+
+  let line = "", area = `M ${X(0)} ${Y(CURVE[0][1])}`;
+  CURVE.forEach(([t, s], i) => { const px = X(t).toFixed(1), py = Y(s).toFixed(1);
+    line += (i ? " L " : "M ") + px + " " + py; area += " L " + px + " " + py; });
+  area += ` L ${X(1).toFixed(1)} ${Y(LO).toFixed(1)} L ${X(0).toFixed(1)} ${Y(LO).toFixed(1)} Z`;
+  const grid = [50, 60, 70, 80].map(v => { const yy = Y(v).toFixed(1);
+    return `<line class="gridline" x1="${PL}" y1="${yy}" x2="${W - PR}" y2="${yy}"></line>` +
+      `<text class="ax" x="${PL - 8}" y="${(+yy + 4).toFixed(1)}" text-anchor="end">${v}%</text>`; }).join("");
+  const thY = Y(70).toFixed(1);
+  const ev = (x, cls, l1, l2, up) => {
+    const px = X(x).toFixed(1);
+    return `<line class="evline ${cls}" x1="${px}" y1="${PT}" x2="${px}" y2="${H - PB}"></line>` +
+      `<text class="evlabel ${cls}" x="${px}" y="${up ? PT + 14 : H - PB - 18}" text-anchor="middle">${l1}</text>` +
+      `<text class="evlabel ${cls}" x="${px}" y="${up ? PT + 28 : H - PB - 5}" text-anchor="middle">${l2}</text>`; };
+
+  document.getElementById("chart").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" preserveAspectRatio="xMidYMid meet">
+    <rect class="leadshade fadein" x="${X(SIG).toFixed(1)}" y="${PT}" width="${(X(CELSIUS) - X(SIG)).toFixed(1)}" height="${ih}"></rect>
+    ${grid}
+    <line class="threshold" x1="${PL}" y1="${thY}" x2="${W - PR}" y2="${thY}"></line>
+    <text class="thlabel" x="${W - PR}" y="${(+thY - 6).toFixed(1)}" text-anchor="end">fragility · 70%</text>
+    <clipPath id="rev"><rect id="rv" x="${PL}" y="0" width="0" height="${H}"></rect></clipPath>
+    <g clip-path="url(#rev)"><path class="curvearea" d="${area}"></path><path class="curveline" d="${line}"></path></g>
+    <g class="fadein">${ev(SIG, "sig", "SIGNAL", "May 13", true)}${ev(CELSIUS, "ev", "Celsius", "Jun 12", false)}${ev(BOTTOM, "ev", "bottom", "Jun 18", false)}</g>
+    <text class="leadlabel fadein" x="${((X(SIG) + X(CELSIUS)) / 2).toFixed(1)}" y="${PT - 8}" text-anchor="middle">30 days early</text>
+    <circle id="pen" class="endcap" cx="${X(0).toFixed(1)}" cy="${Y(CURVE[0][1]).toFixed(1)}" r="4.5"></circle>
+  </svg>`;
+
+  const rv = document.getElementById("rv"), pen = document.getElementById("pen");
+  const rshare = document.getElementById("rshare"), reth = document.getElementById("reth"), rdate = document.getElementById("rdate");
+  const render = t => { const s = at(t, 1), e = at(t, 2);
+    rv.setAttribute("width", (X(t) - PL).toFixed(1)); pen.setAttribute("cx", X(t).toFixed(1)); pen.setAttribute("cy", Y(s).toFixed(1));
+    rshare.textContent = s.toFixed(1) + "%"; reth.textContent = Math.round(e) + "k"; rdate.textContent = dateAt(t); };
+
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) render(1);
+  else { const DUR = 2600, DELAY = 400; let start = null; const ease = p => 1 - Math.pow(1 - p, 3);
+    const step = ts => { if (start === null) start = ts; const e = ts - start - DELAY;
+      if (e <= 0) { render(0); return requestAnimationFrame(step); }
+      const p = Math.min(1, e / DUR); render(ease(p)); if (p < 1) requestAnimationFrame(step); };
+    render(0); requestAnimationFrame(step); }
+</script>

@@ -1,0 +1,462 @@
+{
+  "target": "Elixir deUSD — lending-oracle vs. market price (curator liquidation window)",
+  "pool": "0x5f6c431ac417f0f430b84a666a563fabe681da94",
+  "coins": {
+    "deUSD": "0x15700B564Ca08D9439C58cA5053166E8317aa138",
+    "USDC": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+  },
+  "invariant": "phantom collateral = max(0, oracle_price - on-chain market price); a fixed/stale $1 oracle can't liquidate deUSD once P_mkt < 1",
+  "oraclePriceAssumed": 1,
+  "references": {
+    "streamFroze_xusdDepeg": "2025-11-04",
+    "eulerBadDebtUSD": 137000000
+  },
+  "priceCrossings": {
+    "0.99": "2025-11-07",
+    "0.97": "2025-11-07",
+    "0.90": "2025-11-07",
+    "0.50": "2025-11-07"
+  },
+  "shareCrossings": {
+    "0.60": "2025-11-06",
+    "0.70": "2025-11-06",
+    "0.80": "2025-11-07"
+  },
+  "trough": {
+    "iso": "2025-11-13",
+    "block": 23790000,
+    "price": 0.0019
+  },
+  "points": [
+    {
+      "block": 23600000,
+      "ts": 1760735723,
+      "iso": "2025-10-17",
+      "price": 0.9999,
+      "oracleGapPct": 0.01,
+      "deusdShare": 0.5024,
+      "deusd": 3958072,
+      "usdc": 3920678
+    },
+    {
+      "block": 23605000,
+      "ts": 1760796203,
+      "iso": "2025-10-18",
+      "price": 0.9998,
+      "oracleGapPct": 0.02,
+      "deusdShare": 0.5026,
+      "deusd": 3956812,
+      "usdc": 3915542
+    },
+    {
+      "block": 23610000,
+      "ts": 1760856611,
+      "iso": "2025-10-19",
+      "price": 0.9999,
+      "oracleGapPct": 0.01,
+      "deusdShare": 0.498,
+      "deusd": 3980967,
+      "usdc": 4012392
+    },
+    {
+      "block": 23615000,
+      "ts": 1760917007,
+      "iso": "2025-10-19",
+      "price": 1.0002,
+      "oracleGapPct": 0,
+      "deusdShare": 0.4851,
+      "deusd": 3992996,
+      "usdc": 4239028
+    },
+    {
+      "block": 23620000,
+      "ts": 1760977655,
+      "iso": "2025-10-20",
+      "price": 1.0001,
+      "oracleGapPct": 0,
+      "deusdShare": 0.4898,
+      "deusd": 4009042,
+      "usdc": 4176662
+    },
+    {
+      "block": 23625000,
+      "ts": 1761038327,
+      "iso": "2025-10-21",
+      "price": 1.0003,
+      "oracleGapPct": 0,
+      "deusdShare": 0.4788,
+      "deusd": 3889956,
+      "usdc": 4234739
+    },
+    {
+      "block": 23630000,
+      "ts": 1761098951,
+      "iso": "2025-10-22",
+      "price": 1.0001,
+      "oracleGapPct": 0,
+      "deusdShare": 0.4894,
+      "deusd": 3978363,
+      "usdc": 4150138
+    },
+    {
+      "block": 23635000,
+      "ts": 1761159551,
+      "iso": "2025-10-22",
+      "price": 1.0004,
+      "oracleGapPct": 0,
+      "deusdShare": 0.4743,
+      "deusd": 4179885,
+      "usdc": 4632519
+    },
+    {
+      "block": 23640000,
+      "ts": 1761220055,
+      "iso": "2025-10-23",
+      "price": 1.0004,
+      "oracleGapPct": 0,
+      "deusdShare": 0.4748,
+      "deusd": 4181913,
+      "usdc": 4625028
+    },
+    {
+      "block": 23645000,
+      "ts": 1761280763,
+      "iso": "2025-10-24",
+      "price": 0.9999,
+      "oracleGapPct": 0.01,
+      "deusdShare": 0.5008,
+      "deusd": 4402767,
+      "usdc": 4389194
+    },
+    {
+      "block": 23650000,
+      "ts": 1761341243,
+      "iso": "2025-10-24",
+      "price": 1,
+      "oracleGapPct": 0,
+      "deusdShare": 0.493,
+      "deusd": 4330841,
+      "usdc": 4453469
+    },
+    {
+      "block": 23655000,
+      "ts": 1761401663,
+      "iso": "2025-10-25",
+      "price": 1,
+      "oracleGapPct": 0,
+      "deusdShare": 0.4936,
+      "deusd": 4324047,
+      "usdc": 4436223
+    },
+    {
+      "block": 23660000,
+      "ts": 1761461963,
+      "iso": "2025-10-26",
+      "price": 0.9999,
+      "oracleGapPct": 0.01,
+      "deusdShare": 0.4988,
+      "deusd": 4369921,
+      "usdc": 4390351
+    },
+    {
+      "block": 23665000,
+      "ts": 1761522335,
+      "iso": "2025-10-26",
+      "price": 0.9998,
+      "oracleGapPct": 0.02,
+      "deusdShare": 0.5065,
+      "deusd": 4323984,
+      "usdc": 4212261
+    },
+    {
+      "block": 23670000,
+      "ts": 1761582863,
+      "iso": "2025-10-27",
+      "price": 0.9998,
+      "oracleGapPct": 0.02,
+      "deusdShare": 0.5045,
+      "deusd": 4301338,
+      "usdc": 4224441
+    },
+    {
+      "block": 23675000,
+      "ts": 1761643343,
+      "iso": "2025-10-28",
+      "price": 0.9998,
+      "oracleGapPct": 0.02,
+      "deusdShare": 0.5058,
+      "deusd": 4306085,
+      "usdc": 4207335
+    },
+    {
+      "block": 23680000,
+      "ts": 1761703979,
+      "iso": "2025-10-29",
+      "price": 0.9995,
+      "oracleGapPct": 0.05,
+      "deusdShare": 0.5214,
+      "deusd": 4225198,
+      "usdc": 3878473
+    },
+    {
+      "block": 23685000,
+      "ts": 1761764471,
+      "iso": "2025-10-29",
+      "price": 1,
+      "oracleGapPct": 0,
+      "deusdShare": 0.4929,
+      "deusd": 3993682,
+      "usdc": 4108096
+    },
+    {
+      "block": 23690000,
+      "ts": 1761824855,
+      "iso": "2025-10-30",
+      "price": 0.9994,
+      "oracleGapPct": 0.06,
+      "deusdShare": 0.525,
+      "deusd": 4215461,
+      "usdc": 3814700
+    },
+    {
+      "block": 23695000,
+      "ts": 1761885407,
+      "iso": "2025-10-31",
+      "price": 0.9994,
+      "oracleGapPct": 0.06,
+      "deusdShare": 0.523,
+      "deusd": 4178946,
+      "usdc": 3811288
+    },
+    {
+      "block": 23700000,
+      "ts": 1761945923,
+      "iso": "2025-10-31",
+      "price": 0.9999,
+      "oracleGapPct": 0.01,
+      "deusdShare": 0.502,
+      "deusd": 3976212,
+      "usdc": 3943751
+    },
+    {
+      "block": 23705000,
+      "ts": 1762006271,
+      "iso": "2025-11-01",
+      "price": 0.9994,
+      "oracleGapPct": 0.06,
+      "deusdShare": 0.5227,
+      "deusd": 4054281,
+      "usdc": 3701913
+    },
+    {
+      "block": 23710000,
+      "ts": 1762066691,
+      "iso": "2025-11-02",
+      "price": 0.9994,
+      "oracleGapPct": 0.06,
+      "deusdShare": 0.5246,
+      "deusd": 4068562,
+      "usdc": 3687691
+    },
+    {
+      "block": 23715000,
+      "ts": 1762127063,
+      "iso": "2025-11-02",
+      "price": 0.9995,
+      "oracleGapPct": 0.05,
+      "deusdShare": 0.5211,
+      "deusd": 4067500,
+      "usdc": 3737368
+    },
+    {
+      "block": 23720000,
+      "ts": 1762187387,
+      "iso": "2025-11-03",
+      "price": 0.9992,
+      "oracleGapPct": 0.08,
+      "deusdShare": 0.5349,
+      "deusd": 1931380,
+      "usdc": 1679597
+    },
+    {
+      "block": 23725000,
+      "ts": 1762247711,
+      "iso": "2025-11-04",
+      "price": 0.9994,
+      "oracleGapPct": 0.06,
+      "deusdShare": 0.5251,
+      "deusd": 1532861,
+      "usdc": 1386115
+    },
+    {
+      "block": 23730000,
+      "ts": 1762308203,
+      "iso": "2025-11-05",
+      "price": 0.998,
+      "oracleGapPct": 0.2,
+      "deusdShare": 0.5883,
+      "deusd": 619440,
+      "usdc": 433578
+    },
+    {
+      "block": 23735000,
+      "ts": 1762368719,
+      "iso": "2025-11-05",
+      "price": 0.9987,
+      "oracleGapPct": 0.13,
+      "deusdShare": 0.5576,
+      "deusd": 553703,
+      "usdc": 439327
+    },
+    {
+      "block": 23740000,
+      "ts": 1762429187,
+      "iso": "2025-11-06",
+      "price": 0.9934,
+      "oracleGapPct": 0.66,
+      "deusdShare": 0.7173,
+      "deusd": 633393,
+      "usdc": 249667
+    },
+    {
+      "block": 23745000,
+      "ts": 1762489595,
+      "iso": "2025-11-07",
+      "price": 0.0579,
+      "oracleGapPct": 94.21,
+      "deusdShare": 0.9948,
+      "deusd": 837315,
+      "usdc": 4344
+    },
+    {
+      "block": 23750000,
+      "ts": 1762550027,
+      "iso": "2025-11-07",
+      "price": 0.0315,
+      "oracleGapPct": 96.85,
+      "deusdShare": 0.9965,
+      "deusd": 855313,
+      "usdc": 3019
+    },
+    {
+      "block": 23755000,
+      "ts": 1762610483,
+      "iso": "2025-11-08",
+      "price": 0.0225,
+      "oracleGapPct": 97.75,
+      "deusdShare": 0.9972,
+      "deusd": 865853,
+      "usdc": 2468
+    },
+    {
+      "block": 23760000,
+      "ts": 1762670723,
+      "iso": "2025-11-09",
+      "price": 0.0227,
+      "oracleGapPct": 97.73,
+      "deusdShare": 0.9971,
+      "deusd": 865353,
+      "usdc": 2480
+    },
+    {
+      "block": 23765000,
+      "ts": 1762731083,
+      "iso": "2025-11-09",
+      "price": 0.0122,
+      "oracleGapPct": 98.78,
+      "deusdShare": 0.9981,
+      "deusd": 910255,
+      "usdc": 1733
+    },
+    {
+      "block": 23770000,
+      "ts": 1762791479,
+      "iso": "2025-11-10",
+      "price": 0.0167,
+      "oracleGapPct": 98.33,
+      "deusdShare": 0.9977,
+      "deusd": 902123,
+      "usdc": 2116
+    },
+    {
+      "block": 23775000,
+      "ts": 1762852079,
+      "iso": "2025-11-11",
+      "price": 0.0068,
+      "oracleGapPct": 99.32,
+      "deusdShare": 0.9987,
+      "deusd": 992159,
+      "usdc": 1260
+    },
+    {
+      "block": 23780000,
+      "ts": 1762912535,
+      "iso": "2025-11-12",
+      "price": 0.0075,
+      "oracleGapPct": 99.25,
+      "deusdShare": 0.9986,
+      "deusd": 939560,
+      "usdc": 1276
+    },
+    {
+      "block": 23785000,
+      "ts": 1762972895,
+      "iso": "2025-11-12",
+      "price": 0.0078,
+      "oracleGapPct": 99.22,
+      "deusdShare": 0.9986,
+      "deusd": 935320,
+      "usdc": 1308
+    },
+    {
+      "block": 23790000,
+      "ts": 1763033459,
+      "iso": "2025-11-13",
+      "price": 0.0019,
+      "oracleGapPct": 99.81,
+      "deusdShare": 0.9995,
+      "deusd": 1130531,
+      "usdc": 553
+    },
+    {
+      "block": 23795000,
+      "ts": 1763093975,
+      "iso": "2025-11-14",
+      "price": 0.0024,
+      "oracleGapPct": 99.76,
+      "deusdShare": 0.9994,
+      "deusd": 1118076,
+      "usdc": 671
+    },
+    {
+      "block": 23800000,
+      "ts": 1763154347,
+      "iso": "2025-11-14",
+      "price": 0.0025,
+      "oracleGapPct": 99.75,
+      "deusdShare": 0.9994,
+      "deusd": 1117228,
+      "usdc": 674
+    },
+    {
+      "block": 23805000,
+      "ts": 1763214623,
+      "iso": "2025-11-15",
+      "price": 0.0032,
+      "oracleGapPct": 99.68,
+      "deusdShare": 0.9993,
+      "deusd": 1079315,
+      "usdc": 788
+    },
+    {
+      "block": 23810000,
+      "ts": 1763275043,
+      "iso": "2025-11-16",
+      "price": 0.0025,
+      "oracleGapPct": 99.75,
+      "deusdShare": 0.9994,
+      "deusd": 1117742,
+      "usdc": 680
+    }
+  ]
+}

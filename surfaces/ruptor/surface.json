@@ -1,0 +1,9 @@
+{
+  "name": "ruptor",
+  "title": "Ruptor",
+  "direction": "adversarial",
+  "invariant": "Liquidity-seizure capacity",
+  "tagline": "Offensive descendant: re-executes real lending positions and prints the executable trade + the loss from a Monday-open gap, using live-measured on-chain liquidity.",
+  "run": "node ruptor.mjs",
+  "verdict": { "status": "red", "label": "seizure > capacity (robust)" }
+}

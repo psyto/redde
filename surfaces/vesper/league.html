@@ -1,0 +1,512 @@
+<style>
+  :root {
+    --paper: #eef1f5;
+    --surface: #ffffff;
+    --surface-2: #f6f8fb;
+    --ink: #131a26;
+    --muted: #59647a;
+    --faint: #8a94a6;
+    --line: #dde3ec;
+    --line-strong: #c7cfdb;
+    --accent: #3663c8;
+    --accent-soft: #eaf0fc;
+    --green: #157f52;
+    --green-soft: #e4f2ea;
+    --amber: #9a6712;
+    --amber-soft: #f6eddb;
+    --red: #b93f2c;
+    --red-soft: #f7e6e1;
+    --shadow: 0 1px 2px rgba(19,26,38,.05), 0 8px 30px -12px rgba(19,26,38,.14);
+    --mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0b0f17;
+      --surface: #121824;
+      --surface-2: #0f141e;
+      --ink: #e8ecf3;
+      --muted: #97a3b8;
+      --faint: #6b7688;
+      --line: #232e3e;
+      --line-strong: #334054;
+      --accent: #6f9bff;
+      --accent-soft: #16233c;
+      --green: #3fc389;
+      --green-soft: #10281e;
+      --amber: #e2a740;
+      --amber-soft: #2a2010;
+      --red: #f0715b;
+      --red-soft: #2c1512;
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #eef1f5; --surface: #ffffff; --surface-2: #f6f8fb; --ink: #131a26;
+    --muted: #59647a; --faint: #8a94a6; --line: #dde3ec; --line-strong: #c7cfdb;
+    --accent: #3663c8; --accent-soft: #eaf0fc;
+    --green: #157f52; --green-soft: #e4f2ea; --amber: #9a6712; --amber-soft: #f6eddb;
+    --red: #b93f2c; --red-soft: #f7e6e1;
+  }
+  :root[data-theme="dark"] {
+    --paper: #0b0f17; --surface: #121824; --surface-2: #0f141e; --ink: #e8ecf3;
+    --muted: #97a3b8; --faint: #6b7688; --line: #232e3e; --line-strong: #334054;
+    --accent: #6f9bff; --accent-soft: #16233c;
+    --green: #3fc389; --green-soft: #10281e; --amber: #e2a740; --amber-soft: #2a2010;
+    --red: #f0715b; --red-soft: #2c1512;
+  }
+
+  * { box-sizing: border-box; }
+  .vp {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    padding: clamp(18px, 4vw, 56px) clamp(14px, 4vw, 40px) 80px;
+  }
+  .wrap { max-width: 940px; margin: 0 auto; }
+  .vp p { margin: 0 0 1em; max-width: 65ch; color: var(--muted); }
+  .vp strong { color: var(--ink); font-weight: 650; }
+  .vp a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+  .mono { font-family: var(--mono); }
+  .tnum { font-variant-numeric: tabular-nums; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--faint); margin: 0 0 10px;
+  }
+
+  /* Masthead */
+  .board {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .board-top {
+    padding: clamp(20px, 3.4vw, 34px) clamp(18px, 3.4vw, 34px) 22px;
+    border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 55%),
+      var(--surface);
+  }
+  .brand { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .wordmark {
+    font-family: var(--mono); font-weight: 700; letter-spacing: .1em;
+    font-size: clamp(30px, 6vw, 46px); color: var(--ink); line-height: 1;
+  }
+  .wordmark .dot { color: var(--accent); }
+  .tagline {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--faint);
+  }
+  .lede {
+    margin: 18px 0 0; font-size: clamp(16px, 2vw, 18px); color: var(--ink);
+    max-width: 62ch; line-height: 1.5; text-wrap: balance;
+  }
+  .lede b { font-weight: 650; }
+
+  /* Status strip */
+  .strip {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    background: var(--line);
+    gap: 1px;
+  }
+  .cell {
+    background: var(--surface); padding: 14px 16px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .cell .v { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-weight: 650; font-size: 13px; }
+  .cell .n { font-family: var(--sans); font-weight: 640; font-size: 15px; color: var(--ink); }
+  .cell .s { font-size: 12px; color: var(--muted); }
+  .swatch { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .g .swatch { background: var(--green); } .g .v { color: var(--green); }
+  .a .swatch { background: var(--amber); } .a .v { color: var(--amber); }
+  .r .swatch { background: var(--red); } .r .v { color: var(--red); }
+
+  /* Sections */
+  section { margin-top: clamp(38px, 6vw, 60px); }
+  h2 {
+    font-size: clamp(20px, 3vw, 25px); line-height: 1.2; margin: 0 0 6px;
+    letter-spacing: -.01em; text-wrap: balance; color: var(--ink); font-weight: 680;
+  }
+  .sub { color: var(--muted); margin: 0 0 22px; max-width: 64ch; }
+  h3 { font-size: 16px; margin: 0 0 8px; color: var(--ink); font-weight: 650; }
+
+  .invariant {
+    border-left: 3px solid var(--accent);
+    background: var(--surface); border-radius: 0 10px 10px 0;
+    padding: 16px 20px; box-shadow: var(--shadow);
+  }
+  .invariant p { margin: 0; color: var(--ink); }
+  .invariant .k { font-family: var(--mono); color: var(--accent); font-weight: 650; }
+  .window {
+    margin-top: 12px; font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .window .bar { flex: 1; min-width: 160px; height: 8px; border-radius: 5px; overflow: hidden; display: flex; border: 1px solid var(--line); }
+  .window .open { background: color-mix(in srgb, var(--green) 45%, var(--surface)); }
+  .window .shut { background: repeating-linear-gradient(45deg, var(--red-soft), var(--red-soft) 5px, transparent 5px, transparent 10px); }
+
+  /* League table */
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 14px; }
+  thead th {
+    text-align: left; font-family: var(--mono); font-weight: 600; font-size: 11px; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--faint); padding: 13px 16px; border-bottom: 1px solid var(--line-strong);
+    background: var(--surface-2); position: sticky; top: 0;
+  }
+  tbody td { padding: 15px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr { position: relative; }
+  .venue { font-weight: 640; color: var(--ink); font-size: 15px; white-space: nowrap; }
+  .venue small { display: block; font-weight: 400; color: var(--faint); font-size: 11.5px; font-family: var(--mono); margin-top: 3px; letter-spacing: .02em; }
+  .verdict { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-weight: 650; font-size: 12.5px; padding: 4px 9px; border-radius: 6px; white-space: nowrap; }
+  .verdict.g { color: var(--green); background: var(--green-soft); }
+  .verdict.a { color: var(--amber); background: var(--amber-soft); }
+  .verdict.r { color: var(--red); background: var(--red-soft); }
+  .guard { color: var(--ink); font-weight: 600; }
+  td .note { color: var(--muted); font-size: 13px; margin-top: 4px; display: block; max-width: 34ch; }
+  .prov { font-family: var(--mono); font-size: 11px; letter-spacing: .02em; color: var(--muted); }
+  .prov b { color: var(--ink); font-weight: 600; }
+  .stripe { border-left: 3px solid transparent; }
+  tr.row-r .stripe-cell { box-shadow: inset 3px 0 0 var(--red); }
+  tr.row-a .stripe-cell { box-shadow: inset 3px 0 0 var(--amber); }
+  tr.row-g .stripe-cell { box-shadow: inset 3px 0 0 var(--green); }
+
+  .footnote { font-size: 12.5px; color: var(--faint); margin-top: 12px; font-family: var(--mono); }
+
+  /* Money-shot chart */
+  .chart-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: var(--shadow); padding: clamp(18px, 3vw, 28px); overflow: hidden;
+  }
+  .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+  .chart-head .legend { display: flex; gap: 16px; font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+  .chart-head .legend span { display: flex; align-items: center; gap: 6px; }
+  .li { width: 11px; height: 11px; border-radius: 3px; }
+  .li.open { background: color-mix(in srgb, var(--accent) 70%, var(--surface)); }
+  .li.shut { background: var(--red); }
+  .chart {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: clamp(6px, 1.5vw, 14px);
+    align-items: end; height: 220px; padding-top: 8px;
+    border-bottom: 2px solid var(--line-strong); position: relative;
+  }
+  .bar-col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 8px; position: relative; }
+  .bar {
+    width: 100%; max-width: 46px; border-radius: 5px 5px 0 0;
+    background: color-mix(in srgb, var(--accent) 62%, var(--surface));
+    position: relative; transition: none;
+  }
+  .bar-col.shut .bar { background: var(--red); }
+  .bar-col.partial .bar { background: repeating-linear-gradient(-45deg, color-mix(in srgb, var(--accent) 55%, var(--surface)), color-mix(in srgb, var(--accent) 55%, var(--surface)) 5px, transparent 5px, transparent 9px); border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); }
+  .bar .cnt { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; }
+  .bar-col .day { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+  .bar-col.shut .day { color: var(--red); font-weight: 650; }
+  .closed-band {
+    text-align: center; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+    color: var(--red); margin-top: 14px; text-transform: uppercase;
+  }
+  .readout { display: flex; gap: clamp(14px, 3vw, 34px); flex-wrap: wrap; margin-top: 22px; }
+  .readout .m { display: flex; flex-direction: column; gap: 2px; }
+  .readout .m .big { font-family: var(--mono); font-size: clamp(20px, 3.4vw, 27px); font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .readout .m .lbl { font-size: 11.5px; color: var(--muted); font-family: var(--mono); letter-spacing: .03em; }
+  .readout .m.red .big { color: var(--red); }
+
+  /* Measured reality chart */
+  .measured-chart { width: 100%; height: auto; display: block; overflow: visible; }
+  .measured-chart .buffer { fill: var(--red); opacity: .06; }
+  .measured-chart .price-area { fill: color-mix(in srgb, var(--accent) 16%, transparent); }
+  .measured-chart .price-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+  .measured-chart .refline { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 4; opacity: .8; }
+  .measured-chart .liqline { stroke: var(--red); stroke-width: 1.5; stroke-dasharray: 6 4; }
+  .measured-chart text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+  .measured-chart .l-liq { fill: var(--red); font-weight: 600; }
+  .measured-chart .l-swing { fill: var(--accent); font-weight: 600; }
+
+  /* Dossier */
+  .dossier { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+  .dossier-head { padding: 18px 22px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: linear-gradient(90deg, var(--red-soft), transparent 70%); }
+  .dossier-head .verdict { font-size: 13px; }
+  .dossier-head h3 { margin: 0; }
+  .kv { display: grid; grid-template-columns: 1fr; }
+  .kv .row { display: grid; grid-template-columns: 210px 1fr; gap: 14px; padding: 13px 22px; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .kv .row:last-child { border-bottom: none; }
+  .kv .key { font-family: var(--mono); font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--faint); }
+  .kv .val { font-size: 13.5px; color: var(--ink); }
+  .kv .val .mono { font-size: 12.5px; word-break: break-all; color: var(--muted); }
+  .kv .val b { color: var(--ink); }
+  @media (max-width: 560px) { .kv .row { grid-template-columns: 1fr; gap: 3px; } .strip { grid-template-columns: repeat(2,1fr); } }
+
+  /* Actions */
+  .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 720px) { .actions { grid-template-columns: 1fr; } }
+  .act {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: var(--shadow); padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;
+    border-top: 3px solid var(--accent);
+    min-width: 0;
+  }
+  .act .who, .act p { min-width: 0; overflow-wrap: break-word; }
+  .act .who { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+  .act .who b { display: block; font-size: 16px; letter-spacing: normal; text-transform: none; color: var(--ink); font-family: var(--sans); margin-top: 2px; }
+  .act p { margin: 0; font-size: 13.5px; color: var(--muted); }
+  .act .do { font-weight: 640; color: var(--ink); }
+  .act.borrower { border-top-color: var(--amber); }
+  .act.issuer { border-top-color: var(--accent); }
+  .act.operator { border-top-color: var(--green); }
+
+  .fix {
+    margin-top: 18px; background: var(--green-soft); border: 1px solid color-mix(in srgb, var(--green) 30%, transparent);
+    border-radius: 12px; padding: 18px 22px; display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap;
+  }
+  .fix .lead { font-family: var(--mono); font-weight: 700; color: var(--green); font-size: 13px; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; padding-top: 2px; }
+  .fix .body { flex: 1; min-width: 240px; }
+  .fix .body p { margin: 0; font-size: 14px; color: var(--ink); }
+  .fix .body p b { color: var(--green); }
+  .fix .body .meta { margin-top: 6px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+  .safe-anchor { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12.5px; color: var(--green); background: var(--green-soft); border: 1px solid color-mix(in srgb, var(--green) 25%, transparent); padding: 5px 11px; border-radius: 20px; margin-top: 14px; }
+  .safe-anchor .swatch { background: var(--green); }
+
+  /* Why re-exec */
+  .why { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .why { grid-template-columns: 1fr; } }
+  .why .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow); }
+  .why .card h3 { display: flex; align-items: center; gap: 8px; }
+  .why .card p { margin: 0; font-size: 14px; }
+  .tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; padding: 2px 7px; border-radius: 5px; background: var(--accent-soft); color: var(--accent); }
+
+  /* Scope note + footer */
+  .scope { background: var(--surface-2); border: 1px dashed var(--line-strong); border-radius: 12px; padding: 16px 20px; }
+  .scope p { margin: 0; font-size: 13.5px; color: var(--muted); max-width: none; }
+  .scope p + p { margin-top: 8px; }
+  footer { margin-top: 54px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--faint); font-size: 12.5px; font-family: var(--mono); display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  footer .sig b { color: var(--muted); font-weight: 600; }
+</style>
+
+<div class="vp">
+<div class="wrap">
+
+  <div class="board">
+    <div class="board-top">
+      <div class="brand">
+        <div class="wordmark">VESPER<span class="dot">.</span></div>
+        <div class="tagline">closed-market liquidation soundness · solana · 2026-07-26</div>
+      </div>
+      <p class="lede">Tokenized US equities trade on-chain <b>24/7</b>. The stocks behind them do not. In the hours the market is shut, a lending venue that keeps liquidating is pricing collateral against a market that isn't open. <b>Vesper</b> re-executes each venue's own liquidation code, scores whether it survives that gap — and says what to do about it.</p>
+      <span class="safe-anchor"><span class="swatch"></span>Safe to lend xStocks today: <b>Kamino</b></span>
+    </div>
+    <div class="strip">
+      <div class="cell g"><span class="v"><span class="swatch"></span>GREEN</span><span class="n">Kamino</span><span class="s">deliberate close-aware band</span></div>
+      <div class="cell a"><span class="v"><span class="swatch"></span>YELLOW</span><span class="n">NestUSD</span><span class="s">accidentally safe · fragile</span></div>
+      <div class="cell r"><span class="v"><span class="swatch"></span>RED</span><span class="n">Jupiter Lend</span><span class="s">liquidates through the weekend</span></div>
+    </div>
+  </div>
+
+  <section>
+    <p class="eyebrow">The invariant</p>
+    <h2>Closed-Market Liquidation Soundness</h2>
+    <div class="invariant">
+      <p>For a venue lending against a tokenized equity <span class="k">E</span>, during the closed-market window the price it uses to <b>trigger and settle a liquidation</b> must be bounded to the last regular-session close — <span class="k">or</span> liquidations must be suspended. Otherwise the venue is <b>gap-exposed</b>: it can seize collateral at a price the regulated market never printed, with no weekend hedge to unwind against.</p>
+      <div class="window">
+        <span>ET week</span>
+        <span class="bar" aria-hidden="true"><span class="open" style="flex:5"></span><span class="shut" style="flex:2"></span><span class="open" style="flex:0.4"></span></span>
+        <span>Fri 20:00 → Sun 20:00 = no live underlying</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">The board</p>
+    <h2>Three venues, one Backed xStock, three different answers</h2>
+    <p class="sub">All three lend against the <em>same</em> tokenized equities. Nothing about “which oracle” tells them apart — only re-executing each protocol's own closed-market logic does.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Venue</th><th>Verdict</th><th>Closed-market guard</th><th>Oracle</th><th>Basis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-g">
+            <td class="stripe-cell venue">Kamino<small>lending</small></td>
+            <td><span class="verdict g"><span class="swatch" style="background:var(--green)"></span>GREEN</span></td>
+            <td><span class="guard">CLAMP&nbsp;·&nbsp;band + market-status</span><span class="note">Price banded to last close with a live market-status feed; double-audited. Closure is handled on purpose.</span></td>
+            <td class="prov">Chainlink Data&nbsp;Streams</td>
+            <td class="prov"><b>Documented</b><br>gov + audits</td>
+          </tr>
+          <tr class="row-a">
+            <td class="stripe-cell venue">NestUSD<small>lending · nUSD</small></td>
+            <td><span class="verdict a"><span class="swatch" style="background:var(--amber)"></span>YELLOW</span></td>
+            <td><span class="guard">STALENESS&nbsp;120s&nbsp;·&nbsp;accidental</span><span class="note">No market-status code exists — the advertised “closure pause” is unimplemented. A 120-second staleness gate happens to halt the weekend because its 24/5 feed stops. One config change from RED.</span></td>
+            <td class="prov">Pyth Lazer (24/5)<br>+ operator self-signed</td>
+            <td class="prov"><b>Re-executed</b><br>source + feed schedule</td>
+          </tr>
+          <tr class="row-r">
+            <td class="stripe-cell venue">Jupiter Lend<small>lending · Fluid</small></td>
+            <td><span class="verdict r"><span class="swatch" style="background:var(--red)"></span>RED</span></td>
+            <td><span class="guard">NONE&nbsp;·&nbsp;2-hour staleness only</span><span class="note">No market-status check, no band. Liquidation tolerates a price up to 2 hours old — and the feed never goes stale, so the gate never fires. It liquidates straight through the closed market.</span></td>
+            <td class="prov">Fluid oracle<br>24/7 pushed price</td>
+            <td class="prov"><b>Re-executed<br>+ mainnet-confirmed</b></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">Verdict basis is graded honestly: <b>Documented</b> = from the venue's own governance/audit statements; <b>Re-executed</b> = read from the deployed program's source; <b>mainnet-confirmed</b> = verified against live on-chain state.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">The finding · money-shot</p>
+    <h2>Does the price feed sleep when the market does?</h2>
+    <p class="sub">Every write to the <b>SPYx</b> price account Jupiter Lend liquidates against, counted while the US equity market was shut. Saturday it was closed bell-to-bell — the feed fired <b>813</b> times anyway. So did the liquidator.</p>
+    <div class="chart-card">
+      <div class="chart-head">
+        <div>
+          <h3 style="margin:0 0 3px">Jupiter Lend · SPYx oracle — writes while the market was CLOSED</h3>
+          <div class="prov" style="color:var(--muted)">account <span class="mono">A2GDb4Um…Cywff</span> · 3,053 writes over 65.9h · 2026-07-23 04:13 → 07-25 22:08 UTC</div>
+        </div>
+        <div class="legend">
+          <span><span class="li shut"></span>market-closed writes</span>
+        </div>
+      </div>
+      <div class="chart" role="img" aria-label="Writes to Jupiter Lend's SPYx price account during closed-market hours: Thursday overnight 745, Friday overnight and after-hours 845, Saturday closed all day 813. Even shut bell-to-bell on Saturday the feed wrote 813 times.">
+        <div class="bar-col shut" style="grid-column: span 2"><div class="bar" style="height:88%"><span class="cnt">745</span></div><span class="day">THU 07-23</span></div>
+        <div class="bar-col shut" style="grid-column: span 2"><div class="bar" style="height:100%"><span class="cnt">845</span></div><span class="day">FRI 07-24</span></div>
+        <div class="bar-col shut" style="grid-column: span 3"><div class="bar" style="height:96%"><span class="cnt">813</span></div><span class="day">SAT 07-25</span></div>
+      </div>
+      <div class="closed-band">◄ THU &amp; FRI = overnight / after-hours · SAT = closed bell-to-bell — every bar is market-closed time ►</div>
+      <div class="readout">
+        <div class="m red"><span class="big tnum">2,403</span><span class="lbl">writes while market closed</span></div>
+        <div class="m"><span class="big tnum">650</span><span class="lbl">writes while market open</span></div>
+        <div class="m"><span class="big tnum">20.8 min</span><span class="lbl">largest gap all window</span></div>
+        <div class="m red"><span class="big">never</span><span class="lbl">the moment liquidations pause</span></div>
+      </div>
+    </div>
+    <p style="margin-top:18px">The largest gap between writes all window was <b>20.8 minutes</b> — nowhere near the <b>two-hour</b> tolerance in <span class="mono">MAX_AGE_LIQUIDATE</span>. So the staleness gate that <em>accidentally</em> protects NestUSD can never fire here: the closed-market price is live but detached — a 24/7 on-chain mark with no bound to the last official close. Jupiter's own documentation names the exposure and ships no mitigation: <em>“the oracle price may freeze while the xStock token remains tradeable on-chain… a deviation between the market price and the oracle price, especially during periods of stress or news events.”</em></p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Measured reality</p>
+    <h2>On a calm weekend, the gap barely opens</h2>
+    <p class="sub">Honesty check. We decoded Jupiter's <em>live</em> xStock price across the weekend of Jul 18–19 — the US market shut Friday, the mark kept moving. Plotted against a real position's ~10% liquidation buffer, here's how far it actually drifted.</p>
+    <div class="chart-card">
+      <div class="chart-head">
+        <div>
+          <h3 style="margin:0 0 3px">Weekend price vs liquidation distance — one xStock</h3>
+          <div class="prov" style="color:var(--muted)">Chainlink Data Streams price decoded from 34 on-chain updates · Fri 07-17 → Mon 07-20 UTC</div>
+        </div>
+        <div class="legend">
+          <span><span class="li" style="background:var(--accent)"></span>live mark</span>
+          <span><span class="li" style="background:var(--red)"></span>liquidation ≈ −10%</span>
+        </div>
+      </div>
+      <svg class="measured-chart" viewBox="0 0 680 150" role="img" aria-label="Across the weekend the price stayed within about 1.1% of Friday's close, roughly one tenth of the way to the liquidation threshold ten percent below.">
+        <rect class="buffer" x="40" y="31" width="620" height="84.2"></rect>
+        <path class="price-area" d="M40.0,25.6 L40.0,25.6 L58.5,24.6 L77.0,31.0 L95.5,31.0 L113.9,30.1 L132.4,28.1 L150.9,26.6 L169.4,26.8 L187.9,30.6 L206.4,27.7 L224.8,28.0 L243.3,27.6 L261.8,27.1 L280.3,27.5 L298.8,27.8 L317.3,26.8 L335.8,26.9 L354.2,27.2 L372.7,25.5 L391.2,28.0 L409.7,27.5 L428.2,26.6 L446.7,25.9 L465.2,26.5 L483.6,27.3 L502.1,27.5 L520.6,30.6 L539.1,25.6 L557.6,28.8 L576.1,27.0 L594.5,28.0 L613.0,31.8 L631.5,25.7 L650.0,21.8 L650.0,115.2 L40.0,115.2 Z"></path>
+        <polyline class="price-line" points="40.0,25.6 58.5,24.6 77.0,31.0 95.5,31.0 113.9,30.1 132.4,28.1 150.9,26.6 169.4,26.8 187.9,30.6 206.4,27.7 224.8,28.0 243.3,27.6 261.8,27.1 280.3,27.5 298.8,27.8 317.3,26.8 335.8,26.9 354.2,27.2 372.7,25.5 391.2,28.0 409.7,27.5 428.2,26.6 446.7,25.9 465.2,26.5 483.6,27.3 502.1,27.5 520.6,30.6 539.1,25.6 557.6,28.8 576.1,27.0 594.5,28.0 613.0,31.8 631.5,25.7 650.0,21.8"></polyline>
+        <line class="refline" x1="40" y1="31" x2="660" y2="31"></line>
+        <line class="liqline" x1="40" y1="115.2" x2="660" y2="115.2"></line>
+        <text x="40" y="20" class="l-swing">weekend swing −0.1% → +1.1%</text>
+        <text x="656" y="28" text-anchor="end">Fri close</text>
+        <text x="656" y="127" text-anchor="end" class="l-liq">liquidation threshold</text>
+      </svg>
+      <div class="readout">
+        <div class="m"><span class="big tnum">+1.10%</span><span class="lbl">max drift from Friday close</span></div>
+        <div class="m"><span class="big tnum">≈10%</span><span class="lbl">position's liquidation buffer</span></div>
+        <div class="m"><span class="big">~1 / 10</span><span class="lbl">of the buffer used this weekend</span></div>
+      </div>
+    </div>
+    <div class="tablewrap" style="margin-top:20px">
+      <table>
+        <thead><tr><th>Monday-open gap</th><th>Collateral past the ~10% buffer</th><th>Bad debt per $100k position</th></tr></thead>
+        <tbody>
+          <tr class="row-g"><td class="stripe-cell mono">−10%</td><td>0% — inside the buffer</td><td><b>$0</b></td></tr>
+          <tr class="row-a"><td class="stripe-cell mono">−20%</td><td>10% of collateral</td><td style="color:var(--red)"><b>~$10,000</b></td></tr>
+          <tr class="row-r"><td class="stripe-cell mono">−30%</td><td>20% of collateral</td><td style="color:var(--red)"><b>~$20,000</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">$100k SPYx position · borrow 75% LTV · 85% liquidation threshold · Act-1 rough sizing. Re-run for your own position: <span class="mono">node gauge.mjs --vault 80 --ltv 0.75 --gap 0.20</span></p>
+    <p style="margin-top:18px">So on a quiet weekend the RED <b>costs nothing</b> — the mark held within ~1% of Friday's close, an eighth of the way to the liquidation line. But the table above is the <b>tail</b> the missing band exists for: a 5–15% Monday gap seizes collateral at a weekend price the regulated market never printed. Vesper publishes the structure <em>and</em> the measurement, not just the alarm. The verdict stands; the loss stays latent until the tail arrives.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Reproducible evidence</p>
+    <h2>Jupiter Lend — RED dossier</h2>
+    <div class="dossier">
+      <div class="dossier-head">
+        <span class="verdict r"><span class="swatch" style="background:var(--red)"></span>RED</span>
+        <h3>Gap-exposed: liquidates against an unbounded closed-market price</h3>
+      </div>
+      <div class="kv">
+        <div class="row"><div class="key">Source read</div><div class="val">Deployed program — <b>Instadapp / fluid-solana-programs</b> @ commit <span class="mono">626b177f</span> (the Jupiter Lend audit commit), cross-checked against live mainnet accounts.</div></div>
+        <div class="row"><div class="key">Programs</div><div class="val"><span class="mono">vaults jupr81YtYssSyPt8jbnGuiWon5f6x9TcDEFxYe3Bdzi</span><br><span class="mono">oracle jupnw4B6Eqs7ft6rxpzYLJZYSnrpRgPcr589n5Kv4oc</span></div></div>
+        <div class="row"><div class="key">xStock vaults</div><div class="val"><b>8 live</b> (#77–84) · collateral factor 65–75% · liquidation threshold 75–85% · Backed “Xs…” mints borrowing USDC / JupUSD.</div></div>
+        <div class="row"><div class="key">Guard in code</div><div class="val"><b>Staleness + confidence only.</b> <span class="mono">MAX_AGE_LIQUIDATE = 7200s</span> (“less requirements on liquidate() to keep protocol safe → 2hrs”). Zero references to market hours, market status, price band, or clamp anywhere in <span class="mono">oracle</span> or <span class="mono">vaults</span>.</div></div>
+        <div class="row"><div class="key">Feed behaviour</div><div class="val">Each vault's oracle resolves to a single 24/7 pushed price account (SPYx <span class="mono">A2GDb4Um…Cywff</span>). Live update log: <b>813 writes Saturday 07-25 with the US market closed all day</b>, 2,403 across the measured closed window (65.9h), 20.8 min max gap — never within reach of the 2-hour tolerance.</div></div>
+        <div class="row"><div class="key">Consequence</div><div class="val">A weekend or news gap yields <b>unfair liquidations</b> (borrower seized at a price the market never printed) or <b>unliquidatable bad debt</b> (protocol cannot act on true value). Second-largest xStock lending venue after Kamino.</div></div>
+        <div class="row"><div class="key">Reproduce</div><div class="val"><span class="mono">verify-cmls.mjs</span> — zero-dependency, re-derives each verdict from public chain state. Redde lineage.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">What now</p>
+    <h2>A RED verdict is a decision, not an alarm</h2>
+    <p class="sub">The gap has a proven fix and a safe alternative — both already live on the same chain. So each actor has a move today.</p>
+    <div class="actions">
+      <div class="act borrower">
+        <div class="who">If you borrow on a RED venue<b>De-risk before the close</b></div>
+        <p>Your weekend liquidation price is a 24/7 mark with no tie to Friday's close.</p>
+        <p class="do">Cut leverage or exit leveraged xStock positions before Fri 20:00 ET — don't ride one through the closed-market window.</p>
+      </div>
+      <div class="act issuer">
+        <div class="who">If you issue the token · xStocks · Ondo<b>Steer where it's collateral</b></div>
+        <p>Your token's safety is set by the venue, not by you — and only you can bound it.</p>
+        <p class="do">Publish a recommended-collateral allowlist, make a closed-market band a listing condition, and withhold endorsement from venues that liquidate through the window.</p>
+      </div>
+      <div class="act operator">
+        <div class="who">If you run the venue · Jupiter · Fluid<b>Adopt the close-band</b></div>
+        <p>The fix is already shipped and audited one protocol over.</p>
+        <p class="do">Clamp the closed-market price to the last regular close within a band, or suspend liquidations during the window. Vesper re-verifies on deploy.</p>
+      </div>
+    </div>
+    <div class="fix">
+      <div class="lead">Path to GREEN</div>
+      <div class="body">
+        <p>Jupiter Lend needs <b>one change</b>: a market-status band on its xStock oracle, bounding the closed-market price to the last regular-session close — exactly what Kamino runs today (double-audited, GREEN).</p>
+        <p class="meta">Estimated verdict on ship: 🟢 GREEN · re-checked automatically from chain state.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Why re-execution</p>
+    <h2>“Which oracle?” cannot answer this</h2>
+    <div class="why">
+      <div class="card">
+        <h3><span class="tag">vendor ≠ safety</span></h3>
+        <p>Chainlink's own tokenized-equity feed reports the last close with <em>no</em> band and doesn't flag holidays — “the consuming protocol must detect closed markets itself.” Pyth freezes at last price. Safety lives in the protocol's code, not the feed brand.</p>
+      </div>
+      <div class="card">
+        <h3><span class="tag">same inputs, opposite outcomes</span></h3>
+        <p>Kamino builds a market-status band on top and scores GREEN. Jupiter reads a premium feed with no band and scores RED. A checklist of “uses Pyth / Chainlink” would rate them identically. Re-executing the liquidation path is the only thing that separates them.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Scope &amp; intent</p>
+    <div class="scope">
+      <p><b>This is neutral soundness measurement, not a vulnerability disclosure.</b> Every figure is derived from public on-chain state and open-source code. The closed-market gap is a structural design property that the affected venue documents itself; Vesper quantifies and confirms it, and grades all venues on one published rule.</p>
+      <p>Intended reliers are the <b>issuers</b> whose tokens are used as collateral (xStocks / Backed, Ondo) and the venues themselves — parties with standing to bound where their assets are lent. Findings are shareable with them ahead of any public posting.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span class="sig"><b>Vesper</b> · closed-market liquidation soundness · re-execution verifier</span>
+    <span>graded 2026-07-26 · Solana mainnet</span>
+  </footer>
+
+</div>
+</div>

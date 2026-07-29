@@ -1,0 +1,41 @@
+<!doctype html><meta charset="utf-8"><title>Re-execution verifier league</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 15px/1.5 ui-sans-serif,system-ui,sans-serif; max-width: 60rem; margin: 3rem auto; padding: 0 1rem; }
+  h1 { font-size: 1.6rem; }
+  .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill,minmax(15rem,1fr)); }
+  .card { border: 1px solid color-mix(in srgb, currentColor 20%, transparent); border-radius: .75rem; padding: 1rem; }
+  .dir { font-size: .7rem; letter-spacing: .05em; opacity: .6; text-transform: uppercase; }
+  .card h2 { font-size: 1.1rem; margin: .2rem 0 .4rem; }
+  .inv { font-weight: 600; margin: .2rem 0; }
+  .tag { opacity: .7; font-size: .85rem; }
+  .verdict { color: var(--c); font-weight: 700; margin-top: .6rem; }
+</style>
+<h1>Re-execution verifier league</h1>
+<p>One re-execution engine, four surfaces: reconstruct the past, verify the present, weaponize the boundary.</p>
+<div class="grid">
+      <article class="card">
+        <header><span class="dir">PAST · reconstruct</span><h2>Praeda</h2></header>
+        <p class="inv">Collapse-boundary flow reconstruction</p>
+        <p class="tag">A collapse leaves a transfer record. Reconstructs which value crossed a declared system boundary, and when, from public state — no confession needed.</p>
+        <p class="verdict" style="--c:#6b7280">reconstructed: Euler 2023</p>
+      </article>
+      <article class="card">
+        <header><span class="dir">PRESENT · verify</span><h2>Redde</h2></header>
+        <p class="inv">Solvency re-computation</p>
+        <p class="tag">redde rationem — render the account. Reconstructs claimed solvency from mainnet state without the protocol's consent.</p>
+        <p class="verdict" style="--c:#6b7280">per-target (see scan)</p>
+      </article>
+      <article class="card">
+        <header><span class="dir">PRESENT · verify</span><h2>Vesper</h2></header>
+        <p class="inv">Closed-Market Liquidation Soundness (CMLS)</p>
+        <p class="tag">Re-derives the price each venue liquidates tokenized equities against in the weekend gap. Money-shot: same SPYx feed, Kamino GREEN / Jupiter RED.</p>
+        <p class="verdict" style="--c:#dc2626">Jupiter 🔴 / Kamino 🟢 (SPYx)</p>
+      </article>
+      <article class="card">
+        <header><span class="dir">ADVERSARIAL · weaponize</span><h2>Ruptor</h2></header>
+        <p class="inv">Liquidity-seizure capacity</p>
+        <p class="tag">Offensive descendant: re-executes real lending positions and prints the executable trade + the loss from a Monday-open gap, using live-measured on-chain liquidity.</p>
+        <p class="verdict" style="--c:#dc2626">seizure > capacity (robust)</p>
+      </article>
+</div>

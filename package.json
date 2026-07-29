@@ -1,18 +1,16 @@
 {
   "name": "redde",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Render the account. Solvency, whether they like it or not.",
+  "description": "Re-execution verifier league — one engine, four surfaces (redde/vesper/ruptor/praeda).",
   "type": "module",
   "engines": { "node": ">=18" },
   "scripts": {
-    "verify": "node verify.mjs",
-    "verify:json": "node verify.mjs --json",
-    "verify:marinade": "node verify-marinade.mjs",
-    "scan": "node scan.mjs",
-    "board": "node gen-board.mjs",
-    "attest": "node attest.mjs",
-    "verify:attestation": "node verify-attestation.mjs",
-    "probe": "node probe.mjs"
+    "league": "node run.mjs",
+    "league:html": "node run.mjs --html",
+    "redde": "cd surfaces/redde && node verify.mjs",
+    "vesper": "cd surfaces/vesper && node verify-cmls.mjs",
+    "ruptor": "cd surfaces/ruptor && node ruptor.mjs",
+    "praeda": "cd surfaces/praeda && node reconstruct.mjs"
   }
 }

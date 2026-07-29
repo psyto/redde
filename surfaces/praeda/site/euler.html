@@ -1,0 +1,321 @@
+<title>Praeda — Exhibit B — Euler</title>
+<style>
+  :root {
+    --coal:#0e0c0b; --panel:#17130f; --panel-2:#1e1813; --ink:#ece5d8; --ink-2:#9a9082;
+    --hair:#2b2620; --out:#cf4b3a; --out-ink:#e06152; --in:#6f8aa0; --in-ink:#8ea9bf;
+    --bone:#b6ab97; --gold:#c69f52; --out-wash:rgba(207,75,58,0.10);
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+    --edge:clamp(1.25rem,5vw,4rem);
+  }
+  @media (prefers-color-scheme: light){ :root{
+    --coal:#efe9dd; --panel:#e6e0d3; --panel-2:#ded7c8; --ink:#1a1611; --ink-2:#5b5347;
+    --hair:#cabfad; --out:#a5301f; --out-ink:#8f2a1c; --in:#3f6076; --in-ink:#345066;
+    --bone:#5b5044; --gold:#8a6a1e; --out-wash:rgba(165,48,31,0.09); } }
+  :root[data-theme="light"]{
+    --coal:#efe9dd; --panel:#e6e0d3; --panel-2:#ded7c8; --ink:#1a1611; --ink-2:#5b5347;
+    --hair:#cabfad; --out:#a5301f; --out-ink:#8f2a1c; --in:#3f6076; --in-ink:#345066;
+    --bone:#5b5044; --gold:#8a6a1e; --out-wash:rgba(165,48,31,0.09); }
+  :root[data-theme="dark"]{
+    --coal:#0e0c0b; --panel:#17130f; --panel-2:#1e1813; --ink:#ece5d8; --ink-2:#9a9082;
+    --hair:#2b2620; --out:#cf4b3a; --out-ink:#e06152; --in:#6f8aa0; --in-ink:#8ea9bf;
+    --bone:#b6ab97; --gold:#c69f52; --out-wash:rgba(207,75,58,0.10); }
+
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; background:var(--coal); color:var(--ink);
+    font-family:var(--serif); font-size:1.0625rem; line-height:1.55;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  .wrap { max-width:60rem; margin:0 auto; padding:0 var(--edge); }
+  .label { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.22em;
+    text-transform:uppercase; color:var(--ink-2); }
+  .rule { height:1px; background:var(--hair); border:0; margin:0; }
+  em { font-style:italic; }
+  code { font-family:var(--mono); font-size:0.85em; color:var(--bone); }
+
+  header.mast { display:flex; justify-content:space-between; align-items:baseline;
+    gap:1rem; padding:1.4rem 0 1.1rem; flex-wrap:wrap; }
+  .mast .mark { font-family:var(--mono); font-weight:600; letter-spacing:0.24em;
+    text-transform:uppercase; font-size:0.82rem; color:var(--out-ink); }
+  .mast .lat { font-style:italic; color:var(--ink-2); font-size:0.95rem; }
+
+  .chip { font-family:var(--mono); font-size:0.64rem; letter-spacing:0.16em;
+    text-transform:uppercase; font-weight:600; display:inline-flex; align-items:center;
+    gap:0.5em; padding:0.45em 0.8em; border-radius:999px; white-space:nowrap; }
+  .chip.settled { border:1.5px solid var(--bone); color:var(--bone); }
+  .chip.recon { border:1.5px solid var(--in-ink); color:var(--in-ink); }
+  .chip .dot { width:0.5em; height:0.5em; border-radius:50%; background:currentColor; }
+
+  /* ---- the collapse: one orchestrated moment ---- */
+  .stage { padding:clamp(2rem,5vw,3.4rem) 0 clamp(1.4rem,3vw,2.2rem); }
+  .stage .eyebrow { display:flex; gap:0.7rem; margin-bottom:1.7rem; flex-wrap:wrap; align-items:center; }
+  h1 { font-family:var(--serif); font-weight:600; font-size:clamp(2.1rem,6vw,3.4rem);
+    line-height:1.0; letter-spacing:-0.02em; text-wrap:balance; margin:0 0 0.5rem; }
+  h1 em { font-style:italic; color:var(--out-ink); }
+  .thesis { font-family:var(--mono); font-size:0.8rem; letter-spacing:0.02em; color:var(--ink-2);
+    margin:0 0 2rem; }
+  .thesis b { color:var(--bone); font-weight:600; }
+
+  .reserve { display:flex; align-items:baseline; gap:1rem 1.4rem; flex-wrap:wrap; margin-bottom:0.4rem; }
+  .rnum { font-family:var(--mono); font-weight:600; font-size:clamp(3rem,12vw,7.5rem);
+    line-height:0.9; letter-spacing:-0.035em; color:var(--out-ink); font-variant-numeric:tabular-nums;
+    font-feature-settings:"tnum"; }
+  .rmeta { font-family:var(--mono); font-size:clamp(0.8rem,2vw,1rem); color:var(--ink-2);
+    line-height:1.5; }
+  .rmeta b { color:var(--out-ink); font-weight:600; }
+  .rlabel { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--ink-2); margin-bottom:0.8rem; }
+
+  .chart { margin-top:1.4rem; }
+  .chart svg { width:100%; height:auto; display:block; }
+  .ax { font-family:var(--mono); font-size:12px; fill:var(--ink-2); letter-spacing:0.03em; }
+  .ax.big { font-size:13px; fill:var(--bone); }
+  .curveline { fill:none; stroke:var(--out); stroke-width:2.5; stroke-linejoin:round; }
+  .curvearea { fill:var(--out-wash); stroke:none; }
+  .endcap { fill:var(--out); }
+  .gridline { stroke:var(--hair); stroke-width:1; }
+
+  section { padding:clamp(1.9rem,4.5vw,3rem) 0; }
+  .eyebrow-b { display:block; margin-bottom:1.1rem; }
+  h2 { font-family:var(--serif); font-weight:600; font-size:clamp(1.9rem,5.5vw,3rem);
+    line-height:1.02; letter-spacing:-0.015em; text-wrap:balance; margin:0 0 1.3rem; }
+  h2 em { font-style:italic; color:var(--out-ink); }
+
+  /* stats strip */
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--hair); border:1px solid var(--hair); }
+  @media (max-width:640px){ .stats { grid-template-columns:repeat(2,1fr); } }
+  .stat { background:var(--panel); padding:1.15rem clamp(0.9rem,2.2vw,1.4rem); }
+  .stat .k { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--ink-2); margin-bottom:0.5rem; }
+  .stat .v { font-family:var(--mono); font-size:clamp(1.4rem,3.3vw,1.9rem); font-weight:600;
+    line-height:1; letter-spacing:-0.02em; font-variant-numeric:tabular-nums; }
+  .stat .v.out { color:var(--out-ink); } .stat .v.gold { color:var(--gold); }
+  .stat .s { font-family:var(--mono); font-size:0.64rem; color:var(--ink-2); margin-top:0.4rem; }
+
+  /* money shot: clones + netting */
+  .machine { background:var(--panel); border:1px solid var(--hair); border-top:3px solid var(--out);
+    padding:clamp(1.4rem,3.5vw,2.3rem); }
+  .nodes { display:flex; gap:1.7rem; flex-wrap:wrap; margin:0 0 2rem; }
+  .grp { display:flex; flex-direction:column; gap:0.6rem; }
+  .grp .row { display:flex; gap:6px; }
+  .m-node { width:22px; height:22px; border-radius:4px; border:2px solid; }
+  .m-node.o { border-color:var(--out); background:var(--out-wash); }
+  .m-node.i { border-color:var(--in); background:rgba(111,138,160,0.14); }
+  .m-node.z { border-color:var(--gold);
+    background-image:repeating-linear-gradient(45deg,var(--gold) 0 2px,transparent 2px 4px); }
+  .grp .lab { font-family:var(--mono); font-size:0.66rem; color:var(--ink-2); }
+  .grp .lab b { color:var(--bone); font-weight:600; }
+
+  .waterfall { display:grid; gap:0.55rem; margin-top:0.3rem; }
+  .wf { display:grid; grid-template-columns:4rem 1fr; gap:0.9rem; align-items:center; }
+  .wf .wk { font-family:var(--mono); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--ink-2); text-align:right; }
+  .wf .bar { height:2.7rem; display:flex; align-items:center; padding:0 0.85rem; border-radius:2px;
+    font-family:var(--mono); font-weight:600; font-size:0.98rem; color:#0e0c0b; white-space:nowrap;
+    font-variant-numeric:tabular-nums; transform-origin:left; }
+  .wf.out .bar { background:var(--out); }
+  .wf.in .bar { background:var(--in); }
+  .wf.net .bar { background:var(--out-ink); box-shadow:0 0 0 1.5px var(--out); }
+  .wf.net .bar .tag { font-weight:400; margin-left:0.7rem; opacity:0.8; }
+  .mcap { font-family:var(--mono); font-size:0.74rem; color:var(--ink-2); margin-top:1.5rem; line-height:1.65;
+    max-width:46rem; }
+  .mcap em { color:var(--bone); font-style:normal; }
+
+  /* locked flow */
+  .flowhead { display:flex; justify-content:space-between; align-items:flex-end; gap:1rem 1.5rem; flex-wrap:wrap; }
+  .flowhead .k { font-family:var(--mono); font-size:0.64rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--ink-2); margin-bottom:0.4rem; }
+  .flowhead .fv { font-family:var(--mono); font-weight:600; font-size:clamp(1.8rem,4.5vw,2.5rem);
+    letter-spacing:-0.02em; color:var(--out-ink); font-variant-numeric:tabular-nums; line-height:1; }
+  .badges { display:flex; gap:0.45rem; flex-wrap:wrap; }
+  .badge { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.04em; color:var(--in-ink);
+    border:1px solid var(--hair); border-radius:3px; padding:0.35em 0.6em; white-space:nowrap; }
+  .wf.gold .bar { background:var(--gold); }
+  .terminals { display:grid; gap:1px; background:var(--hair); border:1px solid var(--hair); margin-top:0.9rem; }
+  .term { background:var(--coal); display:grid; grid-template-columns:1fr auto auto; gap:0.8rem 1.1rem;
+    align-items:center; padding:0.75rem 0.95rem; }
+  .term code { font-family:var(--mono); font-size:0.82rem; color:var(--bone); }
+  .term span { font-family:var(--mono); font-size:0.72rem; color:var(--ink-2); }
+  .term b { font-family:var(--mono); font-weight:600; font-size:0.9rem; color:var(--out-ink);
+    font-variant-numeric:tabular-nums; }
+
+  /* refusals */
+  .pair { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--hair);
+    border:1px solid var(--hair); }
+  @media (max-width:640px){ .pair { grid-template-columns:1fr; } }
+  .cell { background:var(--panel); padding:1.6rem clamp(1.1rem,3vw,1.8rem); }
+  .cell .k { font-family:var(--mono); font-size:0.64rem; letter-spacing:0.13em; text-transform:uppercase;
+    color:var(--out-ink); margin-bottom:0.7rem; }
+  .cell .big { font-family:var(--serif); font-weight:600; font-size:1.18rem; line-height:1.25; margin-bottom:0.9rem; }
+  .prices { font-family:var(--mono); font-size:0.88rem; color:var(--bone); display:flex; gap:1.4rem; flex-wrap:wrap; }
+  .prices b { color:var(--gold); }
+  .subtle { font-family:var(--mono); font-size:0.76rem; color:var(--ink-2); margin-top:0.7rem; line-height:1.5; }
+  .subtle code { color:var(--gold); font-weight:600; }
+
+  footer { padding:clamp(2rem,5vw,3rem) 0 3rem; border-top:1px solid var(--hair); margin-top:1.6rem; }
+  footer .line { display:flex; justify-content:space-between; gap:1rem 2rem; flex-wrap:wrap;
+    font-family:var(--mono); font-size:0.78rem; color:var(--ink-2); line-height:1.7; }
+  footer b { color:var(--bone); font-weight:600; }
+  footer a { color:var(--in-ink); text-decoration:none; border-bottom:1px solid var(--hair); }
+  footer a:hover { border-color:var(--in-ink); }
+  :focus-visible { outline:2px solid var(--in-ink); outline-offset:2px; }
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <span class="mark">Praeda · Exhibit B</span>
+    <span class="lat">a collapse leaves a transfer record</span>
+  </header>
+</div>
+<hr class="rule" />
+
+<div class="wrap">
+  <div class="stage">
+    <div class="eyebrow">
+      <span class="chip recon"><span class="dot"></span>Reconstructed</span>
+      <span class="chip settled">Framing settled</span>
+      <span class="label">Euler Finance · Ethereum · 2023-03-13</span>
+    </div>
+    <h1>A market emptied in <em>fourteen&nbsp;minutes</em>.</h1>
+    <p class="thesis">Re-read from Ethereum's own archive, block by block. <b>Naming no one.</b></p>
+
+    <div class="reserve">
+      <div>
+        <div class="rlabel">Reserve in the boundary</div>
+        <div class="rnum" id="rnum">$173,640,654</div>
+      </div>
+      <div class="rmeta" id="rmeta">at 08:50:47 UTC<br />solvent</div>
+    </div>
+
+    <div class="chart" id="chart" aria-label="Euler's aggregate USD reserve across the 72-block window, falling from $173.6M to $993 in 14 minutes 36 seconds"></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="k">Elapsed</div><div class="v">14m 36s</div><div class="s">72 blocks</div></div>
+      <div class="stat"><div class="k">Net boundary outflow</div><div class="v out">+$173.6M</div><div class="s">reference-priced</div></div>
+      <div class="stat"><div class="k">Endpoints</div><div class="v">13 / 0</div><div class="s">contracts / people</div></div>
+      <div class="stat"><div class="k">Distinct bytecodes</div><div class="v gold">4</div><div class="s">clone templates</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="label eyebrow-b">The distribution · we followed the value</span>
+    <h2>Where it landed — and where we <em>stop</em>.</h2>
+    <div class="machine">
+      <div class="flowhead">
+        <div>
+          <div class="k">Boundary gross outflow · 4 transactions</div>
+          <div class="fv">$173,640,654</div>
+        </div>
+        <div class="badges">
+          <span class="badge">Σ net = 0 per tx · token</span>
+          <span class="badge">reconciliation $0</span>
+          <span class="badge">ties to balanceOf exactly</span>
+        </div>
+      </div>
+      <div class="waterfall" style="margin-top:1.7rem">
+        <div class="wf out"><span class="wk">Resolved</span><div class="bar" style="width:32.2%">$55.9M<span class="tag">→ 2 holding contracts</span></div></div>
+        <div class="wf gold"><span class="wk">Unwrapped</span><div class="bar" style="width:67.8%">$117.8M<span class="tag">wstETH → 0x0 · continues as stETH</span></div></div>
+      </div>
+      <div class="terminals">
+        <div class="term"><code>0x036cec1a…9440825f1c</code><span>WETH · USDC</span><b>$46,811,592</b></div>
+        <div class="term"><code>0xebc29199…64d640cbf99</code><span>DAI</span><b>$8,802,324</b></div>
+      </div>
+      <div class="mcap">The boundary's 13 immediate counterparties are all contracts — but a clone that
+        <em>receives and forwards in the same transaction</em> is a conduit, not a destination. Following each
+        transaction's value-conserving path collapses the plumbing: $55.9M provably terminates at two holding
+        contracts; the dominant $117.8M leg is <em>unwrapped</em> (wstETH burned to 0x0, continuing as stETH) and
+        leaves the tracked tokens — so we stop and mark it <code>ROUTE_UNRESOLVED</code>.
+        <em>Praeda does not invent the next hop.</em></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="label eyebrow-b">Two refusals</span>
+    <div class="pair">
+      <div class="cell">
+        <div class="k">We did not assume $1</div>
+        <div class="big">The stablecoins were not stable that weekend.</div>
+        <div class="prices"><span>USDC <b>$0.9910</b></span><span>DAI <b>$0.9915</b></span></div>
+        <div class="subtle">Chainlink + Lido, read at the boundary block — the SVB weekend.</div>
+      </div>
+      <div class="cell">
+        <div class="k">We did not name a culprit</div>
+        <div class="big">Two numbers per account. No verdict.</div>
+        <div class="prices" style="color:var(--bone)"><span>net outflow · timing</span></div>
+        <div class="subtle">Archive can't serve the window? <code>UNRECONSTRUCTED</code> — never a guess.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="line">
+      <span><b>One engine. Two virtual machines.</b><br />Exhibit A — $LIBRA / Solana · Exhibit B — Euler / Ethereum</span>
+      <span>Reproducible from the archive by anyone —<br /><a href="https://github.com/psyto/praeda">github.com/psyto/praeda</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reserve read from state at every block in the window. t = elapsed fraction; usd = boundary reserve.
+  const CURVE = [[0,173640654],[0.0137,164811559],[0.0274,164811559],[0.0422,164811559],[0.0559,164811559],[0.0696,164811559],[0.0833,164811559],[0.097,164811559],[0.1107,164811559],[0.1256,164811559],[0.1393,164811559],[0.153,164811559],[0.1667,164811559],[0.1804,164811559],[0.1941,164811559],[0.2089,164811559],[0.2226,164811559],[0.2363,164811559],[0.25,164811559],[0.2637,164811559],[0.2774,164811559],[0.2922,164811559],[0.3059,164811559],[0.3196,164811559],[0.3333,164811559],[0.347,164811559],[0.3607,164811559],[0.3756,164811559],[0.3893,164811559],[0.403,151886797],[0.4167,151886797],[0.4304,151886797],[0.4441,151886797],[0.4589,151886797],[0.4726,151886797],[0.4863,151886797],[0.5,151886797],[0.5137,151886797],[0.5274,151886797],[0.5422,151886797],[0.5559,151886797],[0.5696,151886797],[0.5833,151886797],[0.597,151886797],[0.6107,151886797],[0.6256,151886797],[0.6393,151886797],[0.653,151886797],[0.6667,151886797],[0.6804,151886797],[0.6941,151886797],[0.7089,151886797],[0.7226,151886797],[0.7363,151886797],[0.75,151886797],[0.7637,151886797],[0.7774,151886797],[0.7922,151886797],[0.8059,151886797],[0.8196,151887791],[0.8333,151887791],[0.847,151887791],[0.8607,151887791],[0.8756,151887791],[0.8893,151887791],[0.903,151887791],[0.9167,151887791],[0.9304,34105132],[0.9441,34105132],[0.9589,34105132],[0.9726,993],[0.9863,993],[1,993]];
+  const W = 1000, H = 400, PT = 24, PB = 40, PL = 64, PR = 16;
+  const peak = 173640654, iw = W - PL - PR, ih = H - PT - PB;
+  const X = t => PL + t * iw, Y = u => PT + (1 - u / peak) * ih;
+  const T0 = 8 * 3600 + 50 * 60 + 47, T1 = 9 * 3600 + 5 * 60 + 23; // UTC seconds of t0..t1
+
+  let line = "", area = `M ${X(0)} ${Y(CURVE[0][1])}`;
+  CURVE.forEach(([t, u], i) => { const px = X(t).toFixed(1), py = Y(u).toFixed(1);
+    line += (i ? " L " : "M ") + px + " " + py; area += " L " + px + " " + py; });
+  area += ` L ${X(1).toFixed(1)} ${Y(0).toFixed(1)} L ${X(0).toFixed(1)} ${Y(0).toFixed(1)} Z`;
+  const gy = [173.6, 116, 58, 0];
+  const grid = gy.map(v => { const yy = Y(v * 1e6).toFixed(1);
+    return `<line class="gridline" x1="${PL}" y1="${yy}" x2="${W - PR}" y2="${yy}"></line>` +
+      `<text class="ax" x="${PL - 8}" y="${(+yy + 4).toFixed(1)}" text-anchor="end">${v ? "$" + v + "M" : "$0"}</text>`; }).join("");
+
+  document.getElementById("chart").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" preserveAspectRatio="xMidYMid meet">
+    <defs><clipPath id="reveal"><rect id="rvl" x="${PL}" y="0" width="0" height="${H}"></rect></clipPath></defs>
+    ${grid}
+    <g clip-path="url(#reveal)">
+      <path class="curvearea" d="${area}"></path>
+      <path class="curveline" d="${line}"></path>
+    </g>
+    <circle id="pen" class="endcap" cx="${X(0).toFixed(1)}" cy="${Y(peak).toFixed(1)}" r="5"></circle>
+    <text class="ax big" x="${PL}" y="${H - 12}" text-anchor="start">08:50:47 · solvent</text>
+    <text class="ax big" x="${W - PR}" y="${H - 12}" text-anchor="end">09:05:23 · $993</text>
+  </svg>`;
+
+  const rvl = document.getElementById("rvl"), pen = document.getElementById("pen");
+  const rnum = document.getElementById("rnum"), rmeta = document.getElementById("rmeta");
+  const usdAt = t => { if (t <= 0) return CURVE[0][1]; if (t >= 1) return CURVE[CURVE.length - 1][1];
+    for (let i = 1; i < CURVE.length; i++) if (CURVE[i][0] >= t) {
+      const [ta, ua] = CURVE[i - 1], [tb, ub] = CURVE[i]; return ua + (ub - ua) * (t - ta) / (tb - ta); } return 993; };
+  const money = n => "$" + Math.round(n).toLocaleString("en-US");
+  const clock = t => { const s = Math.round(T0 + (T1 - T0) * t), hh = String(Math.floor(s / 3600)).padStart(2, "0"),
+    mm = String(Math.floor(s / 60) % 60).padStart(2, "0"), ss = String(s % 60).padStart(2, "0"); return `${hh}:${mm}:${ss}`; };
+  const render = t => { const u = usdAt(t);
+    rvl.setAttribute("width", (X(t) - PL).toFixed(1)); pen.setAttribute("cx", X(t).toFixed(1)); pen.setAttribute("cy", Y(u).toFixed(1));
+    rnum.textContent = money(u);
+    const dd = ((peak - u) / peak * 100); rmeta.innerHTML = `at ${clock(t)} UTC<br />${dd < 0.05 ? "solvent" : "−" + dd.toFixed(dd > 99 ? 3 : 1) + "%"}`; };
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) { render(1); }
+  else {
+    const DUR = 2600, DELAY = 450; let start = null;
+    const ease = p => 1 - Math.pow(1 - p, 3);
+    const step = ts => { if (start === null) start = ts; const e = ts - start - DELAY;
+      if (e <= 0) { render(0); return requestAnimationFrame(step); }
+      const p = Math.min(1, e / DUR); render(ease(p)); if (p < 1) requestAnimationFrame(step); };
+    render(0); requestAnimationFrame(step);
+  }
+</script>

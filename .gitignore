@@ -2,5 +2,14 @@ node_modules/
 .DS_Store
 *.log
 
+# signer material (redde attestation) — never commit
 redde-signer.key
+surfaces/redde/redde-signer.key
 *-attestation.json
+
+# Rust build artifacts
+target/
+
+# Note: each surface under surfaces/<name>/ keeps its own .gitignore for
+# surface-local secrets and withheld findings (e.g. ruptor venue.local.mjs,
+# praeda backtest/.env). Those are honored by git in addition to this file.

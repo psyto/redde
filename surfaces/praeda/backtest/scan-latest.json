@@ -1,0 +1,322 @@
+{
+  "scanned": 13,
+  "ok": 11,
+  "pools": [
+    {
+      "label": "FRAXBP (FRAX/USDC)",
+      "pool": "0xDcEF968d416a41Cdac0ED8702fAC8128A64241A2",
+      "ok": true,
+      "n": 2,
+      "totalUnits": 4053327,
+      "maxShare": 0.9057,
+      "minShare": 0.0943,
+      "fair": 0.5,
+      "imbalance": 1.81,
+      "domToken": "FRAX",
+      "price": 0.9907,
+      "discount": 0.0093,
+      "legs": [
+        {
+          "token": "FRAX",
+          "share": 0.9057,
+          "units": 3670974
+        },
+        {
+          "token": "USDC",
+          "share": 0.0943,
+          "units": 382353
+        }
+      ],
+      "flag": "benign"
+    },
+    {
+      "label": "frxETH/ETH",
+      "pool": "0xa1F8A6807c402E4A15ef4EBa36528A3FED24E577",
+      "ok": true,
+      "n": 2,
+      "totalUnits": 280,
+      "maxShare": 0.8264,
+      "minShare": 0.1736,
+      "fair": 0.5,
+      "imbalance": 1.65,
+      "domToken": "frxETH",
+      "price": 0.9964,
+      "discount": 0.0036,
+      "legs": [
+        {
+          "token": "frxETH",
+          "share": 0.8264,
+          "units": 231
+        },
+        {
+          "token": "ETH",
+          "share": 0.1736,
+          "units": 49
+        }
+      ],
+      "flag": "benign"
+    },
+    {
+      "label": "3pool (DAI/USDC/USDT)",
+      "pool": "0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7",
+      "ok": true,
+      "n": 3,
+      "totalUnits": 160206417,
+      "maxShare": 0.6556,
+      "minShare": 0.1711,
+      "fair": 0.333,
+      "imbalance": 1.97,
+      "domToken": "USDT",
+      "price": 0.9992,
+      "discount": 0.0008,
+      "legs": [
+        {
+          "token": "USDT",
+          "share": 0.6556,
+          "units": 105031492
+        },
+        {
+          "token": "USDC",
+          "share": 0.1733,
+          "units": 27756042
+        },
+        {
+          "token": "DAI",
+          "share": 0.1711,
+          "units": 27418882
+        }
+      ],
+      "flag": "benign"
+    },
+    {
+      "label": "crvUSD/USDT",
+      "pool": "0x390f3595bCa2Df7d23783dFd126427CCeb997BF4",
+      "ok": true,
+      "n": 2,
+      "totalUnits": 46882843,
+      "maxShare": 0.6426,
+      "minShare": 0.3574,
+      "fair": 0.5,
+      "imbalance": 1.29,
+      "domToken": "USDT",
+      "price": 0.9996,
+      "discount": 0.0004,
+      "legs": [
+        {
+          "token": "USDT",
+          "share": 0.6426,
+          "units": 30127761
+        },
+        {
+          "token": "crvUSD",
+          "share": 0.3574,
+          "units": 16755081
+        }
+      ],
+      "flag": "green"
+    },
+    {
+      "label": "crvUSD/USDC",
+      "pool": "0x4DEcE678ceceb27446b35C672dC7d61F30bAD69E",
+      "ok": true,
+      "n": 2,
+      "totalUnits": 15982845,
+      "maxShare": 0.6384,
+      "minShare": 0.3616,
+      "fair": 0.5,
+      "imbalance": 1.28,
+      "domToken": "crvUSD",
+      "price": 0.9996,
+      "discount": 0.0004,
+      "legs": [
+        {
+          "token": "crvUSD",
+          "share": 0.6384,
+          "units": 10204040
+        },
+        {
+          "token": "USDC",
+          "share": 0.3616,
+          "units": 5778805
+        }
+      ],
+      "flag": "green"
+    },
+    {
+      "label": "rETH/ETH ng",
+      "pool": "0x0f3159811670c117c372428D4E69AC32325e4D0F",
+      "ok": true,
+      "n": 2,
+      "totalUnits": 40,
+      "maxShare": 0.5839,
+      "minShare": 0.4161,
+      "fair": 0.5,
+      "imbalance": 1.17,
+      "domToken": "0xc02a…6cc2",
+      "price": null,
+      "discount": null,
+      "legs": [
+        {
+          "token": "0xc02a…6cc2",
+          "share": 0.5839,
+          "units": 23
+        },
+        {
+          "token": "rETH",
+          "share": 0.4161,
+          "units": 17
+        }
+      ],
+      "flag": "green"
+    },
+    {
+      "label": "cbETH/ETH",
+      "pool": "0x5FAE7E604FC3e24fd43A72867ceBaC94c65b404A",
+      "ok": true,
+      "n": 2,
+      "totalUnits": 75,
+      "maxShare": 0.5518,
+      "minShare": 0.4482,
+      "fair": 0.5,
+      "imbalance": 1.1,
+      "domToken": "0xc02a…6cc2",
+      "price": null,
+      "discount": null,
+      "legs": [
+        {
+          "token": "0xc02a…6cc2",
+          "share": 0.5518,
+          "units": 42
+        },
+        {
+          "token": "cbETH",
+          "share": 0.4482,
+          "units": 34
+        }
+      ],
+      "flag": "green"
+    },
+    {
+      "label": "stETH/ETH ng",
+      "pool": "0x21E27a5E5513D6e65C4f830167390997aA84843a",
+      "ok": true,
+      "n": 2,
+      "totalUnits": 9897,
+      "maxShare": 0.5425,
+      "minShare": 0.4575,
+      "fair": 0.5,
+      "imbalance": 1.09,
+      "domToken": "stETH",
+      "price": null,
+      "discount": null,
+      "legs": [
+        {
+          "token": "stETH",
+          "share": 0.5425,
+          "units": 5369
+        },
+        {
+          "token": "ETH",
+          "share": 0.4575,
+          "units": 4528
+        }
+      ],
+      "flag": "green"
+    },
+    {
+      "label": "ankrETH/ETH",
+      "pool": "0xA96A65c051bF88B4095Ee1f2451C2A9d43F53Ae2",
+      "ok": true,
+      "n": 2,
+      "totalUnits": 52,
+      "maxShare": 0.5315,
+      "minShare": 0.4685,
+      "fair": 0.5,
+      "imbalance": 1.06,
+      "domToken": "ETH",
+      "price": null,
+      "discount": null,
+      "legs": [
+        {
+          "token": "ETH",
+          "share": 0.5315,
+          "units": 28
+        },
+        {
+          "token": "ankrETH",
+          "share": 0.4685,
+          "units": 24
+        }
+      ],
+      "flag": "green"
+    },
+    {
+      "label": "stETH/ETH (old)",
+      "pool": "0xDC24316b9AE028F1497c275EB9192a3Ea0f67022",
+      "ok": true,
+      "n": 2,
+      "totalUnits": 40943,
+      "maxShare": 0.5301,
+      "minShare": 0.4699,
+      "fair": 0.5,
+      "imbalance": 1.06,
+      "domToken": "stETH",
+      "price": null,
+      "discount": null,
+      "legs": [
+        {
+          "token": "stETH",
+          "share": 0.5301,
+          "units": 21705
+        },
+        {
+          "token": "ETH",
+          "share": 0.4699,
+          "units": 19237
+        }
+      ],
+      "flag": "green"
+    },
+    {
+      "label": "USDe/USDC",
+      "pool": "0x02950460E2b9529D0E00284A5fA2d7bDF3fA4d72",
+      "ok": true,
+      "n": 2,
+      "totalUnits": 668438,
+      "maxShare": 0.5045,
+      "minShare": 0.4955,
+      "fair": 0.5,
+      "imbalance": 1.01,
+      "domToken": "USDe",
+      "price": null,
+      "discount": null,
+      "legs": [
+        {
+          "token": "USDe",
+          "share": 0.5045,
+          "units": 337227
+        },
+        {
+          "token": "USDC",
+          "share": 0.4955,
+          "units": 331211
+        }
+      ],
+      "flag": "green"
+    }
+  ],
+  "skipped": [
+    {
+      "label": "alETH/ETH",
+      "pool": "0xC4C319E2D4d66CcA4464C0c2B32c9Bd23ebe784e",
+      "ok": false,
+      "why": "empty pool"
+    },
+    {
+      "label": "MIM/3CRV",
+      "pool": "0x5a6A4D54456819380173272A5E8E9B9904BdF41B",
+      "ok": false,
+      "why": "Cannot read properties of undefined (reading 'slice')"
+    }
+  ]
+}

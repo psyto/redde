@@ -1,0 +1,2119 @@
+{
+  "summary": {
+    "windowTx": 468655,
+    "stride": 100,
+    "sampled": 4687,
+    "observedEndpointTx": 1103,
+    "unresolvedTx": 127,
+    "unresolvedUsdcSample": 3501978.8345400104,
+    "noUsdcTx": 12,
+    "onchainFailed": 3445,
+    "rpcUnavailable": 0,
+    "observedEndpointOwners": 262,
+    "observedOutflowEndpointOwners": 43,
+    "observedInflowEndpointOwners": 219,
+    "sampleObservedUsdcOutflow": 2688369.3066950007,
+    "samplePctObservedOutflowCommitmentBeforePeak": 0.23693266114061715,
+    "routeUnresolvedPct": 0.10325203252032521,
+    "peakT": 1739573029,
+    "note": "Systematic 1/stride sample. Endpoint owners are unverified and sample figures are not population estimates, scaled totals, or concentration shares."
+  },
+  "accounts": [
+    {
+      "owner": "6neoWX8Ak3wTHdFkbE487gfiK8gPnMmKWMNq9n2vzzvL",
+      "E": 1639146.521487,
+      "L": 0.6122726108631199,
+      "n": 1,
+      "commitmentT": 1739575279,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "TTWFSyMWT2Kh2PT7NxWcGzHHXDrRHnLXS3F9S3FJw2K",
+      "E": 293154.11182900006,
+      "L": 1,
+      "n": 2,
+      "commitmentT": 1739570989,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "EMo7RRcgfbiQAZqV449dn5Evn7ndbMz5kWea1e7nX2D8",
+      "E": 151932.056159,
+      "L": 0.17678671539399593,
+      "n": 1,
+      "commitmentT": 1739579156,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4HHFR1PBXSTVuXBuNz26zWN12apbZC1Rasowhkq7FbpQ",
+      "E": 113516.257027,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571536,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "J8fCzLNzeaekXuL4BXRVy4WWrzbxJpfVp29jb3iS8d5u",
+      "E": 112706.851638,
+      "L": 0.8974451940555634,
+      "n": 2,
+      "commitmentT": 1739573571,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5fnahDWBtUB8QBTXWHm2QzfAoAVHToxvMf38i3a7okGe",
+      "E": 102821.08950599981,
+      "L": 1,
+      "n": 2,
+      "commitmentT": 1739570968,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8NScYncjpY1mKrbxVJFFdVqNPEocyXTnQqy9GW1hg4j3",
+      "E": 76362.10822400259,
+      "L": 1,
+      "n": 2,
+      "commitmentT": 1739571952,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3nQAMo837oPuGCGELcw2wo7C9hUUchsMWCneiPHFFdur",
+      "E": 50832.47892100003,
+      "L": 0.3987307567970587,
+      "n": 14,
+      "commitmentT": 1739576242,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HMKrTy9MVjDZdhBcLkDQ4i7e2w6dJJ88EkbaXHJcryH3",
+      "E": 46929.757482999936,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572523,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5guD4Uz462GT4Y4gEuqyGsHZ59JGxFN4a3rF6KWguMcJ",
+      "E": 30554.92988100002,
+      "L": 0.013646072691891997,
+      "n": 6,
+      "commitmentT": 1739606100,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Bcd83guq54QWXVzYXTroyoVhfr3JD1RLcs5cLPogfs6g",
+      "E": 10392.335974999995,
+      "L": 0.2992621719180857,
+      "n": 2,
+      "commitmentT": 1739577036,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GKLZAD3U1fUPWq8cvBZUTRTzx39Q2b6kPnzwgu5sx6Fd",
+      "E": 9684.874173999997,
+      "L": 0.024267063386032794,
+      "n": 1,
+      "commitmentT": 1739657922,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "87ThGKa3hTtL2tfnDuUZzdqRMnAr3LDAKTjm3kHEVmo1",
+      "E": 7711.537080000009,
+      "L": 0.7017931802166624,
+      "n": 1,
+      "commitmentT": 1739574265,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BZtgQEyS6eXUXicYPHecYQ7PybqodXQMvkjUbP4R8mUU",
+      "E": 6916.934646999929,
+      "L": 0.21138358270950464,
+      "n": 1,
+      "commitmentT": 1739577326,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "83v8iPyZihDEjDdY8RdZddyZNyUtXngz69Lgo9Kt5d6d",
+      "E": 5837.516694999977,
+      "L": 0.6226412904034921,
+      "n": 12,
+      "commitmentT": 1739574637,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "6YJWm3nhHXGPvgAHErWcNmqPQtSSHZhvtmE4U9Adwb3g",
+      "E": 5462.317291999701,
+      "L": 0.6975850822754439,
+      "n": 8,
+      "commitmentT": 1739574311,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CWaTfG6yzJPQRY5P53nQYHdHLjCJGxpC7EWo5wzGqs3n",
+      "E": 4562.724286000004,
+      "L": 0.012966314922181366,
+      "n": 1,
+      "commitmentT": 1739606188,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "JCBtCAyj4gZmpscypSmPHGb6pPeoEYdJ19pk1zWVBXDz",
+      "E": 3999.99993,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571747,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "2L47gbUzGsnJZqRzfny4b3VWvKBnMRTMeNH3uzFrj6ko",
+      "E": 3819.285081000002,
+      "L": 0.7178739453124212,
+      "n": 5,
+      "commitmentT": 1739573962,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "6NUiVmsNjsi4AfsMsEiaezsaV9N4N1ZrD4jEnuWNRvyb",
+      "E": 2900.133048999589,
+      "L": 0.007003143526506772,
+      "n": 3,
+      "commitmentT": 1739622004,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CYbD9RaToYMtWKA7QZyoLahnHdWq553Vm62Lh6qWtuxq",
+      "E": 2692.6319570001215,
+      "L": 0.7152863966046809,
+      "n": 9,
+      "commitmentT": 1739573967,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BWBHrYqfcjAh5dSiRwzPnY4656cApXVXmkeDmAfwBKQG",
+      "E": 2031.6815989999996,
+      "L": 0.07614411286312894,
+      "n": 2,
+      "commitmentT": 1739588532,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "7nFvn17KkPdhJc2iNdJrmnjYdVue8dvfNh4XBfaCfgoB",
+      "E": 1104.0877850000002,
+      "L": 0.3764203226781936,
+      "n": 1,
+      "commitmentT": 1739576319,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "DNkZFw1VF36K15yoDvgY2QmrDiwrLP5y1DcMEHEPPa1Q",
+      "E": 1032.8342120000016,
+      "L": 0.8146023188305588,
+      "n": 3,
+      "commitmentT": 1739573887,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AzodhzTrr3YP8qTMM8cRHcKQR7FfB8fhMrZemTY335BQ",
+      "E": 846.5553569999997,
+      "L": 0.49543790356057493,
+      "n": 1,
+      "commitmentT": 1739574705,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "ZJHzcKvgNvkcygg92F3ua8xA83sfbwFA3TSR8ASLKXd",
+      "E": 397.8788119982928,
+      "L": 0.7004346050403049,
+      "n": 6,
+      "commitmentT": 1739574325,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "G4E61Qag71AhV2gVkcxWoz7L8BKMrbuQk93DeHfzR9eA",
+      "E": 306.336224,
+      "L": 0.23105811784414465,
+      "n": 1,
+      "commitmentT": 1739577283,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HTvjzsfX3yU6BUodCjZ5vZkUrAxMDTrBs3CJaq43ashR",
+      "E": 215.56799900000624,
+      "L": 0.5746068569152405,
+      "n": 4,
+      "commitmentT": 1739574661,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HSTnyz57adepabCQyfmMST5eKfAsi6prAN1Ch2St8J7P",
+      "E": 134.03781600000002,
+      "L": 0.28312127037764756,
+      "n": 2,
+      "commitmentT": 1739576803,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AAAAAA1hbXtbagfiU8DS8wAMr5YfDCqT5bB1YbsMPgZr",
+      "E": 122.98751200000001,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572551,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "49GkFii613smDpQbczLNjPt9cCsbJzUkXYYCAw432STd",
+      "E": 67.32578099996317,
+      "L": 0.12103913706731284,
+      "n": 2,
+      "commitmentT": 1739579961,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "749DpU2X4ty7V7fuZjF5kJDrDHF1obEDxzEVeQuZAXup",
+      "E": 49.968203,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572327,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5nRheYVXMTHEJXyAYG9KsUsXDTzvj9Las8M6NfNojaR",
+      "E": 39.542207999999846,
+      "L": 0.19013529189136946,
+      "n": 1,
+      "commitmentT": 1739578972,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8cjeuVV3KQ9k8RqW1JUyCfey2TDAhuo7f4hPDMeGfxv",
+      "E": 26.186386000190396,
+      "L": 0.014638766539399772,
+      "n": 5,
+      "commitmentT": 1739638852,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4CfnXRzVi5tSqc2K529G2sKJAshsf9K7doBNoJWrAWC9",
+      "E": 23.718434,
+      "L": 0.006985684908450196,
+      "n": 1,
+      "commitmentT": 1739635144,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GNfeVT5vSWgLYtzveexZJ2Ki9NBtTTzoHAd9oGvoJKW8",
+      "E": 9.328208999999333,
+      "L": 0.014058508665030556,
+      "n": 1,
+      "commitmentT": 1739643660,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "A2J7vmG9xAdWUzYscN7oQssxZBFihwD3UonkWB8Kod1A",
+      "E": 8.11657600000035,
+      "L": 0.1969632252059248,
+      "n": 1,
+      "commitmentT": 1739577364,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3uyt83euhgeuCucywRejVkrMvnw9bFUmf4ZL3bv8gbo2",
+      "E": 6.21425,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572712,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "DuLWqxZE61qN5R24biQuQ4GyJseQVtFhxqZd1HxMWCD",
+      "E": 6.059594999998808,
+      "L": 0.2513924727380399,
+      "n": 1,
+      "commitmentT": 1739577235,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3uAcN8dxN6LsArwNitwtXze6yokBqGRWnw8tHutty1ZE",
+      "E": 3.6894180000000003,
+      "L": 0.16164002798556987,
+      "n": 1,
+      "commitmentT": 1739579560,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GPfvQ6G5ujW25hUJoYfRtporMb5tF5pmtcCXhL3oef8W",
+      "E": 0.485274000000004,
+      "L": 0.008022474209627206,
+      "n": 1,
+      "commitmentT": 1739620375,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HLEkvb1MgjfbP6Jzhi2UpqMUDkYzPTDA4N7rSfAAyDMF",
+      "E": 0.171199,
+      "L": 0.006362577194958696,
+      "n": 1,
+      "commitmentT": 1739622886,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HJkDUrNFAaAd6aEhFVi6DND2m8BzfvH7R31c7DUQxN5y",
+      "E": 0.08152499999999918,
+      "L": 0.013387912190210294,
+      "n": 1,
+      "commitmentT": 1739611055,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4XSXfycFfVogDvifbRKidPPTSMJfXQVJc4yJrtUE1CYP",
+      "E": -0.0000019999999949504854,
+      "L": 0.9637143963228273,
+      "n": 2,
+      "commitmentT": 1739573295,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3whiLH8NEAps2hN2BktrH6dLqURf5nUUtK3uQS9xpykh",
+      "E": -0.02120000000000144,
+      "L": 0.014091321583532435,
+      "n": 32,
+      "commitmentT": 1739643605,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "67EzAzJvYT1mFLPKKALm2pLJrCmJGJwCsAT9zgsZ4Cev",
+      "E": -0.10049999999999998,
+      "L": 0.7166691685363251,
+      "n": 1,
+      "commitmentT": 1739574242,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "2EV3AiCqnQPX6oAmw85cEShowHEydi2UbZKecHRqLmr5",
+      "E": -0.10050000000001091,
+      "L": 0.17528052563420793,
+      "n": 1,
+      "commitmentT": 1739579303,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5BoHD7DAHsGCA9D8eUkkZTgWTrnpad6G18MnTq3cUS86",
+      "E": -0.9925040000089211,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572472,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "55TucCMtiDs2k4bXcNssMRNCX7LxYPb42cauJAhpXdoQ",
+      "E": -1.0619510000033188,
+      "L": 1,
+      "n": 2,
+      "commitmentT": 1739571141,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3HokhjpDDgoagEfKFb39989U6udEydNnSYrXVht7P22k",
+      "E": -1.5074999999999998,
+      "L": 0.45369606436805054,
+      "n": 1,
+      "commitmentT": 1739575886,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "F6MatDyy2Zgu76VUTFQvHK1BYHLtVvj5VSVnzpoFnYrH",
+      "E": -1.7122519999999999,
+      "L": 0.007849511818662114,
+      "n": 1,
+      "commitmentT": 1739598605,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "9xUVuEzqCeGHN7oU5u9GcoPJscPa4Whympe8AcNmetT8",
+      "E": -2,
+      "L": 0.5907049203899906,
+      "n": 1,
+      "commitmentT": 1739575439,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "J9ddQhRAgcqcSnKVctwrfBJhyZ5re8vD7GEL7soBX3E4",
+      "E": -3.317946,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572914,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FAijmttYim75twHhCKyNCH7sEU5QQkiqD3mcg6jF95Eb",
+      "E": -4.142458999995142,
+      "L": 0.13313363322073113,
+      "n": 1,
+      "commitmentT": 1739583592,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "A3XLMEGkf9xVRrtfXjFv4ht8ptqcAaptWuKtS1j1q2MJ",
+      "E": -4.346062,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571296,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CN8M75cH57DuZNzW5wSUpTXtMrSfXBFScJoQxVCgAXes",
+      "E": -6.450362999999925,
+      "L": 0.007603708782147223,
+      "n": 1,
+      "commitmentT": 1739598563,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Ft5em5ztxFdwWf7WAafEzCd8gKLk8bE5d8xbarEuWcE8",
+      "E": -6.679251000000022,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571419,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Cu6g5k5JdRbRywG4KZ5X5Bbn8RkKfDJ2f4dF1WxcitA8",
+      "E": -9.044999999999995,
+      "L": 0.10699953230504788,
+      "n": 1,
+      "commitmentT": 1739581645,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5NiZC9PyVNTr7N6m9R6kbaqmmFXAmt4PXrq3TzfjpuNv",
+      "E": -9.045,
+      "L": 0.9901401691597425,
+      "n": 1,
+      "commitmentT": 1739573055,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "EG5hU8XmoY6DF5Ezf25yBysDZHw2jUREgwd7bJdX4oSX",
+      "E": -9.604680999997072,
+      "L": 0.7432908759699404,
+      "n": 1,
+      "commitmentT": 1739574464,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GgGsFkZU3FVesFgC5cLopFSNALvdxCwbPtXQK2PpB2tW",
+      "E": -9.811331999999993,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571535,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "EW2zKGZQ7Ry8EJxptyBR3Gc6ewicRxKVMKKSbZSHFri1",
+      "E": -10,
+      "L": 0.5781972003896021,
+      "n": 1,
+      "commitmentT": 1739575759,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "DVRYS4EpC9ze64rYHtvzEFfTXgnxxPbJrgRJhK5dxJ6R",
+      "E": -10.049999999999983,
+      "L": 0.37800305034240167,
+      "n": 1,
+      "commitmentT": 1739576111,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4mjaC5yGLj1ku52k2jbYswXNy9nEQPyX622NDt7pG3Y6",
+      "E": -10.05,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572232,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Dh7rpCXKPo55JgsDMannvAC18pLGZLny8EdFhvYRNfFK",
+      "E": -10.05,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572988,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HBPwMJzjmMmGRuapqydjv89Q892PDP78QGPyQ4VERjGT",
+      "E": -10.050000000000068,
+      "L": 0.10302299838939444,
+      "n": 1,
+      "commitmentT": 1739581408,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "F7p3dFrjRTbtRp8FRF6qHLomXbKRBzpvBLjtQcfcgmNe",
+      "E": -13.038164000026882,
+      "L": 0.010409599136708803,
+      "n": 1,
+      "commitmentT": 1739598934,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5DLLzhC3o53safWkHjkYDVkabBZ1tzfpyXVj1gBrTtr6",
+      "E": -14.722099000005983,
+      "L": 0.04950185339821378,
+      "n": 1,
+      "commitmentT": 1739647929,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Ehx8ZUCkMncmzy51UCBa51nEHGmtWxdu9TZ4XjkTWN9L",
+      "E": -15.796155999999428,
+      "L": 0.12907099889985973,
+      "n": 2,
+      "commitmentT": 1739582131,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CnAyPxKU39xP7BYZ7ajLG4MWtKAzSmgfNLfVz8WuMqE7",
+      "E": -16.960407,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572072,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CEbmkhtrL3r56uyMWGBaDAMuaawoM363hpiup6PQufsx",
+      "E": -19.018621,
+      "L": 0.44166039761206277,
+      "n": 1,
+      "commitmentT": 1739575943,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FhTotf8DZt5vuepDEMQic9sQpCvgByQrnZwTff25G8gR",
+      "E": -19.798013999999966,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572636,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HdKhU9wYxEJdKphUy4DPXri6RwwMoevxM3dNsXKi8gUp",
+      "E": -19.870010000000548,
+      "L": 0.9792777841182136,
+      "n": 1,
+      "commitmentT": 1739573072,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "63w7b2Sk87PQuUbYpzVHEWrqv2xjaEmDAzDXXytV8rJh",
+      "E": -20.000000000000004,
+      "L": 0.2210980492653144,
+      "n": 1,
+      "commitmentT": 1739578004,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5ruyiP19Wd6N5LVgMtCADncNaL8B7yZorFnUaMU3n7st",
+      "E": -20.1,
+      "L": 0.9445232915535478,
+      "n": 1,
+      "commitmentT": 1739573139,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4Nouua3wapVGkdGgCGMAtfJWXMXqqAPxbXcdVE4kdpUy",
+      "E": -22.777848,
+      "L": 0.9425764405317889,
+      "n": 1,
+      "commitmentT": 1739573229,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GuBeNpzrgg763sn2AhpD2W4wtp16ZmhJA5n2LyVepyij",
+      "E": -24.999999000000003,
+      "L": 0.7893467836383105,
+      "n": 1,
+      "commitmentT": 1739573904,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "61R1ndXxvsWXXkWSyNkCxnzwd3zUNB8Q2ibmkiLPC8ht",
+      "E": -27.387312000006204,
+      "L": 0.6498307584289247,
+      "n": 2,
+      "commitmentT": 1739575213,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GK7RJ6eUfSsvZ7ibHpvMrHFG1tue856gCRW9HKCT4CCG",
+      "E": -31.61,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572988,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BqrSsCtzjAhrfhTJ5DB9LYLbMqK1LzAoJLH2JvN3Ksqo",
+      "E": -39.557907,
+      "L": 0.01611788981522211,
+      "n": 1,
+      "commitmentT": 1739613592,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4D1fyyNx5HGSBjDcVbEYsA8AzshFMjJGapegj8cuH2Vq",
+      "E": -39.824766,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572301,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "B4UuubRbny1G1PLULNVpiQXnmdVCkpF7Jn1oexixUH7o",
+      "E": -40.199999999999996,
+      "L": 0.09755624425074505,
+      "n": 1,
+      "commitmentT": 1739580897,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "7HkzG4LYyCJSrD3gopPQv3VVzQQKbHBZcm9fbjj5fuaH",
+      "E": -43.545670000021346,
+      "L": 1,
+      "n": 6,
+      "commitmentT": 1739571618,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "81MPQqJY58rgT83sy99MkRHs2g3dyy6uWKHD24twV62F",
+      "E": -48.74091000000044,
+      "L": 0.40868166410149565,
+      "n": 2,
+      "commitmentT": 1739576206,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "T6UQyXWdwP5B5P8bHhu41j98oK38SRYFaUdtoMBME1a",
+      "E": -50,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571965,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5hS6sTxDPoLBNUfHBDSTgrjEBBUEMyakTYrTw2YjFVE",
+      "E": -50.00000000000001,
+      "L": 0.9713713639604455,
+      "n": 1,
+      "commitmentT": 1739573306,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HmnbnWTqftiUSNm44vD8Qis5T6qPub3DHC5DedFwNCYX",
+      "E": -50.001241,
+      "L": 0.9506417420009926,
+      "n": 1,
+      "commitmentT": 1739573262,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5bpV2ZyT33zbh67JaPDRiy6Jwb3bRqVUK7ygZnP1tE4s",
+      "E": -50.25,
+      "L": 0.7863689366438149,
+      "n": 1,
+      "commitmentT": 1739574095,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "DLXCHESzdk6iw72wiDQCWAtVaFybkQoCgqmWKFdU1KTx",
+      "E": -50.25,
+      "L": 0.5744347481640499,
+      "n": 1,
+      "commitmentT": 1739575332,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AEpofCHcEeXwCvQAH7Mve3beGv2WjYcrFMAu7M125e4Q",
+      "E": -50.25,
+      "L": 0.01386978840129971,
+      "n": 1,
+      "commitmentT": 1739612085,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "B9LQbqvsGPDWPWqVxUA1Utf5WX1YEmAyvcwj5ZuDGuLc",
+      "E": -53.349314,
+      "L": 0.2012999440685952,
+      "n": 1,
+      "commitmentT": 1739577589,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "G6drsaPCR3pxsEmSTAc81kW1EL3kFAFwtSAkzUZXmgH3",
+      "E": -63.81644700001925,
+      "L": 0.21195795214750024,
+      "n": 1,
+      "commitmentT": 1739577916,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "B2e5QH2GDkRg6hj3y34GCUURBMGskPfX5RAAXe8RBRjS",
+      "E": -69.09720000001835,
+      "L": 0.11875326141812215,
+      "n": 2,
+      "commitmentT": 1739584278,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AkhxTwHrBnTeLUsWryDYZRPA4Ey71dihgwPd5iHtK5nj",
+      "E": -72.821936,
+      "L": 0.12663802141068414,
+      "n": 1,
+      "commitmentT": 1739583386,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "A7L2BoZEPwC41Drk5ShrpLQbYrUSAZRNqsmJAHeywZoX",
+      "E": -73.489366,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572405,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5XRqv7LCoC5FhWKk5JN8n4kCrJs3e4KH1XsYzKeMd5Nt",
+      "E": -85.35135100001935,
+      "L": 0.6060995257492869,
+      "n": 2,
+      "commitmentT": 1739574896,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "24YMPbeEidTEx6ueFu31ZVUV4HT8poXYSsjAKo6xgRp1",
+      "E": -90.44999999999999,
+      "L": 0.7437923259416072,
+      "n": 1,
+      "commitmentT": 1739574476,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "DbTk2SNKWxu9TJbPzmK9HcQCAmraBCFb5VMo8Svwh34z",
+      "E": -93.76736500001425,
+      "L": 0.01825352279612691,
+      "n": 3,
+      "commitmentT": 1739637879,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "ESefzWjqeJUaTWbhgQg7Scscqq2vo3wDPv5hEkQPhdc4",
+      "E": -96.171324,
+      "L": 0.6235776785521248,
+      "n": 1,
+      "commitmentT": 1739575104,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "sZxb9vrxJBpFiJBogovhfkYqfapVzveLEU4TmzWv4GN",
+      "E": -98.82456500001717,
+      "L": 1,
+      "n": 2,
+      "commitmentT": 1739571237,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3D8Jjm8w5Xt4HdmjJadpszSMSMN2afxdLwxNDB28rZvb",
+      "E": -99.486835,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572226,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4fuUiYxTQ6QCrdSq9ouBYcTM7bqSwYTSyLueGZLTy4T4",
+      "E": -99.5076410000911,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572290,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FYTXZgWE6Hz52ZVGxPihXT2RYrpdzaqpBR4t5QgHYKEM",
+      "E": -100,
+      "L": 0.619536257050266,
+      "n": 1,
+      "commitmentT": 1739574912,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "D9F7JhuX8gpcahKZdfX2zwaNGq3JARgaczR1HPgjkkYo",
+      "E": -100,
+      "L": 0.00695063481502467,
+      "n": 1,
+      "commitmentT": 1739604554,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4nkJrNo9yEaGXqPKdB8PqJoyRZiVKzgRitqnrkx1Qotc",
+      "E": -100.2280580000006,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572392,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HkoCN59DMyNohr8ENdjPHj7hYgp74E7ototGmsW5vCWy",
+      "E": -100.48,
+      "L": 0.958942442891949,
+      "n": 1,
+      "commitmentT": 1739573103,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4HuuGES2ncSMdxm2oUknF213R4SQVi5oDrJxS6VcTZ8m",
+      "E": -100.5,
+      "L": 0.9182055296446351,
+      "n": 1,
+      "commitmentT": 1739573518,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "EXHyQxMSttcvLPwjENnXCPZ8GmLjJYHtNBnAkcFeFKMn",
+      "E": -105.76182899999822,
+      "L": 1,
+      "n": 7,
+      "commitmentT": 1739571754,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "38byQpKtvJKXUuXKvHqNky9z47Z4NsoBz8tKfgw9iLB7",
+      "E": -120.73124,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572262,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Enc6rB84ZwGxZU8aqAF41dRJxg3yesiJgD7uJFVhMraM",
+      "E": -129.95172799995635,
+      "L": 1,
+      "n": 2,
+      "commitmentT": 1739570951,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3msVd34R5KxonDzyNSV5nT19UtUeJ2RF1NaQhvVPNLxL",
+      "E": -130.14738899999975,
+      "L": 1,
+      "n": 3,
+      "commitmentT": 1739572912,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "9ttb6Zja5FJWfV9qcP76D561s9UgkzA52NbM6fSyYKXz",
+      "E": -130.65,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571823,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "2ayBWuhpby6Rs8qSTsyXNE9XVB3DPxnLjSefexX4G7fS",
+      "E": -138.26,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572826,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BAHstH9HkETVaeWytiNjoJXXhJjspd7pUgW9VpYpZKGk",
+      "E": -143.41,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572284,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AxHocY4moH8roYQXMQWqoehtW5piMtTJQYmfL4wQ83D8",
+      "E": -160.1496780000016,
+      "L": 0.013924903821468937,
+      "n": 5,
+      "commitmentT": 1739605543,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "9oCwYQJYCWHeXnodFCxdqY1kV4uBPo5P7yWGkNJ2Wjj3",
+      "E": -160.21043800003827,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739570658,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8FS6jFtu1HkJWZy1Ca9HkWc2wZ2rZgbyd8hTXa8am7GS",
+      "E": -160.73589,
+      "L": 0.3915907075792112,
+      "n": 2,
+      "commitmentT": 1739576428,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "9Hpc39LDsCq9YQXVqZg787CHawh2MGXSjTyNGok6iCrW",
+      "E": -171.533981,
+      "L": 0.8876413833717257,
+      "n": 1,
+      "commitmentT": 1739573672,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4L18QzwSfX145DC2Cv9hMjgy1i8BgV8owpQS4KX2X41B",
+      "E": -172.33651600000002,
+      "L": 0.4118752117708089,
+      "n": 2,
+      "commitmentT": 1739576510,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "9SzE5P4WgHRaMJXHSb1GjLNEg2GioXyY9dxEqBh56Np9",
+      "E": -187.8933589999997,
+      "L": 0.21441380722778214,
+      "n": 1,
+      "commitmentT": 1739577953,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "85SMCmF6ZeKngbzf3wCAqvFfLvvJiPhCfYRmk4mucGsH",
+      "E": -188.29215599999998,
+      "L": 0.10135409016520291,
+      "n": 1,
+      "commitmentT": 1739585513,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CMBCpkSVdXdhxu3eFUDCnPn6sUe9K46BaXxfc8Zmsckt",
+      "E": -198.21387,
+      "L": 0.0053372942394113165,
+      "n": 1,
+      "commitmentT": 1739592091,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "EdEU6L2yLbXC78fdpruEFWubK7AQUGSjTNummi5zJRyY",
+      "E": -198.38449799999944,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739570719,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8XSxzggKWcYXJfK5w5BbJfHb2fXwobtBTbkjfvbzkTZU",
+      "E": -200,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571049,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "J1viYa5m2vHhQ9zEf8bL67mNRL3KPro4Uiszkau6EsVk",
+      "E": -200,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572360,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BaejZ9kJY464mCgsiHEPKBcf2EmCJSrJVEbwzvLtxfHx",
+      "E": -200.00000000000006,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572400,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "95EfkHDREvJjrJ6NqMJ7BsP4CSopfiiU6J4uAYBc93gn",
+      "E": -250.936593,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572440,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CgqwPLSFfht89pF5RSKGUUMFj5zRxoUt4861w2SkXaqY",
+      "E": -265.1339169999119,
+      "L": 1,
+      "n": 2,
+      "commitmentT": 1739571229,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GpR9ECnn3rvdXGmA3UmQoHvS2dptK8QBKXsx6zFM1dLe",
+      "E": -294.999934,
+      "L": 0.0030110650125635408,
+      "n": 1,
+      "commitmentT": 1739597144,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CqKszQZgBHKH7Sqyc1NZ4YZEAjUNhqbJdvGdYJW6zmkH",
+      "E": -300,
+      "L": 0.2347923161594263,
+      "n": 1,
+      "commitmentT": 1739578093,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BA5r3qnwsoEkfvJ4RGGKyxCNG5kFUHFkkUYJdpQF3sNT",
+      "E": -321.787486,
+      "L": 0.20200771262923556,
+      "n": 1,
+      "commitmentT": 1739577843,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BYH4fDMBk4NHXCDbBsa12wszxBgut8t7xW927CArcVEU",
+      "E": -343.4763579999999,
+      "L": 0.10668360248779063,
+      "n": 1,
+      "commitmentT": 1739580073,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Fv5RgSHydWptvgmvzUKqeKNQv8ksCQ5CVPPdZrPqW5r",
+      "E": -385.534732,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571494,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "46VCexu7kst2Hz5gRcLWgD8ME2GvEsssxYN6HMQTo48C",
+      "E": -399.9999600000001,
+      "L": 0.90673583674601,
+      "n": 1,
+      "commitmentT": 1739573542,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Gmg3o2eztzh9GsSEeL43pukptFL7aGLJJrPW1GvC5JGq",
+      "E": -400,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571017,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CQtDy2RPAfHGGpDsiD8u2qfTxuBRayHjT9QDSkmA6ypd",
+      "E": -402,
+      "L": 0.96876312004777,
+      "n": 1,
+      "commitmentT": 1739573377,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "71jubD6b5wGLCTNSfmTJGpZQUV9TMW1ybDFYRoLsr7Bk",
+      "E": -402.192282,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571320,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "13V2rGyuDUAekaVjQs8FXdHkbvmvsppAFU87k1GAQbML",
+      "E": -435.145974,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572444,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8tScDWj18B4RZJ4qK6sReZ8nzuWBHdr4tgjpgb5Z12sU",
+      "E": -452.227917,
+      "L": 0.9331708099008991,
+      "n": 1,
+      "commitmentT": 1739573206,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4YVLUZGEhsjfsWuxRbo6h18vL297HYRHTrLVE8bwpyCW",
+      "E": -457.9519970000001,
+      "L": 1,
+      "n": 5,
+      "commitmentT": 1739571901,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "25DSAnop4uBFu6m6VqJK6G19TemdF3VktCEHt7Gc7oPc",
+      "E": -474.75,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572295,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FbkX1h2YTs171cEMa4GrV7XbAiQt5zSmV2CjfYWxXJDP",
+      "E": -480.6363340000098,
+      "L": 1,
+      "n": 3,
+      "commitmentT": 1739572377,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FSA5s2Fx5GQNMrke41JoEDGjaDumS6fkHP42Qr8XRibg",
+      "E": -499.9999999999998,
+      "L": 0.5951391779827095,
+      "n": 1,
+      "commitmentT": 1739575621,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CGgZ7GLHmu9x48EmvzYh6aXJ3DytjdN1DC1826hVuYgL",
+      "E": -500,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571500,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "9mL66uwPuDzvETAhATN4wM7t9jCe8mtv8yqSTnM6LhKM",
+      "E": -508.848372,
+      "L": 0.29348792079827624,
+      "n": 1,
+      "commitmentT": 1739576913,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "9XXsqbsUWX3yaT3pCXy4dU94zP18XLQyHZPvd47SWyiE",
+      "E": -534.6899999999999,
+      "L": 0.04307799680172897,
+      "n": 1,
+      "commitmentT": 1739648040,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Ai4kU7H79HHtK6pRTX13kqAgihH41afgLqnDAuPkekMC",
+      "E": -557.3026989999926,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572258,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3skw4ZJxAE9svFVz83Wni7QBcuww4WRVNneDQfM95xtg",
+      "E": -598.00832,
+      "L": 0.017925687141431945,
+      "n": 1,
+      "commitmentT": 1739638098,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FeLULW5RCKDT2NuThu4vrAQ8BjH5YbU2Y7GbiZXYohm8",
+      "E": -600.4296999999788,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572041,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "82nEEkdjAf2TsVVj189DgRdp7kkQ9Ghs4LqY1gcgbjxn",
+      "E": -610.8519469997846,
+      "L": 0.10411009925968007,
+      "n": 9,
+      "commitmentT": 1739581447,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FBQyw6gmiPKFY2RUJFo8xcbv8QuSWKBjnVbuQGtmvQwU",
+      "E": -714.4090539999888,
+      "L": 0.2329927413945091,
+      "n": 3,
+      "commitmentT": 1739578086,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "54z96AS3erYcBU5LVZwZgWvVnwXcCA6sL29YEpULnegx",
+      "E": -725.742161,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571466,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8M5rjeDQKW4w4rmWFQLTqCYVuA1rMe9Z2QQ2SZResD9M",
+      "E": -727.8809939999919,
+      "L": 1,
+      "n": 4,
+      "commitmentT": 1739571575,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "DZND4g1maYjjK14WWqTYqXkheQbymginwmszFdkddqDz",
+      "E": -800.002726,
+      "L": 0.7409068710745969,
+      "n": 1,
+      "commitmentT": 1739574450,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "82pU8g2jQDyDfuH5nmCgFANS4vKTv6tPXe4WBDHRRyWh",
+      "E": -902.7859869999811,
+      "L": 1,
+      "n": 2,
+      "commitmentT": 1739571690,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HXkPtKB4iQmXKCxBHJ6df45efCJfPsw1cu8JpqPdW2TJ",
+      "E": -965.655625,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571956,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "g82ZPgrQWCYvGgnRNguHyvRXJkDG5SPYEcRkmsf1NM8",
+      "E": -1000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739570746,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GmoDZ94u2rau8cRE3jJn1fvTwqyfDpeMWcfLrxf11HCh",
+      "E": -1000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571260,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "7Kd8EDg5HM5bUZPWPhAQxnRjgyQeWd3KYbFMmXQUjbdw",
+      "E": -1000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572109,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "86iwZy45MLcXKYRcehLvdNjMVufQofq5X578u4FAjN7z",
+      "E": -1000,
+      "L": 0.4921026658002625,
+      "n": 1,
+      "commitmentT": 1739574736,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "4skb2U3b4PLMuaVES4RByqpzCe9ZcfzW3ekktomMRbWg",
+      "E": -1000,
+      "L": 0.009628084958749339,
+      "n": 1,
+      "commitmentT": 1739635932,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BGm1tav58oGcsQJehL9WXBFXF7D27vZsKefj4xJKD5Y",
+      "E": -1001.2366359997541,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572351,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CwtPwsoNDftiv6363ftL4PFXGA2jKQpAGpwpv4R4qcwa",
+      "E": -1002.9142320000001,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572198,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5QsSGbvXMSDPTTNWuTviPQStH32mXyDR23TQBwmoE9wG",
+      "E": -1005,
+      "L": 0.962001700294129,
+      "n": 1,
+      "commitmentT": 1739573410,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "nigrDmKe5rpzbVNiq4JtDevMy3cEgaySs6poUAUwf6E",
+      "E": -1006.068718,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739570614,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "2Yiamv7XVuLUBukrHkRxBgE4Js1x9kghW1r68DQ29Rcm",
+      "E": -1013.788098,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572355,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FqMFnmLwVxSuoHeQH3xBZK23bvAVssFXJRBts4kRhZ92",
+      "E": -1154.563707,
+      "L": 0.9487513190441883,
+      "n": 1,
+      "commitmentT": 1739573240,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "7qbRF6YsyGuLUVs6Y1q64bdVrfe4ZcUUz1JRdoVNUJnm",
+      "E": -1187.7097170000197,
+      "L": 1,
+      "n": 3,
+      "commitmentT": 1739572390,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8Csn23Lcu4y4ZjZauwre5TMNyqfCwAfhAQr8C8ccbEKN",
+      "E": -1195.81998,
+      "L": 0.972250940089039,
+      "n": 1,
+      "commitmentT": 1739573351,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "7SC28iQjTH3FDL5zHH6ZKdNCbQzYbKMaZeyzuCdixbPu",
+      "E": -1250.420992,
+      "L": 0.7673655855055386,
+      "n": 1,
+      "commitmentT": 1739574046,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CaNCcBnJ3ecwQEiU7Wexi7AuoV1NWehyxT781ch84nqT",
+      "E": -1293.2270579999895,
+      "L": 0.37792574625756403,
+      "n": 1,
+      "commitmentT": 1739576299,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "6RgwoUDQTwotncEZVqz6LgKeGt5NkrbJaWq2Pz3Emu5L",
+      "E": -1300,
+      "L": 0.6000595205767825,
+      "n": 1,
+      "commitmentT": 1739575480,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HN6hXpdJtEagiHyRuEd8Xky9n6DUXWWvX71f129T1YEq",
+      "E": -1353.97,
+      "L": 0.0058951890819290975,
+      "n": 1,
+      "commitmentT": 1739593871,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "J4uBbeoWpZE8fH58PM1Fp9n9K6f1aThyeVCyRdJbaXqt",
+      "E": -1410.305958999999,
+      "L": 0.9349105239946136,
+      "n": 9,
+      "commitmentT": 1739573163,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AJ8QhpkazCkkqevZVMK8d5NM2boFuMXoM4WeBWcLZRNZ",
+      "E": -1442.727837,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572966,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "2QdhepnKRTLjjSqPL1PtKNwqrUkoLee5Gqs8bvZhRdMv",
+      "E": -1483.7324190000654,
+      "L": 1,
+      "n": 4,
+      "commitmentT": 1739572616,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5YCJyAeog6GZap6MyDBYex9KqaDLP4Kng6sKVnEZG36o",
+      "E": -1500,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571316,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "21x6xS1eQUV3taft6JmazgWRdPowHRV9Ziy2fQ2qyDzL",
+      "E": -1500,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572096,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "2fWdTqcHYgVHe9hdg1YFv7AQueKoERTngmaX2AvwcR4d",
+      "E": -1500,
+      "L": 0.22176269447158392,
+      "n": 1,
+      "commitmentT": 1739578010,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BeMUkAvFHVsL8t2ybxSiAgJADedDGccgeufbytFmvtox",
+      "E": -1682.987983,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572590,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GPH8MxUgBrc2SGfJzbydRZE4nf4xv5jzj7wpL4V6QDqv",
+      "E": -1785.7163600000022,
+      "L": 1,
+      "n": 6,
+      "commitmentT": 1739572464,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "6P4NTxXEwU9HJ6NJovtdSYsC1aaueJv2w1XQcvfkQoBY",
+      "E": -1999.9999979999993,
+      "L": 0.6873566815507586,
+      "n": 1,
+      "commitmentT": 1739574993,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8qJcBTXZuBTbwSprDj9GD2d9MSgsFpCaVZeLjVEzLp6h",
+      "E": -2001.249046,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571219,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AVzP2GeRmqGphJsMxWoqjpUifPpCret7LqWhD8NWQK49",
+      "E": -2094.593484044075,
+      "L": 1,
+      "n": 10,
+      "commitmentT": 1739571138,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "DGtQ59hqL7su6QnJM7RDV759qADFeUB67jkGFm64MczL",
+      "E": -2126.745556,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572642,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "D3dNHHxSuaCYkpFj61qXNLXqhgQV6N2gQcYQwmzPHFzW",
+      "E": -2373.586942,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739573017,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GkiVUomwET7J6wAm2jhoy1o5eaMCNPJywJ7uh3zMAAHB",
+      "E": -2500,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572415,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8CsVA6LjsDKA1bXeWQMX6ihing1bbZnLiXbYbExfsSeM",
+      "E": -2500.0000000000005,
+      "L": 0.7113537998462249,
+      "n": 1,
+      "commitmentT": 1739574367,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BfrtjWcW27LHAaiScTiNFnTTwUxRZ4E5G9VMvCU1jxeo",
+      "E": -2525,
+      "L": 0.9591549973810991,
+      "n": 1,
+      "commitmentT": 1739573289,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AAVi2F4uGCL4Vf3CbmdU5MVAGCcgwjQPX3WedmnkWKyi",
+      "E": -3000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571920,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8c3KjMGxtqm8dwiNV8PhtPkctguDXotfAxVrLf1MageY",
+      "E": -3000,
+      "L": 0.03375222341955475,
+      "n": 1,
+      "commitmentT": 1739648230,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "7FTTXpRZSecrXGdDaeX8B2kytkzhrB24zHxBPQ6sSQS5",
+      "E": -3125.720000000001,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572182,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3uaZBfHPfmpAHW7dsimC1SnyR61X4bJqQZKWmRSCXJxv",
+      "E": -3175.2943409996806,
+      "L": 1,
+      "n": 14,
+      "commitmentT": 1739572175,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BdnEywSZ1PcqnYLrRTvnvGWUk3Uw1Cs8ZJ72hEP2mdyB",
+      "E": -3500,
+      "L": 0.23119316662959188,
+      "n": 1,
+      "commitmentT": 1739578079,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FdWeu252Jq6qA9W1JQKcgTK6NPnoF4M7jqgLcptkmQQu",
+      "E": -3797.0005220000003,
+      "L": 0.20370698995255032,
+      "n": 1,
+      "commitmentT": 1739577856,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "9DiruRpjnAnzhn6ts5HGLouHtJrT1JGsPbXNYCrFz2ad",
+      "E": -4043.8936600014567,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571301,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5UatEmtVKEovgXST7aJLpKVnh5DA4Ey2U82XQ6V7yKwm",
+      "E": -4284.967457,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571344,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "EX4BFaPyaVojVt9WWP259SvXKSMchj2tX3jv7s1u5aa8",
+      "E": -4407.896963000001,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571543,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3naHZSWLo4LXpFv2iXi3S5DgXEsjQ31Ei5BwJ7G1vEFA",
+      "E": -5000,
+      "L": 0.9563558349177981,
+      "n": 1,
+      "commitmentT": 1739573284,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Aekti9CttNeCyTi1bWuUAeBdsoF28HcZHvZvq1amhyMa",
+      "E": -5000,
+      "L": 0.5827851386807151,
+      "n": 1,
+      "commitmentT": 1739574849,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "H8WNP5eufK35fjTnwZdGd5uxfSZdAdn7B9NEJwyJ65X",
+      "E": -5000,
+      "L": 0.003287300276579308,
+      "n": 1,
+      "commitmentT": 1739597282,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HgbmwKpcdiZsPokDTzdjv5PHgxeNV4qn2MAwjVLVKS7c",
+      "E": -5360.7354780000005,
+      "L": 0.8876925850829132,
+      "n": 1,
+      "commitmentT": 1739573677,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FpCMFDFGYotvufJ7HrFHsWEiiQCGbkLCtwHiDnh7o28Q",
+      "E": -5738.613215999969,
+      "L": 1,
+      "n": 16,
+      "commitmentT": 1739571084,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BgQs8GXQNQr2Ug2kUdP9FqGYcPMC7GZ7BVRQDZffWito",
+      "E": -6679.241555000015,
+      "L": 0.19395049375106155,
+      "n": 2,
+      "commitmentT": 1739577404,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3ESUFCnRNgZ7Mn2mPPUMmXYaKU8jpnV9VtA17M7t2mHQ",
+      "E": -7088.93973699864,
+      "L": 1,
+      "n": 5,
+      "commitmentT": 1739572481,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "6TXGmJfXK49RsaZqBDvdwDDz7oEZV6KjzMVwaG6bTjYK",
+      "E": -7397.691865,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572894,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5C1k9yV7y4CjMnKv8eGYDgWND8P89Pdfj79Trk2qmfGo",
+      "E": -7626.328661999665,
+      "L": 1,
+      "n": 3,
+      "commitmentT": 1739571311,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "85o2CFofuHgieU7speNQEpCYwhSaib6oFJ76zqrgZTHu",
+      "E": -7999.999999999998,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571842,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Fh3nCxxBuiev6pNyBKLinbrSpCTMP2r61TwtsK8zW7HY",
+      "E": -8566.02879099999,
+      "L": 0.00004965449021310242,
+      "n": 11,
+      "commitmentT": 1739596711,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5Q544fKrFoe6tsEbD7S8EmxGTJYAKtTVhAW5Q5pge4j1",
+      "E": -8805.679038000759,
+      "L": 1,
+      "n": 49,
+      "commitmentT": 1739571424,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8gJ7UWboMeQ6z6AQwFP3cAZwSYG8udVS2UesyCbH79r7",
+      "E": -9450.15829199995,
+      "L": 1,
+      "n": 11,
+      "commitmentT": 1739572284,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "BVRbyLjjfSBcoyiYFuxbgKYnWuiFaF9CSXEa5vdSZ9Hh",
+      "E": -9989.678375999909,
+      "L": 0.39982513583610324,
+      "n": 1,
+      "commitmentT": 1739576465,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Zj913t5wsvjXrbFXy74PXMQiZCfxr4bgnv2JjN2SXJA",
+      "E": -9999.999986000003,
+      "L": 0.9339263087863994,
+      "n": 1,
+      "commitmentT": 1739573173,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "DkXZd3kAYuPvLAfsqmnK9zJbWhJ5ckEqTxBJf88PN359",
+      "E": -10000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572283,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AwSpW9dfS3SMhozU4g6AL4ztbZEjb59999JLDPdyuVvf",
+      "E": -10000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572993,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HmDvd2nPxtusK6ixBNz9qAwhahj692o4n23B2E8rEg1S",
+      "E": -10000,
+      "L": 0.04538337437718487,
+      "n": 1,
+      "commitmentT": 1739648644,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "A1tsbcPazH6ZF6iftVHQs3Dend2sH2z1MDJLxkzzVccw",
+      "E": -12299.553797,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572399,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "1jw5fDodwGEGBVqNXsx2eqiLgNmgMDEeXWSbrTreLCM",
+      "E": -12474.508256000001,
+      "L": 0.5780046391548781,
+      "n": 2,
+      "commitmentT": 1739575755,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FEyE5FBWA6dF4MNAdmL8wqJDEXMkc5uyhiF7aErqx8JB",
+      "E": -12521.147526000002,
+      "L": 0.8916876273370562,
+      "n": 1,
+      "commitmentT": 1739573741,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "7aCMEaFj56Ri4AorvcjtXidcQ3GtVDP9vajPQEfRQ2Ad",
+      "E": -13332.881529,
+      "L": 0.016173590334005228,
+      "n": 1,
+      "commitmentT": 1739613136,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5gWZ4SYAuNDThmYqNyXxShp99Ceu6xAfrpNauwp1rTcU",
+      "E": -13494.676507,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572056,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3HSYXeGc3LjEPCuzoNDjQN37F1ebsSiR4CqXVqQCdekZ",
+      "E": -13692.246811000281,
+      "L": 1,
+      "n": 13,
+      "commitmentT": 1739571072,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3ucNos4NbumPLZNWztqGHNFFgkHeRMBQAVemeeomsUxv",
+      "E": -15802.375741000753,
+      "L": 1,
+      "n": 9,
+      "commitmentT": 1739571215,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GkeAkxxKMJ3MuKhLrYaUkG1LdjQDJ43Jq89aEvepSDx8",
+      "E": -19090.084172,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571173,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "G5Lk8DeezphQLsVBwDVZQLtnaVi1i7RiFUircNv3j6Fx",
+      "E": -19496.612938000006,
+      "L": 0.7255851356434173,
+      "n": 1,
+      "commitmentT": 1739574403,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CSKc6y6RSzhiKPd65PTLncHiWjF8Jw5rt1eTZF3SwSbD",
+      "E": -20000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571750,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5zQAe8aAfCNYDF2zZqGMVTtsYo1QxnvykgJ5tpuwEdUv",
+      "E": -20000,
+      "L": 0.01954446705262025,
+      "n": 1,
+      "commitmentT": 1739607847,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "EXCevEzyqfc61ekwyTsLajN4UxvpvhvpEAthrqBgCra1",
+      "E": -20018.314591,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571531,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "DTxWNSCoUKvdRNtgXmJipEEC5AQWEB1TMnWtosRH4w75",
+      "E": -22522.20751,
+      "L": 0.6073537883652963,
+      "n": 1,
+      "commitmentT": 1739575511,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "2jJfuPMN3R3Se5c8y7BdeiQDJMKv9wms1z1wG14xJH4H",
+      "E": -25000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571221,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "J7gSPFZihca9j9zm8oqZ1sG6nchHwupzRMrZmH3CDQaR",
+      "E": -25000,
+      "L": 0.033662511943708506,
+      "n": 1,
+      "commitmentT": 1739649525,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "7GmDCbu7bYiWJvFaNUyPNiM8PjvvBcmyBcZY1qSsAGi2",
+      "E": -25230.909742999822,
+      "L": 0.6015615094060478,
+      "n": 4,
+      "commitmentT": 1739574887,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "HVoJWyPbQn4XikG9BY2A8wP27HJQzHAoDnAs1SfsATes",
+      "E": -25894.190636999905,
+      "L": 0.7804629797751782,
+      "n": 2,
+      "commitmentT": 1739574072,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "6ephzaH4vB2D2MQaHLLgheuS6qvuVLevyXg61eXmiS2w",
+      "E": -28260.923208000007,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571628,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AvrzL9ES3v27TXs9V4Z1sYbjLsF92bphUbC74iX78qUK",
+      "E": -30000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739570824,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AxiQTiJjBMEkrtXRF6A8Ab6rUvZUWpt9hB7wsNrLfEet",
+      "E": -30056.999999,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739570857,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "DH4xmaWDnTzKXehVaPSNy9tMKJxnYL5Mo5U3oTHFtNYJ",
+      "E": -31995.541865999956,
+      "L": 0.7028770531244714,
+      "n": 27,
+      "commitmentT": 1739574337,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "CAPhoEse9xEH95XmdnJjYrZdNCA8xfUWdy3aWymHa1Vj",
+      "E": -34350.76756799995,
+      "L": 1,
+      "n": 27,
+      "commitmentT": 1739572879,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "A9ZZ4FDA2YMDig8V7728QBdd4iZpzmVcuei8YSvYPJmw",
+      "E": -40000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739570859,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "7imnGYfCovXjMWKdbQvETFVMe72MQDX4S5zW4GFxMJME",
+      "E": -46668.043986998266,
+      "L": 0.005774251388247942,
+      "n": 72,
+      "commitmentT": 1739603824,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8ZBeLTChxaqr83zEJF3kmpCwSnXMbdjWdcG2WnsP6233",
+      "E": -49999.99999999999,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739570914,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "6c1MrxA9HfpKLArsSC1ruxSM4NbmAzbNrB3Dzdezp7LR",
+      "E": -50000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739570930,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "33QGa56XnmL2z8vSxstQMTTKf84cZox1FC8bZbggtVZr",
+      "E": -50000,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572278,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "E7FjShFRq1EB6rpuCH4RtRfSxGmRrweXAXA1cup7Qdsn",
+      "E": -50000,
+      "L": 0.7811811261815654,
+      "n": 1,
+      "commitmentT": 1739574074,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "F34rMQ9BeZDQspv776u16zVqdyoJ7uiKLnrUc7QG4t72",
+      "E": -51251.346358,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739570898,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FgRGnuYap55ZaA25FEsXL6eYBnj3urAmaSFu3SJ16JnD",
+      "E": -60000,
+      "L": 0.8880630531922957,
+      "n": 1,
+      "commitmentT": 1739573686,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "3DJmkipJiQS3EhS3KaYYGACJ5PVUgTU172uqsxZqR7Aa",
+      "E": -77507.325,
+      "L": 0.7350993738176052,
+      "n": 1,
+      "commitmentT": 1739574433,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "GB4PGoxJ5qaxmkdfBCxhw5Pcfet5Y5CpeMXdPwyBoj2R",
+      "E": -89139.394654,
+      "L": 0.6360624419717837,
+      "n": 1,
+      "commitmentT": 1739574925,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5BKxfWMbmYBAEWvyPZS9esPducUba9GqyMjtLCfbaqyF",
+      "E": -91087.59931700004,
+      "L": 1,
+      "n": 21,
+      "commitmentT": 1739570527,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "8sLbNZoA1cfnvMJLPfp98ZLAnFSYCFApfJKMbiXNLwxj",
+      "E": -93665.24692800199,
+      "L": 1,
+      "n": 77,
+      "commitmentT": 1739571319,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FRa5xvWrvgYBHEukozdhJPCJRuJZcTn2WKj2u6L75Rmj",
+      "E": -100000,
+      "L": 0.6544734299067134,
+      "n": 1,
+      "commitmentT": 1739575041,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FxkzTBhZeADcNgZ1wUx7WEDJxsmogs9h47qZLYJUR7xp",
+      "E": -109756.344651,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739571122,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FkdQe8bF3R4bH46esaFKFa27fKvBA2yiSLDR1pR5H227",
+      "E": -115000,
+      "L": 0.26412330884787283,
+      "n": 1,
+      "commitmentT": 1739578221,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "5rCf1DM8LjKTw4YqhnoLcngyZYeNnQqztScTogYHAS6",
+      "E": -123024.25091300008,
+      "L": 1,
+      "n": 7,
+      "commitmentT": 1739571725,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "AvBSC1KmFNceHpD6jyyXBV6gMXFxZ8BJJ3HVUN8kCurJ",
+      "E": -130943.26502199992,
+      "L": 1,
+      "n": 133,
+      "commitmentT": 1739571702,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Czfq3xZZDmsdGdUyrNLtRhGc47cXcZtLG4crryfu44zE",
+      "E": -150485.80360400118,
+      "L": 0.7273955192075439,
+      "n": 12,
+      "commitmentT": 1739574224,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "9wrR3LnPbY2Knm5JdZmCeVavR8eiumw17URc7LdZGB5s",
+      "E": -172836.08603900002,
+      "L": 0.20494328469418166,
+      "n": 3,
+      "commitmentT": 1739577869,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "Fn68NZzCCgZKtYmnAYbkL6w5NNx3TgjW91dGkLA3hsDK",
+      "E": -255834.63003300002,
+      "L": 1,
+      "n": 109,
+      "commitmentT": 1739572332,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "FREmw5MibEJuxmQyAqSzsy18iwxyA4HeAio7qLHwJqPi",
+      "E": -280954.761123,
+      "L": 0.192097518747526,
+      "n": 1,
+      "commitmentT": 1739577381,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "7trgJDogE32Tdu4mhzf4eEz97CBpaKntB3pSYjn6UnmN",
+      "E": -499999.99999999994,
+      "L": 1,
+      "n": 1,
+      "commitmentT": 1739572130,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "fEe1SXYGDYGY7c7ttEY2Jyffzotx12heiw8xdrctvi1",
+      "E": -941507.2617099987,
+      "L": 1,
+      "n": 54,
+      "commitmentT": 1739570765,
+      "class": "ENDPOINT_UNVERIFIED"
+    },
+    {
+      "owner": "XRfKhaCAXyajGQMYymAX9U3HsjN32Hii5mdFcUWZHai",
+      "E": -2000000,
+      "L": 0.6132362623882914,
+      "n": 2,
+      "commitmentT": 1739575536,
+      "class": "ENDPOINT_UNVERIFIED"
+    }
+  ]
+}

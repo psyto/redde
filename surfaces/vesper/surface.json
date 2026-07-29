@@ -1,0 +1,9 @@
+{
+  "name": "vesper",
+  "title": "Vesper",
+  "direction": "present",
+  "invariant": "Closed-Market Liquidation Soundness (CMLS)",
+  "tagline": "Re-derives the price each venue liquidates tokenized equities against in the weekend gap. Money-shot: same SPYx feed, Kamino GREEN / Jupiter RED.",
+  "run": "node verify-cmls.mjs",
+  "verdict": { "status": "red", "label": "Jupiter 🔴 / Kamino 🟢 (SPYx)" }
+}

@@ -1,0 +1,205 @@
+<title>Praeda — the ledger of collapse, backward and forward</title>
+<style>
+  :root {
+    --coal:#0e0c0b; --panel:#17130f; --panel-2:#1e1813; --ink:#ece5d8; --ink-2:#9a9082;
+    --hair:#2b2620; --out:#cf4b3a; --out-ink:#e06152; --in:#6f8aa0; --in-ink:#8ea9bf;
+    --bone:#b6ab97; --gold:#c69f52;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+    --edge:clamp(1.25rem,5vw,4rem);
+  }
+  @media (prefers-color-scheme: light){ :root{
+    --coal:#efe9dd; --panel:#e6e0d3; --panel-2:#ded7c8; --ink:#1a1611; --ink-2:#5b5347;
+    --hair:#cabfad; --out:#a5301f; --out-ink:#8f2a1c; --in:#3f6076; --in-ink:#345066;
+    --bone:#5b5044; --gold:#8a6a1e; } }
+  :root[data-theme="light"]{
+    --coal:#efe9dd; --panel:#e6e0d3; --panel-2:#ded7c8; --ink:#1a1611; --ink-2:#5b5347;
+    --hair:#cabfad; --out:#a5301f; --out-ink:#8f2a1c; --in:#3f6076; --in-ink:#345066;
+    --bone:#5b5044; --gold:#8a6a1e; }
+  :root[data-theme="dark"]{
+    --coal:#0e0c0b; --panel:#17130f; --panel-2:#1e1813; --ink:#ece5d8; --ink-2:#9a9082;
+    --hair:#2b2620; --out:#cf4b3a; --out-ink:#e06152; --in:#6f8aa0; --in-ink:#8ea9bf;
+    --bone:#b6ab97; --gold:#c69f52; }
+
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; background:var(--coal); color:var(--ink);
+    font-family:var(--serif); font-size:1.0625rem; line-height:1.55;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  .wrap { max-width:64rem; margin:0 auto; padding:0 var(--edge); }
+  .label { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.22em;
+    text-transform:uppercase; color:var(--ink-2); }
+  .rule { height:1px; background:var(--hair); border:0; margin:0; }
+  em { font-style:italic; }
+  a { color:inherit; }
+
+  header.mast { display:flex; justify-content:space-between; align-items:baseline;
+    gap:1rem; padding:1.4rem 0 1.1rem; flex-wrap:wrap; }
+  .mast .mark { font-family:var(--mono); font-weight:600; letter-spacing:0.26em;
+    text-transform:uppercase; font-size:0.85rem; color:var(--out-ink); }
+  .mast .lat { font-style:italic; color:var(--ink-2); font-size:0.95rem; }
+
+  .hero { padding:clamp(2.8rem,8vw,5.5rem) 0 clamp(1.6rem,4vw,2.6rem); }
+  h1 { font-family:var(--serif); font-weight:600; font-size:clamp(2.4rem,7vw,4.4rem);
+    line-height:1.0; letter-spacing:-0.02em; text-wrap:balance; margin:0 0 1.4rem; max-width:20ch; }
+  h1 em { font-style:italic; color:var(--out-ink); }
+  .lede { max-width:42rem; font-size:clamp(1.1rem,2.4vw,1.34rem); line-height:1.5; color:var(--bone); }
+  .lede b { color:var(--ink); font-weight:600; }
+
+  /* the time axis */
+  .axis { padding:clamp(1rem,3vw,2rem) 0 clamp(2rem,5vw,3.4rem); }
+  .axis-head { display:flex; justify-content:space-between; font-family:var(--mono); font-size:0.7rem;
+    letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-2); margin-bottom:1rem; }
+  .triptych { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; position:relative; }
+  @media (max-width:800px){ .triptych { grid-template-columns:1fr; gap:1.1rem; } }
+  /* connecting rail */
+  .triptych::before { content:""; position:absolute; left:0; right:0; top:14px; height:2px;
+    background:linear-gradient(90deg,var(--out) 0%,var(--gold) 50%,var(--in) 100%); opacity:0.5; }
+  @media (max-width:800px){ .triptych::before { display:none; } }
+
+  .card { display:flex; flex-direction:column; text-decoration:none; color:inherit;
+    background:var(--panel); border:1px solid var(--hair); position:relative;
+    transition:border-color 0.15s, transform 0.15s; }
+  .card:hover { transform:translateY(-3px); }
+  .card .node { position:absolute; top:6px; left:clamp(1.2rem,3vw,1.6rem); width:18px; height:18px;
+    border-radius:50%; border:3px solid var(--coal); }
+  .card.past .node { background:var(--out); } .card.past { border-top:3px solid var(--out); }
+  .card.past:hover { border-color:var(--out); }
+  .card.edge .node { background:var(--gold); } .card.edge { border-top:3px solid var(--gold); }
+  .card.edge:hover { border-color:var(--gold); }
+  .card.now .node { background:var(--in); } .card.now { border-top:3px solid var(--in); }
+  .card.now:hover { border-color:var(--in-ink); }
+  .card .body { padding:clamp(1.4rem,3.5vw,2rem) clamp(1.2rem,3vw,1.6rem) clamp(1.3rem,3vw,1.7rem); display:flex; flex-direction:column; height:100%; }
+  .card .when { font-family:var(--mono); font-size:0.66rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--ink-2); margin-bottom:1rem; }
+  .card .stat { font-family:var(--mono); font-weight:600; font-size:clamp(1.9rem,4.5vw,2.6rem);
+    line-height:0.95; letter-spacing:-0.02em; font-variant-numeric:tabular-nums; margin-bottom:0.2rem; }
+  .card.past .stat { color:var(--out-ink); } .card.edge .stat { color:var(--gold); } .card.now .stat { color:var(--in-ink); }
+  .card .statsub { font-family:var(--mono); font-size:0.68rem; color:var(--ink-2); margin-bottom:1.1rem; }
+  .card h3 { font-family:var(--serif); font-weight:600; font-size:1.2rem; line-height:1.2; margin:0 0 0.6rem; }
+  .card p { margin:0; font-size:0.94rem; color:var(--ink); line-height:1.5; }
+  .card .go { margin-top:auto; padding-top:1.2rem; font-family:var(--mono); font-size:0.72rem;
+    letter-spacing:0.06em; color:var(--ink-2); display:flex; align-items:center; gap:0.5em; }
+  .card:hover .go { color:var(--bone); }
+  .card .go .arrow { transition:transform 0.15s; } .card:hover .go .arrow { transform:translateX(3px); }
+
+  section { padding:clamp(2rem,5vw,3.2rem) 0; }
+  .eyebrow-b { display:block; margin-bottom:1.3rem; }
+  h2 { font-family:var(--serif); font-weight:600; font-size:clamp(1.7rem,4.5vw,2.4rem);
+    line-height:1.08; letter-spacing:-0.015em; text-wrap:balance; margin:0 0 1.2rem; max-width:24ch; }
+
+  .refusals { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hair);
+    border:1px solid var(--hair); }
+  @media (max-width:720px){ .refusals { grid-template-columns:1fr; } }
+  .ref { background:var(--panel); padding:1.5rem clamp(1.1rem,3vw,1.5rem); }
+  .ref code { font-family:var(--mono); font-size:0.8rem; color:var(--gold); font-weight:600; letter-spacing:0.02em; }
+  .ref p { margin:0.7rem 0 0; font-size:0.9rem; color:var(--ink-2); line-height:1.5; }
+  .ref p b { color:var(--bone); font-weight:600; }
+
+  .engine { font-family:var(--serif); font-size:clamp(1.15rem,2.6vw,1.4rem); line-height:1.45;
+    color:var(--bone); max-width:44rem; }
+  .engine b { color:var(--ink); font-weight:600; }
+
+  footer { padding:clamp(2rem,5vw,3rem) 0 3rem; border-top:1px solid var(--hair); margin-top:1rem; }
+  footer .line { display:flex; justify-content:space-between; gap:1rem 2rem; flex-wrap:wrap;
+    font-family:var(--mono); font-size:0.78rem; color:var(--ink-2); line-height:1.7; }
+  footer b { color:var(--bone); font-weight:600; }
+  footer a { color:var(--in-ink); text-decoration:none; border-bottom:1px solid var(--hair); }
+  footer a:hover { border-color:var(--in-ink); }
+  :focus-visible { outline:2px solid var(--in-ink); outline-offset:3px; }
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <span class="mark">Praeda</span>
+    <span class="lat">a collapse leaves a transfer record</span>
+  </header>
+</div>
+<hr class="rule" />
+
+<div class="wrap">
+  <div class="hero">
+    <h1>The ledger of collapse — read <em>backward</em>, and <em>forward</em>.</h1>
+    <p class="lede">Praeda re-executes on-chain collapse from public state — reconstructing where value
+      crossed a boundary, and measuring the fragility before the next break. Every claim is recomputable by a
+      stranger. It <b>names no one</b>.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="axis">
+    <div class="axis-head"><span>← after the collapse</span><span>as it begins</span><span>watching now →</span></div>
+    <div class="triptych">
+      <a class="card past" href="https://claude.ai/code/artifact/3bbf27e6-6940-42c5-b750-be633d2203c7">
+        <span class="node"></span>
+        <div class="body">
+          <div class="when">Reconstructed · Euler · 2023</div>
+          <div class="stat">$173.6M</div>
+          <div class="statsub">crossed the boundary in 14m 36s</div>
+          <h3>A collapse, re-read to the dollar.</h3>
+          <p>The reserves left in fourteen minutes; the value followed transaction by transaction to two
+            holding contracts, the rest honestly left unresolved. Reconciled to <code>balanceOf</code> exactly.</p>
+          <div class="go">View Exhibit B <span class="arrow">→</span></div>
+        </div>
+      </a>
+      <a class="card edge" href="https://claude.ai/code/artifact/f1934c27-859a-4d3a-b7ef-c08c03e0d991">
+        <span class="node"></span>
+        <div class="body">
+          <div class="when">Early warning · stETH · 2022</div>
+          <div class="stat">30 days</div>
+          <div class="statsub">before Celsius froze withdrawals</div>
+          <h3>The exit was empty a month early.</h3>
+          <p>A single re-executable invariant — <em>is the exit pool balanced?</em> — flagged the liquidity
+            drain as the ETH fled, weeks before the collapse was acknowledged. The powder, measured.</p>
+          <div class="go">View the backtest <span class="arrow">→</span></div>
+        </div>
+      </a>
+      <a class="card now" href="https://github.com/psyto/praeda/tree/main/backtest">
+        <span class="node"></span>
+        <div class="body">
+          <div class="when">Watching · live · daily</div>
+          <div class="stat">11 / 0</div>
+          <div class="statsub">pools verified · reds — last scan 2026-07-21</div>
+          <h3>The same invariant, watched daily.</h3>
+          <p>A standing monitor runs the exit-balance invariant across the major peg pools each day and alerts
+            on deterioration. Today: balanced and pegged. All clear — <em>and it says so honestly</em>.</p>
+          <div class="go">See the monitor <span class="arrow">→</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <span class="label eyebrow-b">The discipline</span>
+    <h2>What it will not say is the point.</h2>
+    <div class="refusals">
+      <div class="ref"><code>UNRECONSTRUCTED</code><p>When the archive can't serve the window, the answer is
+        this — <b>never a guess</b>.</p></div>
+      <div class="ref"><code>ROUTE_UNRESOLVED</code><p>Where value leaves in another token, or a path isn't
+        proven, Praeda <b>stops</b>. It does not invent the next hop.</p></div>
+      <div class="ref"><code>names no one</code><p>Two measurable numbers per account — never intent,
+        identity, or guilt. A rank in a sort, <b>not an indictment</b>.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="label eyebrow-b">One engine</span>
+    <p class="engine">One re-execution engine, pointed three ways in time — and across two virtual machines
+      (<b>Solana</b> and <b>every EVM chain</b>). It publishes only what public state can independently
+      recompute. <b>Anyone can run it and get the same answer.</b></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="line">
+      <span><b>Praeda</b> — permissionless reconstruction &amp; early warning for on-chain collapse.<br />
+        Reconstruct the past · measure the powder · watch the exit.</span>
+      <span>Source, case files, the engine —<br /><a href="https://github.com/psyto/praeda">github.com/psyto/praeda</a></span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,267 @@
+{
+  "verdict": "RECONSTRUCTED",
+  "target": "Euler Finance 2023-03-13 boundary-flow case",
+  "chainId": 1,
+  "window": {
+    "fromBlock": 16817995,
+    "toBlock": 16818067
+  },
+  "ledger": [
+    {
+      "account": "0x22c5cf8fc9891f8ef5a5e8630b95115018a09736",
+      "E": 258060289.6344,
+      "native": {
+        "wstETH": 145200
+      },
+      "L": 0.6248029325832214,
+      "cls": "NET_OUTFLOW",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 2039,
+        "fp": "2039b#751543cd"
+      }
+    },
+    {
+      "account": "0xd444a7ac5d1c5eb8ebc9dab83834a412e9b7be76",
+      "E": 242214138.64769387,
+      "native": {
+        "USDC": 244413863.41846
+      },
+      "L": 0.24992117303328865,
+      "cls": "NET_OUTFLOW",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 2039,
+        "fp": "2039b#751543cd"
+      }
+    },
+    {
+      "account": "0xcec2981d8047c401f2a4e972a7e5ada3f5ecf838",
+      "E": 211622763.8183111,
+      "native": {
+        "wstETH": 119071.49817568331
+      },
+      "L": 0.6248029325832214,
+      "cls": "NET_OUTFLOW",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 2039,
+        "fp": "2039b#751543cd"
+      }
+    },
+    {
+      "account": "0xd3b7cea28feb5e537fca4e657e3f60129456eaf3",
+      "E": 46268727.42583222,
+      "native": {
+        "WETH": 28994.303891868396
+      },
+      "L": 0.8747183840749735,
+      "cls": "NET_OUTFLOW",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 2039,
+        "fp": "2039b#751543cd"
+      }
+    },
+    {
+      "account": "0xa0b3ee897f233f385e5d61086c32685257d4f12b",
+      "E": 38575025.07557389,
+      "native": {
+        "DAI": 38904507.3483067
+      },
+      "L": 0.9927361105784199,
+      "cls": "NET_OUTFLOW",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 2039,
+        "fp": "2039b#2a91b5e5"
+      }
+    },
+    {
+      "account": "0x2e1440fa4fa0bfd01a56bca0f5b50913d762a572",
+      "E": 0,
+      "native": {
+        "USDC": 0
+      },
+      "L": 0.9491527740489392,
+      "cls": "NET_ZERO",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 5159,
+        "fp": "5159b#af7499b8"
+      }
+    },
+    {
+      "account": "0x07df2ad9878f8797b4055230bbae5c808b8259b3",
+      "E": 0,
+      "native": {
+        "WETH": 0
+      },
+      "L": 0.8853518683569684,
+      "cls": "NET_ZERO",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 6284,
+        "fp": "6284b#530bfd68"
+      }
+    },
+    {
+      "account": "0xc2a463278387e649eeaa5ae5076e283260b0b1be",
+      "E": -993.486532665869,
+      "native": {
+        "DAI": -1001.9722355285604
+      },
+      "L": 0.87471920143805,
+      "cls": "NET_INFLOW",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 21708,
+        "fp": "21708b#41a6e5dd"
+      }
+    },
+    {
+      "account": "0x583c21631c48d442b5c0e605d624f54a0b366c72",
+      "E": -29745930,
+      "native": {
+        "DAI": -30000000
+      },
+      "L": 0.9927361105784199,
+      "cls": "NET_INFLOW",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 2598,
+        "fp": "2598b#4731449d"
+      }
+    },
+    {
+      "account": "0x0b812c74729b6abc723f22986c61d95344ff7aba",
+      "E": -33343965.186000004,
+      "native": {
+        "WETH": -20895
+      },
+      "L": 0.8747183840749735,
+      "cls": "NET_INFLOW",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 2598,
+        "fp": "2598b#4731449d"
+      }
+    },
+    {
+      "account": "0x84273bba41cd0ec99f59b5b4c85783cf514e4e1a",
+      "E": -175950197.47800002,
+      "native": {
+        "wstETH": -99000
+      },
+      "L": 0.6248029325832214,
+      "cls": "NET_INFLOW",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 2598,
+        "fp": "2598b#4731449d"
+      }
+    },
+    {
+      "account": "0x1e4446016f3fddfe2ecc046cf91a8010a30e9a9b",
+      "E": -175950197.47800002,
+      "native": {
+        "wstETH": -99000
+      },
+      "L": 0.6248029325832214,
+      "cls": "NET_INFLOW",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 2598,
+        "fp": "2598b#4731449d"
+      }
+    },
+    {
+      "account": "0x7db7099b00d1d24ef2814cfcde723eacd958b05b",
+      "E": -208110000,
+      "native": {
+        "USDC": -210000000
+      },
+      "L": 0.24992117303328865,
+      "cls": "NET_INFLOW",
+      "code": {
+        "kind": "CONTRACT",
+        "bytes": 2598,
+        "fp": "2598b#4731449d"
+      }
+    }
+  ],
+  "clusters": [
+    {
+      "fp": "2039b#751543cd",
+      "members": 4,
+      "E": 758165919.5262372,
+      "native": {
+        "wstETH": 264271.4981756833,
+        "USDC": 244413863.41846,
+        "WETH": 28994.303891868396
+      },
+      "classes": [
+        "NET_OUTFLOW"
+      ]
+    },
+    {
+      "fp": "2598b#4731449d",
+      "members": 5,
+      "E": -623100290.1420001,
+      "native": {
+        "DAI": -30000000,
+        "WETH": -20895,
+        "wstETH": -198000,
+        "USDC": -210000000
+      },
+      "classes": [
+        "NET_INFLOW"
+      ]
+    },
+    {
+      "fp": "2039b#2a91b5e5",
+      "members": 1,
+      "E": 38575025.07557389,
+      "native": {
+        "DAI": 38904507.3483067
+      },
+      "classes": [
+        "NET_OUTFLOW"
+      ]
+    },
+    {
+      "fp": "21708b#41a6e5dd",
+      "members": 1,
+      "E": -993.486532665869,
+      "native": {
+        "DAI": -1001.9722355285604
+      },
+      "classes": [
+        "NET_INFLOW"
+      ]
+    },
+    {
+      "fp": "5159b#af7499b8",
+      "members": 1,
+      "E": 0,
+      "native": {
+        "USDC": 0
+      },
+      "classes": [
+        "NET_ZERO"
+      ]
+    },
+    {
+      "fp": "6284b#530bfd68",
+      "members": 1,
+      "E": 0,
+      "native": {
+        "WETH": 0
+      },
+      "classes": [
+        "NET_ZERO"
+      ]
+    }
+  ],
+  "notes": []
+}

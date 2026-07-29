@@ -1,0 +1,240 @@
+<style>
+  :root {
+    --paper:#eef1f5; --surface:#fff; --surface-2:#f6f8fb; --ink:#131a26;
+    --muted:#59647a; --faint:#8a94a6; --line:#dde3ec; --line-strong:#c7cfdb;
+    --accent:#3663c8; --accent-soft:#eaf0fc;
+    --green:#157f52; --green-soft:#e4f2ea; --amber:#9a6712; --amber-soft:#f6eddb;
+    --red:#b93f2c; --red-soft:#f7e6e1;
+    --shadow:0 1px 2px rgba(19,26,38,.05),0 10px 34px -14px rgba(19,26,38,.16);
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --paper:#0b0f17; --surface:#121824; --surface-2:#0f141e; --ink:#e8ecf3;
+    --muted:#97a3b8; --faint:#6b7688; --line:#232e3e; --line-strong:#334054;
+    --accent:#6f9bff; --accent-soft:#16233c;
+    --green:#3fc389; --green-soft:#10281e; --amber:#e2a740; --amber-soft:#2a2010;
+    --red:#f0715b; --red-soft:#2c1512;
+  }}
+  :root[data-theme="light"]{--paper:#eef1f5;--surface:#fff;--surface-2:#f6f8fb;--ink:#131a26;--muted:#59647a;--faint:#8a94a6;--line:#dde3ec;--line-strong:#c7cfdb;--accent:#3663c8;--accent-soft:#eaf0fc;--green:#157f52;--green-soft:#e4f2ea;--amber:#9a6712;--amber-soft:#f6eddb;--red:#b93f2c;--red-soft:#f7e6e1;}
+  :root[data-theme="dark"]{--paper:#0b0f17;--surface:#121824;--surface-2:#0f141e;--ink:#e8ecf3;--muted:#97a3b8;--faint:#6b7688;--line:#232e3e;--line-strong:#334054;--accent:#6f9bff;--accent-soft:#16233c;--green:#3fc389;--green-soft:#10281e;--amber:#e2a740;--amber-soft:#2a2010;--red:#f0715b;--red-soft:#2c1512;}
+
+  *{box-sizing:border-box;}
+  .vp{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;padding:clamp(16px,4vw,44px) clamp(14px,4vw,32px) 70px;}
+  .wrap{max-width:760px;margin:0 auto;}
+  .tnum{font-variant-numeric:tabular-nums;}
+  .mono{font-family:var(--mono);}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin:0 0 8px;}
+
+  header{margin-bottom:22px;}
+  h1{font-size:clamp(22px,4vw,30px);margin:0 0 6px;letter-spacing:-.01em;line-height:1.15;}
+  h1 .b{color:var(--accent);}
+  .sub{color:var(--muted);margin:0;max-width:56ch;font-size:15px;}
+
+  .statuspill{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12.5px;padding:6px 12px;border-radius:20px;border:1px solid var(--line);background:var(--surface);margin-top:14px;}
+  .statuspill .dot{width:9px;height:9px;border-radius:50%;}
+  .statuspill.open .dot{background:var(--green);} .statuspill.open{color:var(--green);}
+  .statuspill.closed .dot{background:var(--amber);} .statuspill.closed{color:var(--amber);}
+
+  .grid{display:grid;grid-template-columns:1fr;gap:16px;}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:clamp(18px,3vw,24px);}
+
+  .field{margin-bottom:20px;}
+  .field:last-child{margin-bottom:0;}
+  .flabel{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--muted);margin-bottom:9px;font-weight:550;}
+  .flabel .val{font-family:var(--mono);font-size:15px;color:var(--ink);font-weight:650;}
+
+  .seg{display:flex;gap:6px;flex-wrap:wrap;}
+  .seg button{flex:1;min-width:70px;font-family:var(--mono);font-size:12.5px;padding:9px 6px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--muted);border-radius:8px;cursor:pointer;transition:all .12s;}
+  .seg button:hover{border-color:var(--accent);}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .seg button small{display:block;font-size:10px;opacity:.8;margin-top:1px;}
+
+  input[type=range]{width:100%;accent-color:var(--accent);height:22px;cursor:pointer;}
+  .modetoggle{font-family:var(--mono);font-size:11.5px;color:var(--accent);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;}
+  .amounts{display:none;gap:10px;margin-top:6px;}
+  .amounts.show{display:flex;}
+  .amounts label{flex:1;font-size:11.5px;color:var(--faint);font-family:var(--mono);}
+  .amounts input{width:100%;font-family:var(--mono);font-size:14px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface-2);color:var(--ink);margin-top:3px;}
+
+  /* Meter */
+  .meter-wrap{margin-top:6px;}
+  .meter{position:relative;height:30px;border-radius:8px;overflow:hidden;border:1px solid var(--line);display:flex;}
+  .meter .z-green{background:color-mix(in srgb,var(--green) 32%,var(--surface));}
+  .meter .z-amber{background:color-mix(in srgb,var(--amber) 32%,var(--surface));}
+  .meter .z-red{background:color-mix(in srgb,var(--red) 34%,var(--surface));}
+  .marker{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--ink);border-radius:2px;transition:left .1s;}
+  .marker::after{content:attr(data-l);position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ink);white-space:nowrap;}
+  .ticks{position:relative;height:16px;margin-top:4px;font-family:var(--mono);font-size:10px;color:var(--faint);}
+  .tick{position:absolute;transform:translateX(-50%);white-space:nowrap;}
+  .tick.safe{color:var(--green);} .tick.liq{color:var(--red);}
+
+  /* Verdict */
+  .verdict{margin-top:4px;border-radius:14px;padding:20px 22px;border:1px solid var(--line);display:flex;gap:16px;align-items:flex-start;}
+  .verdict.SAFE{background:var(--green-soft);border-color:color-mix(in srgb,var(--green) 30%,transparent);}
+  .verdict.DERISK{background:var(--amber-soft);border-color:color-mix(in srgb,var(--amber) 30%,transparent);}
+  .verdict.LIQ{background:var(--red-soft);border-color:color-mix(in srgb,var(--red) 30%,transparent);}
+  .verdict.INACTIVE{background:var(--surface-2);}
+  .verdict .icon{font-size:30px;line-height:1;}
+  .verdict .vmain{font-family:var(--mono);font-weight:700;font-size:18px;letter-spacing:.01em;}
+  .verdict.SAFE .vmain{color:var(--green);} .verdict.DERISK .vmain{color:var(--amber);} .verdict.LIQ .vmain{color:var(--red);} .verdict.INACTIVE .vmain{color:var(--muted);}
+  .verdict .vaction{color:var(--ink);font-size:14px;margin-top:5px;}
+  .verdict .vaction b{font-weight:650;}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-radius:12px;overflow:hidden;margin-top:14px;border:1px solid var(--line);}
+  .stat{background:var(--surface);padding:13px 14px;}
+  .stat .n{font-family:var(--mono);font-size:19px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .stat .l{font-size:11px;color:var(--muted);margin-top:2px;}
+  @media (max-width:480px){.stats{grid-template-columns:1fr;}}
+
+  .foot{margin-top:22px;font-size:12.5px;color:var(--faint);line-height:1.6;border-top:1px solid var(--line);padding-top:16px;}
+  .foot b{color:var(--muted);}
+  .foot a{color:var(--accent);}
+</style>
+
+<div class="vp">
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Vesper · weekend safety gauge</p>
+    <h1>Can you hold your position <span class="b">through the weekend?</span></h1>
+    <p class="sub">Jupiter Lend liquidates xStock collateral 24/7 — including while the US market is shut, with no bound to Friday's close. Check whether your buffer survives the closed window.</p>
+    <div id="statuspill" class="statuspill closed"><span class="dot"></span><span id="statustext">market status…</span></div>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <div class="field">
+        <div class="flabel"><span>Which xStock did you deposit?</span></div>
+        <div class="seg" id="vaultseg">
+          <button data-lt="0.75" class="on">TSLAx<small>Tesla · LT 75%</small></button>
+          <button data-lt="0.75">NVDAx<small>NVIDIA · LT 75%</small></button>
+          <button data-lt="0.85">SPYx<small>S&amp;P 500 · LT 85%</small></button>
+          <button data-lt="0.85">QQQx<small>Nasdaq 100 · LT 85%</small></button>
+        </div>
+        <div style="font-size:11.5px;color:var(--faint);font-family:var(--mono);margin-top:7px;">the four xStocks Jupiter Lend accepts as collateral · single stocks (LT 75%) carry a thinner buffer than the index ETFs (LT 85%)</div>
+      </div>
+
+      <div class="field">
+        <div class="flabel"><span>Your loan-to-value (LTV)</span><span class="val" id="ltvval">68%</span></div>
+        <input type="range" id="ltv" min="0" max="95" value="68" step="1">
+        <button class="modetoggle" id="modetoggle" type="button">enter $ amounts instead</button>
+        <div class="amounts" id="amounts">
+          <label>Collateral $<input type="number" id="coll" value="10000" min="0" step="100"></label>
+          <label>Debt $<input type="number" id="debt" value="6800" min="0" step="100"></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="flabel"><span>Weekend gap to survive</span><span class="val" id="gapval">12%</span></div>
+        <input type="range" id="gap" min="0" max="25" value="12" step="1">
+        <div style="font-size:11.5px;color:var(--faint);font-family:var(--mono);margin-top:4px;">measured routine weekend drift ≈ 1% · the tail is what this guards against</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="meter-wrap">
+        <div class="flabel"><span>Where your LTV sits</span></div>
+        <div class="meter" id="meter">
+          <div class="z-green" id="zg"></div><div class="z-amber" id="za"></div><div class="z-red" id="zr"></div>
+          <div class="marker" id="marker" data-l="68%"></div>
+        </div>
+        <div class="ticks" id="ticks"></div>
+      </div>
+
+      <div class="verdict SAFE" id="verdict" style="margin-top:26px;">
+        <div class="icon" id="vicon">✅</div>
+        <div><div class="vmain" id="vmain">SAFE</div><div class="vaction" id="vaction"></div></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="n tnum" id="s-safe">66%</div><div class="l">weekend-safe max LTV</div></div>
+        <div class="stat"><div class="n tnum" id="s-surv">9.3%</div><div class="l">gap you survive now</div></div>
+        <div class="stat"><div class="n tnum" id="s-lt">75%</div><div class="l">liquidation threshold</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <b>Honest limit:</b> this manages <b>your</b> buffer — it doesn't make Jupiter Lend risk-free. Full safety is Jupiter adopting a closed-market band (then its Vesper verdict flips 🟢 and this guard isn't needed). Market status is computed by <b>Campana</b>, a re-executable US-market-hours feed. Not financial advice.
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+  // ── Campana: market status (ported, deterministic) ──
+  var HOL=['2026-01-01','2026-01-19','2026-02-16','2026-04-03','2026-05-25','2026-06-19','2026-07-03','2026-09-07','2026-11-26','2026-12-25'];
+  var HALF=['2026-11-27','2026-12-24'];
+  function nth(y,mo,n){var f=new Date(Date.UTC(y,mo-1,1)).getUTCDay();return 1+((7-f)%7)+(n-1)*7;}
+  function etOff(ts){var y=new Date(ts*1000).getUTCFullYear();var a=Date.UTC(y,2,nth(y,3,2),7)/1000;var b=Date.UTC(y,10,nth(y,11,1),6)/1000;return (ts>=a&&ts<b)?-4:-5;}
+  function status(ts){
+    var off=etOff(ts),w=new Date((ts+off*3600)*1000);
+    var y=w.getUTCFullYear(),m=w.getUTCMonth()+1,d=w.getUTCDate(),wd=w.getUTCDay();
+    var date=y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    var min=w.getUTCHours()*60+w.getUTCMinutes();
+    if(wd===0||wd===6) return 'CLOSED';
+    if(HOL.indexOf(date)>=0) return 'CLOSED';
+    var half=HALF.indexOf(date)>=0, close=half?780:960;
+    if(min>=570&&min<close) return half?'HALF_DAY':'OPEN';
+    return 'CLOSED';
+  }
+
+  var $=function(id){return document.getElementById(id);};
+  var state={lt:0.75, gap:0.12, mode:'ltv'};
+
+  function currentLtv(){
+    if(state.mode==='amt'){var c=+$('coll').value, d=+$('debt').value; return c>0?Math.min(0.99,d/c):0;}
+    return (+$('ltv').value)/100;
+  }
+
+  function render(){
+    var now=Math.floor(Date.now()/1000);
+    var st=status(now);
+    var open = (st==='OPEN'||st==='HALF_DAY');
+    var pill=$('statuspill'); pill.className='statuspill '+(open?'open':'closed');
+    $('statustext').textContent = open ? 'US market OPEN — guard inactive' : 'US market CLOSED — guard active';
+
+    var lt=state.lt, gap=state.gap, ltv=currentLtv();
+    var safeMax=lt*(1-gap);
+    var surv=Math.max(0,1-ltv/lt);
+    $('ltvval').textContent=Math.round(ltv*100)+'%';
+    $('gapval').textContent=Math.round(gap*100)+'%';
+    $('s-safe').textContent=(safeMax*100).toFixed(0)+'%';
+    $('s-surv').textContent=(surv*100).toFixed(1)+'%';
+    $('s-lt').textContent=(lt*100).toFixed(0)+'%';
+
+    // meter zones (0..100% LTV): green 0..safeMax, amber safeMax..lt, red lt..100
+    $('zg').style.width=(safeMax*100)+'%';
+    $('za').style.width=((lt-safeMax)*100)+'%';
+    $('zr').style.width=((1-lt)*100)+'%';
+    var mk=$('marker'); mk.style.left=Math.min(100,ltv*100)+'%'; mk.setAttribute('data-l',Math.round(ltv*100)+'%');
+    $('ticks').innerHTML=
+      '<span class="tick safe" style="left:'+(safeMax*100)+'%">safe '+(safeMax*100).toFixed(0)+'%</span>'+
+      '<span class="tick liq" style="left:'+(lt*100)+'%">liq '+(lt*100).toFixed(0)+'%</span>';
+
+    // verdict
+    var v=$('verdict'), icon=$('vicon'), main=$('vmain'), act=$('vaction');
+    var cls, ic, mn, ac;
+    if(open){ cls='INACTIVE'; ic='➖'; mn='GUARD INACTIVE'; ac='The market is open — this weekend guard applies to the closed window. Standard liquidation risk applies now.'; }
+    else if(ltv>=lt){ cls='LIQ'; ic='🔴'; mn='AT THRESHOLD'; ac='Your LTV is at or above the liquidation threshold. Act immediately.'; }
+    else if(ltv<=safeMax){ cls='SAFE'; ic='✅'; mn='SAFE TO HOLD'; ac='Your buffer survives a <b>'+(gap*100).toFixed(0)+'%</b> weekend gap. Safe to hold through the close.'; }
+    else { var repay=1-safeMax/ltv; cls='DERISK'; ic='⚠️'; mn='DE-RISK'; ac='Reduce LTV to <b>≤ '+(safeMax*100).toFixed(0)+'%</b> before the close — repay <b>≈ '+(repay*100).toFixed(1)+'%</b> of your debt, or add collateral.'; }
+    v.className='verdict '+cls; icon.textContent=ic; main.textContent=mn; act.innerHTML=ac;
+  }
+
+  // wire up
+  var seg=$('vaultseg').querySelectorAll('button');
+  seg.forEach(function(b){b.addEventListener('click',function(){seg.forEach(function(x){x.classList.remove('on');});b.classList.add('on');state.lt=+b.dataset.lt;render();});});
+  $('ltv').addEventListener('input',render);
+  $('gap').addEventListener('input',function(){state.gap=(+$('gap').value)/100;render();});
+  $('coll').addEventListener('input',render); $('debt').addEventListener('input',render);
+  $('modetoggle').addEventListener('click',function(){
+    state.mode = state.mode==='ltv' ? 'amt' : 'ltv';
+    $('amounts').classList.toggle('show', state.mode==='amt');
+    this.textContent = state.mode==='amt' ? 'use the LTV slider instead' : 'enter $ amounts instead';
+    render();
+  });
+  render();
+  setInterval(render, 60000); // refresh market status each minute
+})();
+</script>

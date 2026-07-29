@@ -1,0 +1,13 @@
+# Regenerable raw crawls (large; reproduce from an archival RPC)
+data/*.jsonl
+# Local run/resume state
+data/*crawl-state.json
+# Node
+node_modules/
+
+# monitor runtime state + local secrets
+backtest/.env
+backtest/monitor-state.json
+backtest/monitor.log
+
+backtest/launchd.log

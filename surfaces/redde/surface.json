@@ -1,0 +1,9 @@
+{
+  "name": "redde",
+  "title": "Redde",
+  "direction": "present",
+  "invariant": "Solvency re-computation",
+  "tagline": "redde rationem — render the account. Reconstructs claimed solvency from mainnet state without the protocol's consent.",
+  "run": "node verify.mjs",
+  "verdict": { "status": "gray", "label": "per-target (see scan)" }
+}

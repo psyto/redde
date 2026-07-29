@@ -1,0 +1,97 @@
+{
+  "target": "Euler Finance 2023-03-13 boundary-flow case",
+  "window": {
+    "fromBlock": 16817995,
+    "toBlock": 16818067
+  },
+  "method": "transaction-local net-delta terminal attribution (exact per-tx·token conservation)",
+  "txTouchingBoundary": 4,
+  "boundaryGrossOutUsd": 173640654,
+  "boundaryReturnedUsd": 993,
+  "netReserveLossUsd": 173639661,
+  "resolvedTerminalUsd": 55857996,
+  "burnedUnwrappedUsd": 117782658,
+  "burnedNative": {
+    "wstETH": 66271.5
+  },
+  "outflowReconciliationDeltaUsd": 0,
+  "conservationHolds": true,
+  "audit": [
+    {
+      "h": "0xc310a0af",
+      "token": "DAI",
+      "conserved": true,
+      "lossNat": 8904507.348306697,
+      "receivers": 2
+    },
+    {
+      "h": "0x47ac3527",
+      "token": "WETH",
+      "conserved": true,
+      "lossNat": 8099.303891868397,
+      "receivers": 2
+    },
+    {
+      "h": "0x62bd3d31",
+      "token": "wstETH",
+      "conserved": true,
+      "lossNat": 66271.49817568331,
+      "receivers": 1
+    },
+    {
+      "h": "0x465a6780",
+      "token": "USDC",
+      "conserved": true,
+      "lossNat": 34413863.41846,
+      "receivers": 2
+    }
+  ],
+  "terminalEndpoints": [
+    {
+      "account": "0x036cec1a199234fc02f72d29e596a09440825f1c",
+      "kind": "CONTRACT",
+      "usd": 46811592,
+      "txs": 2,
+      "native": {
+        "WETH": 8080.5,
+        "USDC": 34224900
+      }
+    },
+    {
+      "account": "0xebc29199c817dc47ba12e3f86102564d640cbf99",
+      "kind": "CONTRACT",
+      "usd": 8802324,
+      "txs": 1,
+      "native": {
+        "DAI": 8877510
+      }
+    },
+    {
+      "account": "0xbcca60bb61934080951369a648fb03df4f96263c",
+      "kind": "CONTRACT",
+      "usd": 187299,
+      "txs": 1,
+      "native": {
+        "USDC": 189000
+      }
+    },
+    {
+      "account": "0x030ba81f1c18d280636f32af80b9aad02cf0854e",
+      "kind": "CONTRACT",
+      "usd": 30010,
+      "txs": 1,
+      "native": {
+        "WETH": 18.8055
+      }
+    },
+    {
+      "account": "0x028171bca77440897b824ca71d1c56cac55b68a3",
+      "kind": "CONTRACT",
+      "usd": 26771,
+      "txs": 1,
+      "native": {
+        "DAI": 27000
+      }
+    }
+  ]
+}

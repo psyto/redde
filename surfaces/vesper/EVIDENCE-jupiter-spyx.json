@@ -1,0 +1,47 @@
+{
+  "subject": {
+    "venue": "Jupiter Lend",
+    "asset": "SPYx",
+    "priceAccount": "A2GDb4Um4Tr42iKgPz5fQ2d7pYTnaUuHN3d5V41Cywff",
+    "ticker": "SPYx",
+    "liqThreshold": 0.85,
+    "borrowFactor": 0.75
+  },
+  "measuredAt": "2026-07-25 22:08Z",
+  "liveness": {
+    "window": "2026-07-23 04:13Z → 2026-07-25 22:08Z",
+    "hours": 65.9,
+    "totalUpdates": 3053,
+    "updatesWhileMarketOpen": 650,
+    "updatesWhileMarketClosed": 2403,
+    "perClosedDayET": {
+      "2026-07-23": 745,
+      "2026-07-24": 845,
+      "2026-07-25": 813
+    },
+    "maxGapMin": 20.8,
+    "signal": "LIVE_THROUGH_CLOSURE"
+  },
+  "gapLoss": {
+    "positionUsd": 100000,
+    "atLtv": 0.75,
+    "liqThreshold": 0.85,
+    "rows": [
+      {
+        "gapPct": 0.1,
+        "exposurePctOfCollateral": 0,
+        "badDebtUsdPer100k": 0
+      },
+      {
+        "gapPct": 0.2,
+        "exposurePctOfCollateral": 0.1,
+        "badDebtUsdPer100k": 10000
+      },
+      {
+        "gapPct": 0.3,
+        "exposurePctOfCollateral": 0.2,
+        "badDebtUsdPer100k": 20000
+      }
+    ]
+  }
+}

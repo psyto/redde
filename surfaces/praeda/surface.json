@@ -1,0 +1,9 @@
+{
+  "name": "praeda",
+  "title": "Praeda",
+  "direction": "past",
+  "invariant": "Collapse-boundary flow reconstruction",
+  "tagline": "A collapse leaves a transfer record. Reconstructs which value crossed a declared system boundary, and when, from public state — no confession needed.",
+  "run": "node reconstruct.mjs",
+  "verdict": { "status": "gray", "label": "reconstructed: Euler 2023" }
+}
