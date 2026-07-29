@@ -32,7 +32,12 @@ function requireVenue() {
   if (!VENUE) { console.error('live target not configured — create ./venue.local.mjs (a withheld finding) or run --demo.'); process.exit(1); }
 }
 
-// ── minimal RPC + base58 (self-contained, Redde lineage) ──────────────────────
+// ── minimal RPC + base58 (Redde lineage) ──────────────────────────────────────
+// base58 now comes from ../../core (byte-identical). The rpc below is kept local
+// on purpose: unlike core's throwing client, it retries only on 429 and returns
+// undefined on any other error — this weapon's measurement loop depends on that
+// swallow-and-continue behavior rather than exceptions.
+import { b58encode } from '../../core/solana.mjs';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 async function rpc(method, params, tries = 6) {
   for (let i = 0; i < tries; i++) {
@@ -45,13 +50,6 @@ async function rpc(method, params, tries = 6) {
     return j.result;
   }
   return undefined;                                     // exhausted retries (rate-limited)
-}
-const B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-function b58encode(bytes) {
-  let n = 0n; for (const b of bytes) n = n * 256n + BigInt(b);
-  let s = ''; while (n > 0n) { s = B58[Number(n % 58n)] + s; n /= 58n; }
-  for (const b of bytes) { if (b === 0) s = '1' + s; else break; }
-  return s || '1';
 }
 const POS_DISC = VENUE ? b58encode([...createHash('sha256').update(VENUE.posDiscSeed).digest().subarray(0, 8)]) : null;
 
