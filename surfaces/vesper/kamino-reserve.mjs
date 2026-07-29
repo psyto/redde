@@ -17,51 +17,17 @@
 //   128 liquidity.mintPubkey Pubkey (32)   ← memcmp filter target
 //   ... liquidity struct continues (supply vault, fee vault, decimals, oracle-derived px, ...)
 
+import { solanaRpc } from '../../core/rpc.mjs';
+import { b58encode, b58decode, pk } from '../../core/solana.mjs';
+
 const RPC = process.env.RPC || 'https://api.mainnet-beta.solana.com';
 const KLEND = 'KLend2g3cP87fffoy8q1mQqGKjrxjC8boSyAYavgmjD';
 const SPYX_MINT = 'XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W';
 const MINT_OFFSET = 128;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-async function rpc(method, params, tries = 5) {
-  let lastErr;
-  for (let i = 0; i < tries; i++) {
-    try {
-      const ac = new AbortController();
-      const timer = setTimeout(() => ac.abort(), 15000); // 15s cap so a stalled conn becomes a retry
-      let r, text;
-      try {
-        r = await fetch(RPC, {
-          method: 'POST', headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
-          signal: ac.signal,
-        });
-        text = await r.text();
-      } finally { clearTimeout(timer); }
-      if (text.trimStart().startsWith('<')) throw new Error('HTML (rate-limited)');
-      const j = JSON.parse(text);
-      if (j.error) throw new Error(j.error.message);
-      return j.result;
-    } catch (e) { lastErr = e; await sleep(400 * (i + 1)); }
-  }
-  throw new Error(`${method}: ${lastErr.message}`);
-}
-
-// base58 for reading 32-byte pubkeys out of the account buffer
-const B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-function b58encode(bytes) {
-  let n = 0n; for (const b of bytes) n = n * 256n + BigInt(b);
-  let s = ''; while (n > 0n) { s = B58[Number(n % 58n)] + s; n /= 58n; }
-  for (const b of bytes) { if (b === 0) s = '1' + s; else break; }
-  return s || '1';
-}
-const pk = (buf, off) => b58encode(buf.subarray(off, off + 32));
-function b58decode(str) {
-  let n = 0n; for (const c of str) { const i = B58.indexOf(c); if (i < 0) throw new Error('bad b58'); n = n * 58n + BigInt(i); }
-  const bytes = []; while (n > 0n) { bytes.unshift(Number(n % 256n)); n /= 256n; }
-  for (const c of str) { if (c === '1') bytes.unshift(0); else break; }
-  return Buffer.from(bytes);
-}
+// rpc + base58 (b58encode/b58decode/pk) now come from ../../core (were inline here).
+const rpc = solanaRpc(RPC);
 
 // Known on-chain accounts to flag inside the reserve config (oracle identity = the crux of GREEN).
 const KNOWN = {

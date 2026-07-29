@@ -27,24 +27,8 @@ const LENDERS = {
 
 const MINT = process.argv[2] || 'SPCXxcqXj6e5dJDVNovHN8744zkbhM2bYudU45BimGb';
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-async function rpc(method, params, tries = 5) {
-  let lastErr;
-  for (let i = 0; i < tries; i++) {
-    try {
-      const r = await fetch(RPC, {
-        method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
-      });
-      const text = await r.text();
-      if (text.trimStart().startsWith('<')) throw new Error('HTML (rate-limited)');
-      const j = JSON.parse(text);
-      if (j.error) throw new Error(j.error.message);
-      return j.result;
-    } catch (e) { lastErr = e; await sleep(400 * (i + 1)); }
-  }
-  throw new Error(`${method}: ${lastErr.message}`);
-}
+import { solanaRpc } from '../../core/rpc.mjs';
+const rpc = solanaRpc(RPC); // was an inline rpc(method, params, tries=5)
 
 async function main() {
   console.log(`\nVesper — collateral probe for mint\n  ${MINT}\n  RPC: ${RPC}\n`);

@@ -5,6 +5,8 @@
 
 import { marketStatus, statusNow, STATUS } from './campana.mjs';
 import { weekendGauge } from './gauge.mjs';
+import { solanaRpc } from '../../core/rpc.mjs';
+import { b58encode } from '../../core/solana.mjs';
 
 const RPC = process.env.RPC || 'https://api.mainnet-beta.solana.com';
 const VAULTS = 'jupr81YtYssSyPt8jbnGuiWon5f6x9TcDEFxYe3Bdzi';
@@ -22,21 +24,8 @@ const XSTOCK = {
   NVDAx: { name: 'NVIDIA', lt: 0.75, src: 'A4RuZpjfbdzo1fQTqu1ng7kNya1knC2fHSSG5Sv4G4EH' },
 };
 
-// ── base58 (for memcmp filters) ──────────────────────────────────────────────
-const B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-function b58encode(bytes) {
-  let n = 0n; for (const b of bytes) n = n * 256n + BigInt(b);
-  let s = ''; while (n > 0n) { s = B58[Number(n % 58n)] + s; n /= 58n; }
-  for (const b of bytes) { if (b === 0) s = '1' + s; else break; }
-  return s || '1';
-}
-async function rpc(method, params) {
-  const r = await fetch(RPC, {
-    method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
-  });
-  return (await r.json()).result;
-}
+// base58 (b58encode) + rpc now come from ../../core (were inline here).
+const rpc = solanaRpc(RPC);
 
 import { createHash } from 'node:crypto';
 const POS_DISC = b58encode([...createHash('sha256').update('account:Position').digest().subarray(0, 8)]);

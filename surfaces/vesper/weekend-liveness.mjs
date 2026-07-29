@@ -13,25 +13,11 @@
 //   node weekend-liveness.mjs A2GDb4Um4Tr42iKgPz5fQ2d7pYTnaUuHN3d5V41Cywff "Jupiter SPYx"
 
 import { marketStatus, STATUS } from './campana.mjs';
+import { makeRpc } from '../../core/rpc.mjs';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-async function rpc(rpcUrl, method, params, tries = 5) {
-  let lastErr;
-  for (let i = 0; i < tries; i++) {
-    try {
-      const r = await fetch(rpcUrl, {
-        method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
-      });
-      const text = await r.text();
-      if (text.trimStart().startsWith('<')) throw new Error('HTML (rate-limited)');
-      const j = JSON.parse(text);
-      if (j.error) throw new Error(j.error.message);
-      return j.result;
-    } catch (e) { lastErr = e; await sleep(400 * (i + 1)); }
-  }
-  throw new Error(`${method}: ${lastErr.message}`);
-}
+// rpc now comes from ../../core; per-call rpcUrl preserved (bind per call).
+const rpc = (rpcUrl, method, params) => makeRpc(rpcUrl)(method, params);
 
 // Page back through signatures, collecting blockTimes until we've covered `hoursBack`.
 async function updateTimes(rpcUrl, acct, hoursBack) {
