@@ -19,9 +19,12 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // rpc now comes from ../../core; per-call rpcUrl preserved (bind per call).
 const rpc = (rpcUrl, method, params) => makeRpc(rpcUrl)(method, params);
 
-// Page back through signatures, collecting blockTimes until we've covered `hoursBack`.
-async function updateTimes(rpcUrl, acct, hoursBack) {
-  const cutoff = Math.floor(Date.now() / 1000) - hoursBack * 3600;
+// Page back through signatures, collecting blockTimes. Window is [lo, hi]: an explicit {from,to}
+// pins a REPRODUCIBLE window (what a claim embeds so a stranger re-pulls the same set); otherwise
+// the trailing `hoursBack`. Returning the raw times is what lets a claim be re-executed offline.
+export async function fetchUpdateTimes(acct, { rpcUrl = 'https://api.mainnet-beta.solana.com', hoursBack = 72, from, to } = {}) {
+  const lo = from != null ? from : Math.floor(Date.now() / 1000) - hoursBack * 3600;
+  const hi = to != null ? to : Infinity;
   const times = [];
   let before;
   for (let page = 0; page < 20; page++) {
@@ -30,24 +33,22 @@ async function updateTimes(rpcUrl, acct, hoursBack) {
     if (!sigs || !sigs.length) break;
     for (const s of sigs) if (s.blockTime) times.push(s.blockTime);
     before = sigs[sigs.length - 1].signature;
-    if (sigs[sigs.length - 1].blockTime && sigs[sigs.length - 1].blockTime < cutoff) break;
+    if (sigs[sigs.length - 1].blockTime && sigs[sigs.length - 1].blockTime < lo) break;
     await sleep(120);
   }
-  return times.filter((t) => t >= cutoff).sort((a, b) => a - b);
+  return times.filter((t) => t >= lo && t <= hi).sort((a, b) => a - b);
 }
 
-// The reusable on-chain observable. Returns update cadence split by US-equity market status,
-// and a liveness signal. NOTE: this cleanly establishes RED (feed live through closure, no guard);
-// it CANNOT by itself establish GREEN — a GREEN venue's feed may still tick while the venue's
-// PROGRAM bands it to last close. GREEN requires the reserve band/market-status config decode.
-export async function weekendLiveness(acct, { rpcUrl = 'https://api.mainnet-beta.solana.com', hoursBack = 72 } = {}) {
-  const times = await updateTimes(rpcUrl, acct, hoursBack);
-  if (!times.length) return { acct, updates: 0, signal: 'NO_DATA' };
+// PURE classifier: sorted update-times (+ holiday calendar) → market-status split + liveness signal.
+// This is the deterministic core a claim re-executes OFFLINE — no RPC, no clock read. Same times →
+// same verdict, for anyone, forever. The whole "don't trust, re-execute" property lives right here.
+export function classifyUpdateTimes(times, cal) {
+  if (!times.length) return { updates: 0, signal: 'NO_DATA' };
   let openN = 0, closedN = 0, firstClosed = null, lastClosed = null;
   const gaps = [];
   const dailyClosed = {}; // ET-date → count of updates while US market CLOSED
   for (let i = 0; i < times.length; i++) {
-    const st = marketStatus(times[i]);
+    const st = marketStatus(times[i], cal);
     if (st.status === STATUS.OPEN) openN++;
     else {
       closedN++; if (!firstClosed) firstClosed = times[i]; lastClosed = times[i];
@@ -60,10 +61,18 @@ export async function weekendLiveness(acct, { rpcUrl = 'https://api.mainnet-beta
     : closedN === 0 ? 'FROZEN_THROUGH_CLOSURE' // → feed halts when market shut (GREEN/YELLOW candidate)
       : 'SPARSE'; // staleness-gated; needs band decode
   return {
-    acct, first: times[0], last: times[times.length - 1], updates: times.length,
+    first: times[0], last: times[times.length - 1], updates: times.length,
     openUpdates: openN, closedUpdates: closedN, firstClosed, lastClosed, maxGapMin: +(maxGap / 60).toFixed(1),
     dailyClosed, signal,
   };
+}
+
+// The reusable on-chain observable = fetch + classify. Establishes RED (feed live through closure,
+// no guard); it CANNOT by itself establish GREEN — a GREEN venue's feed may still tick while the
+// venue's PROGRAM bands it to last close. GREEN needs the reserve band/market-status config decode.
+export async function weekendLiveness(acct, opts = {}) {
+  const times = await fetchUpdateTimes(acct, opts);
+  return { acct, ...classifyUpdateTimes(times, opts.cal) };
 }
 
 // ── CLI ──────────────────────────────────────────────────────────────────────
