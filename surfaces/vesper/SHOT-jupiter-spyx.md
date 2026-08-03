@@ -1,0 +1,56 @@
+# Jupiter Lend liquidates tokenized stocks against a price the U.S. market never printed.
+
+**Don't trust us. Re-execute.**
+
+Last weekend (Aug 1–2, 2026), while the U.S. equity market was closed, the SPYx price
+account that Jupiter Lend liquidates against updated **3,180 times** — max gap **4 minutes**.
+Its liquidation path has a 2-hour staleness gate and no market-status guard, so the gate
+never fires: over the weekend, positions can be liquidated against a price the regulated
+market never printed.
+
+This is not our opinion. It is a claim you can reproduce in ten seconds:
+
+```bash
+git clone https://github.com/psyto/redde && cd redde/surfaces/vesper
+node verify.mjs claims/jupiter-spyx-cmls.json          # re-execute the verdict, offline
+node verify.mjs claims/jupiter-spyx-cmls.json --fetch  # re-pull every observation from Solana
+```
+
+Output: `🔴 RED — VERIFIED`. Change one number in the claim and it fails on both the
+re-executed verdict and the content hash. **You cannot lie in a claim.**
+
+Want a second opinion? Don't take ours — be the second node:
+
+```bash
+node node2.mjs claims/jupiter-spyx-cmls.json           # independently re-fetch & re-derive
+```
+
+---
+
+### What it means
+
+- **If you borrow on Jupiter Lend against xStocks:** on a violent Monday-open gap, your
+  position can be liquidated at a weekend price with no sanity-check against the last
+  official close. Know your buffer before Friday's bell.
+- **If you allocate or curate xStock lending:** here is a neutral, re-executable soundness
+  signal you did not have. The same tool scores Kamino 🟢 on the *same* SPYx — its Chainlink
+  price-band clamps to the last close. Same asset, opposite weekend behavior.
+- **Jupiter:** the fix is a market-status band (clamp to last close ± %, or suspend on
+  closure). We wrote the remediation. This claim flips to 🟢 the day it ships.
+
+### Honest scope (because the rule cuts both ways)
+
+- The **fact** is structural: liquidations *can* run against a weekend price with no guard.
+  That is re-executable and airtight.
+- The **loss** is conditional, not a prediction. A typical weekend moved SPYx ~1%: no
+  liquidations fire. The exposure is **tail** — a violent weekend / earnings gap. At a 20%
+  Monday gap, a position at the liquidation threshold is exposed to ~10% of collateral as
+  unfair liquidation or bad debt. We are not claiming an imminent loss; we are claiming an
+  unguarded surface, and pricing it.
+- **This claim stands or falls on re-execution, not on who published it.** Disagree? Re-execute
+  and publish a contradicting claim_id. The deterministic function is the judge, not us.
+
+Manifesto: `MANIFESTO.md` · Claim: `claims/jupiter-spyx-cmls.json` · Remediation:
+`REMEDIATION-jupiter-band.md`
+
+**Don't trust. Re-execute.**
