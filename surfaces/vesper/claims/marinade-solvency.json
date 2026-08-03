@@ -1,0 +1,59 @@
+{
+  "schema": "vesper.claim/v0",
+  "claim_type": "reserve-solvency",
+  "subject": {
+    "protocol": "Marinade",
+    "asset": "mSOL",
+    "chain": "solana",
+    "stateAccount": "8szGkuLTAux9XMgZ2vtY39jVSowEcpBfFfD8hXSEqdGC"
+  },
+  "invariant": {
+    "id": "SOLVENCY",
+    "statement": "A staking/reserve protocol’s claimed backing must be independently recomputable from chain state at the pinned slot, cover its liability, and carry no stale records.",
+    "module": "claim.mjs::reexecSolvency (quantities from redde/verify-marinade.mjs)",
+    "version": "0"
+  },
+  "inputs": {
+    "trusted": {
+      "chain": "solana"
+    },
+    "oracle_inputs": [],
+    "window": {
+      "epoch": 1004,
+      "snapshotSlot": null
+    },
+    "observed": {
+      "source": "redde re-computation (verify-marinade.mjs)",
+      "quantities": {
+        "virtualValue": "2383199200198962",
+        "liability": "2383199196106081",
+        "supplyDelta": "2934318",
+        "mintSupply": "1708592412459116",
+        "msolSupply": "1708592415393434",
+        "staleRecords": 0,
+        "inv2b_ok": true
+      }
+    }
+  },
+  "computation": {
+    "inv1_ok": true,
+    "inv2b_ok": true,
+    "stale_ok": true,
+    "backing": "2383199200198962",
+    "liability": "2383199196106081"
+  },
+  "verdict": {
+    "flag": "GREEN",
+    "reason": "Recomputed backing covers liability; redeemable backing proven on-chain; no stale records."
+  },
+  "reproduce": {
+    "level1_offline": "node verify.mjs <claim.json>              # re-derive the verdict from the recomputed quantities (offline)",
+    "level2_onchain": "node ../redde/verify-marinade.mjs --json  # re-compute the quantities from mainnet at the pinned slot"
+  },
+  "attestation": {
+    "node": "anon",
+    "sig": null,
+    "emitted_ts": 1785731946
+  },
+  "claim_id": "vc_f6065d09bb10c3ae8847499c7b2b8c98dfe635c3"
+}

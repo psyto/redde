@@ -23,29 +23,15 @@
     },
     "oracle_inputs": [],
     "window": {
-      "from_ts": 1785428682,
-      "to_ts": 1785730980,
-      "from_iso": "2026-07-30T16:24:42.000Z",
-      "to_iso": "2026-08-03T04:23:00.000Z"
+      "from_ts": 1785429660,
+      "to_ts": 1785731759,
+      "from_iso": "2026-07-30T16:41:00.000Z",
+      "to_iso": "2026-08-03T04:35:59.000Z"
     },
     "observed": {
       "source": "getSignaturesForAddress",
       "account": "A2GDb4Um4Tr42iKgPz5fQ2d7pYTnaUuHN3d5V41Cywff",
       "update_times": [
-        1785428682,
-        1785428700,
-        1785428701,
-        1785428760,
-        1785428819,
-        1785428879,
-        1785428939,
-        1785428940,
-        1785429153,
-        1785429179,
-        1785429180,
-        1785429419,
-        1785429420,
-        1785429480,
         1785429660,
         1785429661,
         1785429900,
@@ -3649,32 +3635,44 @@
         1785730681,
         1785730919,
         1785730920,
-        1785730980
+        1785730980,
+        1785731128,
+        1785731159,
+        1785731160,
+        1785731199,
+        1785731271,
+        1785731400,
+        1785731401,
+        1785731460,
+        1785731461,
+        1785731700,
+        1785731700,
+        1785731759
       ]
     }
   },
   "computation": {
-    "first": 1785428682,
-    "last": 1785730980,
-    "updates": 3618,
-    "openUpdates": 438,
-    "closedUpdates": 3180,
+    "first": 1785429660,
+    "last": 1785731759,
+    "updates": 3616,
+    "openUpdates": 424,
+    "closedUpdates": 3192,
     "firstClosed": 1785441721,
-    "lastClosed": 1785730980,
+    "lastClosed": 1785731759,
     "maxGapMin": 4,
     "dailyClosed": {
       "2026-07-30": 339,
       "2026-07-31": 769,
       "2026-08-01": 1000,
       "2026-08-02": 1059,
-      "2026-08-03": 13
+      "2026-08-03": 25
     },
     "signal": "LIVE_THROUGH_CLOSURE"
   },
   "verdict": {
     "flag": "RED",
     "guard": "NONE",
-    "reason": "The price account updated 3180× while the US equity market was CLOSED (max gap 4 min) with no market-status halt — so liquidations execute against a price the regulated market never printed.",
+    "reason": "The price account updated 3192× while the US equity market was CLOSED (max gap 4 min) with no market-status halt — so liquidations execute against a price the regulated market never printed.",
     "stress": {
       "positionUsd": 100000,
       "ltv": 0.75,
@@ -3705,7 +3703,7 @@
   "attestation": {
     "node": "anon",
     "sig": null,
-    "emitted_ts": 1785731014
+    "emitted_ts": 1785731950
   },
-  "claim_id": "cmls_77c3a1fc05f6c804a691c934cf2de413327d60f1"
+  "claim_id": "vc_5417031e1c0b01823b67ede4b287adcda16c2013"
 }

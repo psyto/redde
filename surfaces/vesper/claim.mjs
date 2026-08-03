@@ -36,7 +36,7 @@ export function sha256(s) { return createHash('sha256').update(s).digest('hex');
 export function claimBody(c) {
   return { schema: c.schema, claim_type: c.claim_type, subject: c.subject, invariant: c.invariant, inputs: c.inputs, computation: c.computation, verdict: c.verdict };
 }
-export function claimId(c) { return 'cmls_' + sha256(canonical(claimBody(c))).slice(0, 40); }
+export function claimId(c) { return 'vc_' + sha256(canonical(claimBody(c))).slice(0, 40); }
 
 // signal → guard → verdict flag (shares verify-cmls.mjs's classifier; single source of truth).
 export function guardFromSignal(signal) {
@@ -45,12 +45,28 @@ export function guardFromSignal(signal) {
       : signal === 'NO_DATA' ? 'UNKNOWN' : 'UNKNOWN';
 }
 
+// ── Pure re-derivation cores (shared by emit + verify = single source of truth) ───────────────
+// Each claim_type has ONE deterministic function from pinned inputs → verdict. verify.mjs runs the
+// SAME function on the claim's embedded inputs, so emit and verify can never drift.
+export function reexecCmls(updateTimes) {
+  const computation = classifyUpdateTimes(updateTimes);
+  const guard = guardFromSignal(computation.signal);
+  return { computation, guard, flag: classify({ guard }) };
+}
+// Redde-lineage solvency: re-derive the verdict from re-computed quantities. GREEN iff recomputed
+// backing ≥ liability, redeemable backing is proven on-chain, and no records are stale.
+export function reexecSolvency(q) {
+  const inv1_ok = BigInt(q.virtualValue) >= BigInt(q.liability);
+  const inv2b_ok = q.inv2b_ok === true;
+  const stale_ok = q.staleRecords === 0;
+  const flag = (!inv1_ok || q.inv2b_ok === false) ? 'RED' : (inv2b_ok && stale_ok) ? 'GREEN' : 'STALE';
+  return { computation: { inv1_ok, inv2b_ok, stale_ok, backing: String(q.virtualValue), liability: String(q.liability) }, flag };
+}
+
 // Build a CMLS claim from a pinned observation. `updateTimes` are the raw blockTimes of the price
 // account the venue liquidates against, within [window.from_ts, window.to_ts].
 export function buildCmlsClaim({ subject, window, updateTimes, stress }) {
-  const computation = classifyUpdateTimes(updateTimes);
-  const guard = guardFromSignal(computation.signal);
-  const flag = classify({ guard });
+  const { computation, guard, flag } = reexecCmls(updateTimes);
   const rows = (stress?.gaps ?? [0.10, 0.20, 0.30]).map((g) => {
     const exp = stressExposure({ ltv: stress?.ltv, liqThreshold: subject.liqThreshold, guard }, g);
     return { gapPct: g, exposurePctOfCollateral: exp, badDebtUsdPer100k: exp == null ? null : Math.round(exp * (stress?.positionUsd ?? 100000)) };
@@ -93,21 +109,79 @@ export function buildCmlsClaim({ subject, window, updateTimes, stress }) {
   return claim;
 }
 
-// ── Emit CLI: `node claim.mjs` → writes a fresh Jupiter-SPYx claim over last weekend ──────────
-if (import.meta.url === `file://${process.argv[1]}`) {
-  const { fetchUpdateTimes } = await import('./weekend-liveness.mjs');
-  const { writeFileSync, mkdirSync } = await import('node:fs');
-  const rpcUrl = process.env.RPC || 'https://api.mainnet-beta.solana.com';
+// Build a solvency claim (claim_type #2) from a Redde re-computation — the SAME schema as CMLS.
+// This is the "1 network × N claim types" demonstration: one verifiable-claim substrate, many invariants.
+export function buildSolvencyClaim({ subject, window, quantities }) {
+  const { computation, flag } = reexecSolvency(quantities);
+  const claim = {
+    schema: CLAIM_SCHEMA,
+    claim_type: 'reserve-solvency',
+    subject, // { protocol, asset, chain, stateAccount }
+    invariant: {
+      id: 'SOLVENCY',
+      statement: 'A staking/reserve protocol’s claimed backing must be independently recomputable from chain state at the pinned slot, cover its liability, and carry no stale records.',
+      module: 'claim.mjs::reexecSolvency (quantities from redde/verify-marinade.mjs)',
+      version: '0',
+    },
+    inputs: {
+      trusted: { chain: subject.chain },
+      oracle_inputs: [], // solvency is recomputed from chain state; no price oracle decides it
+      window, // { epoch, snapshotSlot }
+      observed: { source: 'redde re-computation (verify-marinade.mjs)', quantities },
+    },
+    computation,
+    verdict: {
+      flag,
+      reason: flag === 'GREEN'
+        ? 'Recomputed backing covers liability; redeemable backing proven on-chain; no stale records.'
+        : `inv1_ok=${computation.inv1_ok} inv2b_ok=${computation.inv2b_ok} stale_ok=${computation.stale_ok}`,
+    },
+    reproduce: {
+      level1_offline: 'node verify.mjs <claim.json>              # re-derive the verdict from the recomputed quantities (offline)',
+      level2_onchain: 'node ../redde/verify-marinade.mjs --json  # re-compute the quantities from mainnet at the pinned slot',
+    },
+    attestation: { node: 'anon', sig: null, emitted_ts: Math.floor(Date.now() / 1000) },
+  };
+  claim.claim_id = claimId(claim);
+  return claim;
+}
 
-  // Jupiter Lend — SPYx (source_type=7 24/7 pushed price the vaults liquidate against).
+// ── Emit CLI: `node claim.mjs [cmls|solvency]` ────────────────────────────────────────────────
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const kind = (process.argv[2] || 'cmls').toLowerCase();
+  const { writeFileSync, mkdirSync, readFileSync } = await import('node:fs');
+  const emoji = { GREEN: '🟢', YELLOW: '🟡', RED: '🔴', STALE: '🟡', UNKNOWN: '❓' };
+  mkdirSync(new URL('./claims/', import.meta.url), { recursive: true });
+
+  if (kind === 'solvency') {
+    // claim_type #2 — wrap an existing Redde solvency re-computation into the same schema.
+    const r = JSON.parse(readFileSync(new URL('../redde/marinade-result.json', import.meta.url)));
+    const subject = { protocol: 'Marinade', asset: 'mSOL', chain: 'solana', stateAccount: r.target };
+    const window = { epoch: r.currentEpoch, snapshotSlot: r.snapshotSlot ?? null };
+    const quantities = {
+      virtualValue: r.virtualValue, liability: r.liability, supplyDelta: r.supplyDelta,
+      mintSupply: r.mintSupply, msolSupply: r.msolSupply, staleRecords: r.staleRecords, inv2b_ok: r.inv2b?.ok === true,
+    };
+    const claim = buildSolvencyClaim({ subject, window, quantities });
+    writeFileSync(new URL('./claims/marinade-solvency.json', import.meta.url), JSON.stringify(claim, null, 2) + '\n');
+    console.log(`\nVesper — emitting SOLVENCY claim · ${subject.protocol} ${subject.asset}`);
+    console.log(`  ${emoji[claim.verdict.flag]} ${claim.verdict.flag}  backing=${claim.computation.backing} ≥ liability=${claim.computation.liability} → ${claim.computation.inv1_ok}`);
+    console.log(`  claim_id: ${claim.claim_id}`);
+    console.log(`  written:  claims/marinade-solvency.json`);
+    console.log(`\n  reproduce (anyone, offline):  node verify.mjs claims/marinade-solvency.json\n`);
+    process.exit(0);
+  }
+
+  // default: CMLS — Jupiter Lend SPYx (source_type=7 24/7 pushed price the vaults liquidate against).
+  const { fetchUpdateTimes } = await import('./weekend-liveness.mjs');
+  const rpcUrl = process.env.RPC || 'https://api.mainnet-beta.solana.com';
   const subject = {
     venue: 'Jupiter Lend', asset: 'SPYx', chain: 'solana', role: 'collateral+multiply',
     priceAccount: 'A2GDb4Um4Tr42iKgPz5fQ2d7pYTnaUuHN3d5V41Cywff',
     liqThreshold: 0.85, borrowFactor: 0.75,
   };
-  // Pin the last full closed window: Fri 16:00 ET → Mon 09:30 ET (use a trailing 84h grab).
   const now = Math.floor(Date.now() / 1000);
-  const from = now - 84 * 3600;
+  const from = now - 84 * 3600; // trailing window covering the last full closed weekend
   console.log(`\nVesper — emitting CMLS claim · ${subject.venue} ${subject.asset}\n  RPC: ${rpcUrl}\n  pinning window from ${new Date(from * 1000).toISOString()} → now\n`);
   const updateTimes = await fetchUpdateTimes(subject.priceAccount, { rpcUrl, from, to: now });
   if (!updateTimes.length) { console.error('  no updates fetched (RPC blocked / no data) — cannot emit.\n'); process.exit(1); }
@@ -116,10 +190,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     from_iso: new Date(updateTimes[0] * 1000).toISOString(), to_iso: new Date(updateTimes[updateTimes.length - 1] * 1000).toISOString(),
   };
   const claim = buildCmlsClaim({ subject, window, updateTimes, stress: { positionUsd: 100000, ltv: 0.75, gaps: [0.10, 0.20, 0.30] } });
-  mkdirSync(new URL('./claims/', import.meta.url), { recursive: true });
-  const out = new URL('./claims/jupiter-spyx-cmls.json', import.meta.url);
-  writeFileSync(out, JSON.stringify(claim, null, 2) + '\n');
-  const emoji = { GREEN: '🟢', YELLOW: '🟡', RED: '🔴', UNKNOWN: '❓' };
+  writeFileSync(new URL('./claims/jupiter-spyx-cmls.json', import.meta.url), JSON.stringify(claim, null, 2) + '\n');
   console.log(`  ${emoji[claim.verdict.flag]} ${claim.verdict.flag}  ${claim.subject.venue} ${claim.subject.asset}`);
   console.log(`  observations: ${claim.computation.updates} updates (${claim.computation.closedUpdates} while CLOSED), max gap ${claim.computation.maxGapMin} min`);
   console.log(`  claim_id: ${claim.claim_id}`);
