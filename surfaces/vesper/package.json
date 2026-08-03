@@ -1,0 +1,9 @@
+{
+  "name": "vesper-broadcast",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Thin on-chain adapter: anchor a Vesper claim's verdict to Solana via the Memo program. Dry-run by default.",
+  "dependencies": { "@solana/web3.js": "1.98.4" },
+  "overrides": { "uuid": "9.0.1" }
+}
