@@ -21,24 +21,28 @@ export async function adjudicate(claim, { rpcUrl } = {}) {
   if (claim.claim_type === 'closed-market-liquidation-soundness') {
     const w = claim.inputs.window;
     const canonical = await fetchUpdateTimes(claim.inputs.observed.account, { rpcUrl, from: w.from_ts, to: w.to_ts });
-    const canon = new Set(canonical);
-    const embed = new Set(claim.inputs.observed.update_times);
-    const omitted = canonical.filter((t) => !embed.has(t));      // on chain but left out of the claim
-    const fabricated = [...embed].filter((t) => !canon.has(t));  // in the claim but not on chain
-    const truth = reexecCmls(canonical);                         // the verdict from the FULL, honest input set
-    const authentic = fabricated.length === 0;
-    const complete = omitted.length === 0;
+    const embedded = claim.inputs.observed.update_times;
+    // Multiset diff: Solana blockTime is second-granularity, so same-second updates share a
+    // timestamp. Counting by multiplicity (not set membership) makes omission/fabrication exact.
+    const freq = (arr) => { const m = new Map(); for (const t of arr) m.set(t, (m.get(t) || 0) + 1); return m; };
+    const canonF = freq(canonical), embedF = freq(embedded);
+    let omitted = 0, fabricated = 0;
+    for (const [t, c] of canonF) omitted += Math.max(0, c - (embedF.get(t) || 0));      // on chain, under-counted by the claim
+    for (const [t, c] of embedF) fabricated += Math.max(0, c - (canonF.get(t) || 0));   // in the claim, not (that many) on chain
+    const truth = reexecCmls(canonical);                          // the verdict from the FULL, honest input set
+    const authentic = fabricated === 0;
+    const complete = omitted === 0;
     const verdictMatches = claim.verdict.flag === truth.flag;
     const valid = authentic && complete && verdictMatches;
     const reasons = [];
-    if (!authentic) reasons.push(`${fabricated.length} fabricated observation(s) not on chain`);
-    if (!complete) reasons.push(`${omitted.length} closed/qualifying observation(s) omitted from the claim`);
+    if (!authentic) reasons.push(`${fabricated} fabricated observation(s) not on chain`);
+    if (!complete) reasons.push(`${omitted} closed/qualifying observation(s) omitted from the claim`);
     if (!verdictMatches) reasons.push(`claimed ${claim.verdict.flag} but canonical re-execution is ${truth.flag}`);
     return {
       claim_type: claim.claim_type, valid, slashable: !valid,
       claimedVerdict: claim.verdict.flag, truthVerdict: truth.flag,
-      canonicalUpdates: canonical.length, embeddedUpdates: embed.size,
-      omitted: omitted.length, fabricated: fabricated.length,
+      canonicalUpdates: canonical.length, embeddedUpdates: embedded.length,
+      omitted, fabricated,
       reason: valid ? 'inputs authentic + complete; verdict follows from canonical re-execution' : reasons.join('; '),
     };
   }
