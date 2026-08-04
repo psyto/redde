@@ -1,0 +1,14 @@
+{
+  "schema": "vesper.resolution/v0",
+  "market": "Does Jupiter Lend liquidate SPYx soundly across the closed-market weekend window (a market-status guard prevents liquidation against a price the regulated market never printed)?",
+  "resolved": "NO",
+  "reproduces": true,
+  "basis": {
+    "claim_id": "vc_8732875c937e18b5c943e97243a94f9a00d3a1b2",
+    "claim_type": "closed-market-liquidation-soundness",
+    "verdict": "RED"
+  },
+  "settlement": "bond.mjs: the side matching this re-executed outcome captures the stake; a disputer who re-executes to the SAME outcome wins, a false resolver is slashed. The resolver puts no faith in a vote — only in re-execution.",
+  "reproduce": "node verify.mjs <claim.json>   # anyone reproduces this resolution offline",
+  "residual_trust": "the claim's inputs (recorder on-chain root / N-of-M attestation); the RESOLUTION logic itself is trustless re-execution"
+}

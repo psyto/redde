@@ -1,0 +1,14 @@
+{
+  "schema": "vesper.resolution/v0",
+  "market": "Is Marinade (mSOL) solvent — is its claimed backing, recomputed from chain state, ≥ its liability with no stale records?",
+  "resolved": "YES",
+  "reproduces": true,
+  "basis": {
+    "claim_id": "vc_f6065d09bb10c3ae8847499c7b2b8c98dfe635c3",
+    "claim_type": "reserve-solvency",
+    "verdict": "GREEN"
+  },
+  "settlement": "bond.mjs: the side matching this re-executed outcome captures the stake; a disputer who re-executes to the SAME outcome wins, a false resolver is slashed. The resolver puts no faith in a vote — only in re-execution.",
+  "reproduce": "node verify.mjs <claim.json>   # anyone reproduces this resolution offline",
+  "residual_trust": "the claim's inputs (recorder on-chain root / N-of-M attestation); the RESOLUTION logic itself is trustless re-execution"
+}
