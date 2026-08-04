@@ -69,9 +69,12 @@ export const TARGETS = [
       + '(kamino-reserve.mjs, live). That Scope oracle is ITSELF LIVE_THROUGH_CLOSURE (weekend-liveness: 20k updates, '
       + '0.2-min gap, all while the US market was closed) — proving liveness must NOT grade Kamino (probeOnChain now '
       + 'guards this as AGGREGATOR/UNKNOWN, not RED). Remaining rigor (the true GREEN re-execution frontier): the Scope '
-      + 'account is a 28,712-byte OraclePrices ARRAY (~hundreds of prices) — isolating SPYx needs the reserve\'s Scope '
-      + 'price INDEX + the DatedPrice stride, then a closed-window VALUE comparison (Scope clamped-to-last-close vs the '
-      + 'raw feed tracking live) or the reserve\'s band %-deviation config. Blocked here on Scope/Kamino internal layout / archival.',
+      + 'account is a 28,712-byte OraclePrices ARRAY. RESOLVED from chain (scope-price.mjs): the DatedPrice layout '
+      + '(base 96, stride 56 — value u64@0, exp@8, unix_ts@24) and the reserve\'s Scope priceChain index (344) are '
+      + 'recovered + self-validated on-chain, so Kamino\'s EXACT SPYx liquidation price is now re-executable: observed '
+      + '$706.51 vs the frozen last-close ref #89 $699.85 (Mon 20:00Z close) = +0.95% during a CLOSED session — '
+      + 'band-consistent, NOT raw-feed tracking (the opposite of Jupiter). Final GREEN rigor: decode the reserve\'s '
+      + 'exact band %-tolerance (is +0.95% inside the accepted clamp) — the only remaining primary-source assertion.',
   },
   {
     venue: 'Drift', chain: 'solana', role: 'perp',
