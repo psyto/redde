@@ -122,3 +122,26 @@ exactly the verdict only Vesper can produce.
 **Next rate-limiter:** on-chain CONFIRM NestUSD's wiring (program id, oracle account, absence of any
 band/pause) → flip 🔴-candidate to 🔴-confirmed + compute the gap-loss number. That confirmation IS the
 first run of `verify-cmls.mjs`.
+
+## Status (2026-08-04) — money-shot re-executed BOTH sides + anchored on-chain
+
+The kill line is met with a stronger, self-reproducing artifact than the original NestUSD candidate: the
+money-shot is now **SPYx 🔴 Jupiter Lend vs 🟢 Kamino**, each **re-executed from chain and anchored on
+Solana (devnet Memo)**.
+
+- **RED (Jupiter) — airtight, fully on-chain.** Its oracle is a raw 24/7 pushed price with zero
+  closed-market guards; `weekend-liveness.mjs` shows LIVE_THROUGH_CLOSURE → NONE → RED. Anchored:
+  tx `5HDpMX…`.
+- **GREEN (Kamino) — re-executed to the guard layer, with an honest residual.** `scope-price.mjs` recovers
+  the reserve `tokenInfo` guards from chain, self-validated by `name@5032 == "SPYx"`: heuristic $515–858,
+  maxTwapDivergenceBps 500 (5%), 300s staleness; the Scope price it reads sits ~1% from the frozen
+  last-close. **Honest refinement of the spec:** those on-chain guards are generic sanity, NOT a last-close
+  clamp — the actual clamp is UPSTREAM Chainlink Data Streams (off-chain). So GREEN = on-chain-BOUNDED +
+  upstream-Chainlink-CLAMPED, safer than a zero-guard raw feed but carrying a Chainlink trust dependency
+  RED does not. Full on-chain re-execution stops at the guards; we say so in the claim. Anchored:
+  tx `3B7An1…`.
+- A method safeguard fell out of this: a market-status aggregator (Scope) ticks through closure too, so
+  liveness alone would FALSE-RED a clamped venue — `probeOnChain` now refuses to grade aggregator feeds.
+
+Remaining: the demand kill line (a relier engaging a verdict) still gates Act-1 → Act-2; and the on-chain
+**Campana** program (the market-status feed venues could read to stop being 🔴) is the infrastructural next.
