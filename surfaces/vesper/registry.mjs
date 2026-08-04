@@ -11,7 +11,7 @@
 import { readFileSync, appendFileSync, existsSync, mkdirSync } from 'node:fs';
 
 const LOG = new URL('./registry/log.jsonl', import.meta.url);
-const SHORT = { 'closed-market-liquidation-soundness': 'cmls', 'reserve-solvency': 'solv' };
+const SHORT = { 'closed-market-liquidation-soundness': 'cmls', 'reserve-solvency': 'solv', 'closed-market-price-guard': 'cmpg' };
 
 // Canonical subject key: stable across nodes so agreement groups line up.
 export function subjectKey(claim) {
@@ -22,7 +22,7 @@ export function subjectKey(claim) {
 // The on-chain memo payload — compact, self-describing, fits a Solana Memo instruction.
 export function memoPayload(claim) {
   const w = claim.inputs.window;
-  const win = w.from_ts != null ? `${w.from_ts}-${w.to_ts}` : `epoch${w.epoch}`;
+  const win = w.from_ts != null ? `${w.from_ts}-${w.to_ts}` : w.observed_ts != null ? `at${w.observed_ts}` : `epoch${w.epoch}`;
   return `vesper/v0 ${SHORT[claim.claim_type] || claim.claim_type} ${claim.claim_id} ${claim.verdict.flag} ${subjectKey(claim)} ${win}`;
 }
 

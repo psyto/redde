@@ -149,6 +149,56 @@ export function buildSolvencyClaim({ subject, window, quantities }) {
   return claim;
 }
 
+// closed-market price-GUARD (claim_type #3, GREEN side): does the venue BOUND the price it liquidates
+// against — a heuristic band + a twap-divergence limit + tight staleness — rather than read a raw unguarded
+// feed? BOUNDED → GREEN. A raw feed with none of these (cf. Jupiter) is NONE → RED. The re-derivation is
+// pure over the pinned on-chain guards; the emitter decoded them from the reserve (scope-price.mjs).
+export function reexecPriceGuard(g) {
+  const hasHeuristic = g.heuristicHi > g.heuristicLo && g.heuristicLo > 0;
+  const hasTwapBand = g.maxTwapDivPct > 0 && g.maxTwapDivPct < 100;
+  const hasStaleness = g.maxAgePriceS > 0 && g.maxAgePriceS <= 3600;
+  const bounded = hasHeuristic && hasTwapBand && hasStaleness;
+  return { computation: { hasHeuristic, hasTwapBand, hasStaleness, bounded, maxTwapDivPct: g.maxTwapDivPct, maxAgePriceS: g.maxAgePriceS }, flag: bounded ? 'GREEN' : 'RED' };
+}
+
+// Build a price-guard claim (#3) — SAME schema, N-th invariant. HONEST by construction: the verdict grades
+// only the ON-CHAIN guard set; the note records that the last-close CLAMP is upstream Chainlink (off-chain).
+export function buildPriceGuardClaim({ subject, accounts, guards, values, window }) {
+  const { computation, flag } = reexecPriceGuard(guards);
+  const claim = {
+    schema: CLAIM_SCHEMA,
+    claim_type: 'closed-market-price-guard',
+    subject, // { venue, asset, chain, role, reserve, scopeOracle }
+    invariant: {
+      id: 'CMLS-GUARD',
+      statement: 'A venue listing tokenized equities must BOUND the price it liquidates against (heuristic band + twap-divergence limit + tight staleness) so a closed-market price cannot force an unsound liquidation; a raw unguarded feed is gap-exposed.',
+      module: 'scope-price.mjs (reserve tokenInfo) + claim.mjs::reexecPriceGuard',
+      version: '0',
+    },
+    inputs: {
+      trusted: { chain: subject.chain, upstream_clamp: 'Chainlink Data Streams (OFF-CHAIN) — the last-close market-status clamp is NOT re-derived here; this grades only the on-chain guards' },
+      oracle_inputs: [accounts.scopeOracle],
+      window, // { observed_ts }
+      observed: { source: 'Kamino reserve tokenInfo + Scope OraclePrices (getAccountInfo)', accounts, guards, values },
+    },
+    computation,
+    verdict: {
+      flag,
+      reason: flag === 'GREEN'
+        ? `Reserve bounds ${subject.asset}: heuristic $${guards.heuristicLo}-$${guards.heuristicHi}, ≤${guards.maxTwapDivPct}% twap-divergence, ≤${guards.maxAgePriceS}s staleness. Observed price $${values.price} is ${values.priceVsClosePct}% from last close, ${values.priceVsTwapPct}% from twap — in-band.`
+        : 'no on-chain price bound found → gap-exposed',
+      note: 'GREEN = on-chain BOUNDED + upstream Chainlink CLAMP. Materially safer than a zero-guard raw feed (RED), but it carries a Chainlink-Data-Streams trust dependency the RED verdict does not — the last-close clamp is off-chain and NOT re-derived here. On-chain re-execution stops at the guards.',
+    },
+    reproduce: {
+      level1_offline: 'node verify.mjs <claim.json>       # re-derive BOUNDED/GREEN from the pinned on-chain guards',
+      level2_onchain: 'node scope-price.mjs                # re-decode the reserve guards from mainnet (name@5032=="SPYx" self-validates)',
+    },
+    attestation: { node: 'anon', sig: null, emitted_ts: Math.floor(Date.now() / 1000) },
+  };
+  claim.claim_id = claimId(claim);
+  return claim;
+}
+
 // ── Emit CLI: `node claim.mjs [cmls|solvency]` ────────────────────────────────────────────────
 if (import.meta.url === `file://${process.argv[1]}`) {
   const kind = (process.argv[2] || 'cmls').toLowerCase();

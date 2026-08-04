@@ -13,7 +13,7 @@
 
 import { readFileSync } from 'node:fs';
 import { fetchObservations } from './weekend-liveness.mjs';
-import { claimId, reexecCmls, reexecSolvency } from './claim.mjs';
+import { claimId, reexecCmls, reexecSolvency, reexecPriceGuard } from './claim.mjs';
 
 // Re-execute the verdict from the claim's embedded inputs (pure, offline). Dispatches on claim_type,
 // running the SAME re-derivation core the emitter used — one harness, N invariants.
@@ -32,6 +32,14 @@ export function verifyLevel1(claim) {
       ['backing ≥ liability reproduces', r.computation.inv1_ok === claim.computation.inv1_ok, `${r.computation.inv1_ok} vs ${claim.computation.inv1_ok}`],
       ['redeemable-backing check reproduces', r.computation.inv2b_ok === claim.computation.inv2b_ok, `${r.computation.inv2b_ok} vs ${claim.computation.inv2b_ok}`],
       ['no-stale-records reproduces', r.computation.stale_ok === claim.computation.stale_ok, `${r.computation.stale_ok} vs ${claim.computation.stale_ok}`],
+    ];
+  } else if (claim.claim_type === 'closed-market-price-guard') {
+    const r = reexecPriceGuard(claim.inputs.observed.guards); flag = r.flag;
+    checks = [
+      ['on-chain heuristic band reproduces', r.computation.hasHeuristic === claim.computation.hasHeuristic, `${r.computation.hasHeuristic}`],
+      ['twap-divergence guard reproduces', r.computation.hasTwapBand === claim.computation.hasTwapBand, `${r.computation.hasTwapBand}`],
+      ['staleness guard reproduces', r.computation.hasStaleness === claim.computation.hasStaleness, `${r.computation.hasStaleness}`],
+      ['bounded reproduces', r.computation.bounded === claim.computation.bounded, `${r.computation.bounded}`],
     ];
   } else {
     return { flag: 'UNKNOWN', checks: [['unknown claim_type', false, claim.claim_type]], ok: false };
