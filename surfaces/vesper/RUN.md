@@ -71,6 +71,19 @@ node broadcast.mjs claims/kamino-spyx-guard.json --send --keypair <path>   # act
 node registry.mjs consensus                            # agreement / dispute across nodes, content-addressed
 ```
 
+## 7. The weekend readout — the standing public record (the demand engine)
+
+```
+node readout.mjs                                       # re-execute every tracked claim, append the week, rebuild the board
+node readout.mjs --send --keypair <path>               # + anchor the week's money-shot on Solana (Memo)
+RPC=<mainnet> KEYPAIR=<devnet-key> ./run-weekend.sh    # full weekly job: re-emit both sides from chain, then the above
+```
+Each run keeps only verdicts that **reproduce** (`verify.mjs` L1), appends an immutable
+`soundness-log/<ISO-week>.json`, and regenerates [`soundness-log/README.md`](./soundness-log/README.md)
+— the public, compounding board (same SPYx: 🔴 Jupiter vs 🟢 Kamino, every week). Wire it weekly with
+`com.psyto.vesper-readout.plist`. The point: when a weekend gap finally burns a venue, the record shows
+the finding was published — reproducibly — every week beforehand.
+
 The money-shot, anchored on Solana devnet: SPYx is 🔴 RED on Jupiter Lend
 ([tx 5HDpMX…](https://explorer.solana.com/tx/5HDpMXqp5pTX17xFgXRQ8fhskAWgPa9YbuSns9SxgLk94NZF4aSgDufEFy5jmWUHhbnZzuLuZJ5bX82RdJP2cU49?cluster=devnet))
 and 🟢 GREEN on Kamino

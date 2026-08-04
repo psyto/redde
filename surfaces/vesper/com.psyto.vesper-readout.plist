@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Weekly Vesper soundness readout. Fires Monday 10:00 local (after the ET weekend window has fully
+     closed), re-emits both claims from chain, and anchors the week's money-shot.
+       cp com.psyto.vesper-readout.plist ~/Library/LaunchAgents/
+       launchctl load ~/Library/LaunchAgents/com.psyto.vesper-readout.plist
+     Edit RPC / KEYPAIR / the schedule below to taste. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.psyto.vesper-readout</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/hiroyusai/src/redde/surfaces/vesper/run-weekend.sh</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/hiroyusai/src/redde/surfaces/vesper</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key><string>/usr/local/bin:/usr/bin:/bin</string>
+    <key>RPC</key><string>https://api.mainnet-beta.solana.com</string>
+    <key>ANCHOR_RPC</key><string>https://api.devnet.solana.com</string>
+    <key>KEYPAIR</key><string>/Users/hiroyusai/.config/solana/id.json</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>1</integer>
+    <key>Hour</key><integer>10</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>StandardOutPath</key><string>/tmp/vesper-readout.log</string>
+  <key>StandardErrorPath</key><string>/tmp/vesper-readout.err</string>
+</dict>
+</plist>

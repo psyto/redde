@@ -1,0 +1,83 @@
+{
+  "week": "2026-W32",
+  "generated_ts": 1785883310,
+  "generated_iso": "2026-08-04T22:41:50.070Z",
+  "rows": [
+    {
+      "asset": "SPYx",
+      "venue": "Jupiter Lend",
+      "verdict": "RED",
+      "reproduced": true,
+      "claim_id": "vc_8732875c937e18b5c943e97243a94f9a00d3a1b2",
+      "claim_type": "closed-market-liquidation-soundness",
+      "claim_file": "claims/jupiter-spyx-cmls.json",
+      "window": {
+        "from_ts": 1785457320,
+        "to_ts": 1785759686,
+        "from_iso": "2026-07-31T00:22:00.000Z",
+        "to_iso": "2026-08-03T12:21:26.000Z"
+      },
+      "reason": "The price account updated 3341× while the US equity market was CLOSED (max gap 4 min) with no market-status halt — so liquidations execute against a price the regulated market never printed.",
+      "note": null,
+      "stress": {
+        "positionUsd": 100000,
+        "ltv": 0.75,
+        "liqThreshold": 0.85,
+        "rows": [
+          {
+            "gapPct": 0.1,
+            "exposurePctOfCollateral": 0,
+            "badDebtUsdPer100k": 0
+          },
+          {
+            "gapPct": 0.2,
+            "exposurePctOfCollateral": 0.1,
+            "badDebtUsdPer100k": 10000
+          },
+          {
+            "gapPct": 0.3,
+            "exposurePctOfCollateral": 0.2,
+            "badDebtUsdPer100k": 20000
+          }
+        ]
+      },
+      "reproduce": "node verify.mjs claims/jupiter-spyx-cmls.json --fetch"
+    },
+    {
+      "asset": "SPYx",
+      "venue": "Kamino",
+      "verdict": "GREEN",
+      "reproduced": true,
+      "claim_id": "vc_c8f06563b72969372a016bef0e71c27211d71293",
+      "claim_type": "closed-market-price-guard",
+      "claim_file": "claims/kamino-spyx-guard.json",
+      "window": {
+        "observed_ts": 1785830160
+      },
+      "reason": "Reserve bounds SPYx: heuristic $515-$858, ≤5% twap-divergence, ≤300s staleness. Observed price $706.4907 is 0.95% from last close, 0.64% from twap — in-band.",
+      "note": "GREEN = on-chain BOUNDED + upstream Chainlink CLAMP. Materially safer than a zero-guard raw feed (RED), but it carries a Chainlink-Data-Streams trust dependency the RED verdict does not — the last-close clamp is off-chain and NOT re-derived here. On-chain re-execution stops at the guards.",
+      "stress": null,
+      "reproduce": "node verify.mjs claims/kamino-spyx-guard.json"
+    }
+  ],
+  "money_shots": [
+    {
+      "asset": "SPYx",
+      "red": {
+        "venue": "Jupiter Lend",
+        "claim_id": "vc_8732875c937e18b5c943e97243a94f9a00d3a1b2"
+      },
+      "green": {
+        "venue": "Kamino",
+        "claim_id": "vc_c8f06563b72969372a016bef0e71c27211d71293"
+      }
+    }
+  ],
+  "anchor": {
+    "sig": "4uuiP1tirPuYnyZm4gNrbVvK7kJwzSKsAEMK7bN5eq331N3vNtH1aaFoT5CTcLrBLjQmLwFik68RAYwkbyPZ1x3P",
+    "cluster": "devnet",
+    "bytes": 218,
+    "memo": "vesper 2026-W32 | SPYx: RED@Jupiter Lend=vc_8732875c937e18b5c943e97243a94f9a00d3a1b2 vs GREEN@Kamino=vc_c8f06563b72969372a016bef0e71c27211d71293 | same asset, opposite closed-market gap-safety | verify: node verify.mjs",
+    "ts": 1785883319
+  }
+}

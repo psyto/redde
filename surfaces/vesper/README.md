@@ -91,6 +91,9 @@ registry.mjs        append-only ledger + content-addressed consensus + the Solan
 broadcast.mjs       anchor a claim's verdict on Solana (Memo) — dry-run by default
 campana.mjs         market-status truth feed (holiday/hours calendar)
 campana-program/    the SAME feed on-chain: a deployed Solana program (Pinocchio, no_std) + cross-check client
+readout.mjs         weekend readout: re-execute tracked claims → append-only log → board → anchor
+run-weekend.sh      the weekly job (re-emit both sides from chain, then readout --send); wire via the plist
+soundness-log/      the standing public board — one immutable JSON per week + generated README.md
 gauge.mjs           consumer tool: is your xStock position weekend-safe?
 claims/             emitted claims (jupiter-spyx-cmls 🔴 · kamino-spyx-guard 🟢 · marinade-solvency)
 ```
