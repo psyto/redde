@@ -19,31 +19,42 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // rpc now comes from ../../core; per-call rpcUrl preserved (bind per call).
 const rpc = (rpcUrl, method, params) => makeRpc(rpcUrl)(method, params);
 
-// Page back through signatures, collecting blockTimes. Window is [lo, hi]: an explicit {from,to}
-// pins a REPRODUCIBLE window (what a claim embeds so a stranger re-pulls the same set); otherwise
-// the trailing `hoursBack`. Returning the raw times is what lets a claim be re-executed offline.
-export async function fetchUpdateTimes(acct, { rpcUrl = 'https://api.mainnet-beta.solana.com', hoursBack = 72, from, to } = {}) {
+// Fetch the CANONICAL observation set for a window: successful updates only, each identified by its
+// unique transaction SIGNATURE (blockTime is second-granularity and collides; the signature does
+// not). Sorted by (slot, signature) so any honest re-executor gets a byte-identical set. This is the
+// airtight input commitment a claim pins — omission/fabrication become exact signature set-diffs.
+// Window [lo, hi]: explicit {from,to} pins a reproducible window; otherwise the trailing hoursBack.
+export async function fetchObservations(acct, { rpcUrl = 'https://api.mainnet-beta.solana.com', hoursBack = 72, from, to } = {}) {
   const lo = from != null ? from : Math.floor(Date.now() / 1000) - hoursBack * 3600;
   const hi = to != null ? to : Infinity;
-  const times = [];
+  const rows = [];
   let before;
   for (let page = 0; page < 20; page++) {
     const opts = { limit: 1000 }; if (before) opts.before = before;
     const sigs = await rpc(rpcUrl, 'getSignaturesForAddress', [acct, opts]);
     if (!sigs || !sigs.length) break;
-    for (const s of sigs) if (s.blockTime) times.push(s.blockTime);
+    for (const s of sigs) rows.push(s);
     before = sigs[sigs.length - 1].signature;
     if (sigs[sigs.length - 1].blockTime && sigs[sigs.length - 1].blockTime < lo) break;
     await sleep(120);
   }
-  return times.filter((t) => t >= lo && t <= hi).sort((a, b) => a - b);
+  return rows
+    .filter((s) => s.blockTime != null && s.err == null && s.blockTime >= lo && s.blockTime <= hi) // successful updates only
+    .map((s) => ({ sig: s.signature, slot: s.slot, blockTime: s.blockTime }))
+    .sort((a, b) => a.slot - b.slot || (a.sig < b.sig ? -1 : a.sig > b.sig ? 1 : 0));
 }
 
-// PURE classifier: sorted update-times (+ holiday calendar) → market-status split + liveness signal.
-// This is the deterministic core a claim re-executes OFFLINE — no RPC, no clock read. Same times →
-// same verdict, for anyone, forever. The whole "don't trust, re-execute" property lives right here.
+// Back-compat: just the blockTimes (used by weekendLiveness / probeOnChain classification).
+export async function fetchUpdateTimes(acct, opts = {}) {
+  return (await fetchObservations(acct, opts)).map((o) => o.blockTime);
+}
+
+// PURE classifier: update-times (+ holiday calendar) → market-status split + liveness signal.
+// Sorts a copy internally so callers may pass times in any order. This is the deterministic core a
+// claim re-executes OFFLINE — no RPC, no clock. Same inputs → same verdict, for anyone, forever.
 export function classifyUpdateTimes(times, cal) {
   if (!times.length) return { updates: 0, signal: 'NO_DATA' };
+  times = [...times].sort((a, b) => a - b);
   let openN = 0, closedN = 0, firstClosed = null, lastClosed = null;
   const gaps = [];
   const dailyClosed = {}; // ET-date → count of updates while US market CLOSED

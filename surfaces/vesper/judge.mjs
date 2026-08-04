@@ -13,23 +13,21 @@
 // opinion — anyone re-runs judge and gets the same verdict. That is the network's court.
 
 import { readFileSync } from 'node:fs';
-import { fetchUpdateTimes } from './weekend-liveness.mjs';
+import { fetchObservations } from './weekend-liveness.mjs';
 import { reexecCmls, reexecSolvency } from './claim.mjs';
 
 // Adjudicate a single claim against canonical chain state.
 export async function adjudicate(claim, { rpcUrl } = {}) {
   if (claim.claim_type === 'closed-market-liquidation-soundness') {
     const w = claim.inputs.window;
-    const canonical = await fetchUpdateTimes(claim.inputs.observed.account, { rpcUrl, from: w.from_ts, to: w.to_ts });
-    const embedded = claim.inputs.observed.update_times;
-    // Multiset diff: Solana blockTime is second-granularity, so same-second updates share a
-    // timestamp. Counting by multiplicity (not set membership) makes omission/fabrication exact.
-    const freq = (arr) => { const m = new Map(); for (const t of arr) m.set(t, (m.get(t) || 0) + 1); return m; };
-    const canonF = freq(canonical), embedF = freq(embedded);
-    let omitted = 0, fabricated = 0;
-    for (const [t, c] of canonF) omitted += Math.max(0, c - (embedF.get(t) || 0));      // on chain, under-counted by the claim
-    for (const [t, c] of embedF) fabricated += Math.max(0, c - (canonF.get(t) || 0));   // in the claim, not (that many) on chain
-    const truth = reexecCmls(canonical);                          // the verdict from the FULL, honest input set
+    const canonical = await fetchObservations(claim.inputs.observed.account, { rpcUrl, from: w.from_ts, to: w.to_ts });
+    const embedded = claim.inputs.observed.observations;
+    // Exact set-diff by unique tx SIGNATURE — no blockTime collisions, no multiplicity ambiguity.
+    const canonSigs = new Set(canonical.map((o) => o.sig));
+    const embedSigs = new Set(embedded.map((o) => o.sig));
+    const omitted = [...canonSigs].filter((s) => !embedSigs.has(s)).length;      // on chain, left out of the claim
+    const fabricated = [...embedSigs].filter((s) => !canonSigs.has(s)).length;   // in the claim, not on chain
+    const truth = reexecCmls(canonical.map((o) => o.blockTime));   // the verdict from the FULL, honest input set
     const authentic = fabricated === 0;
     const complete = omitted === 0;
     const verdictMatches = claim.verdict.flag === truth.flag;

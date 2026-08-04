@@ -53,7 +53,7 @@
   "attestation": {
     "node": "anon",
     "sig": null,
-    "emitted_ts": 1785731946
+    "emitted_ts": 1785759735
   },
   "claim_id": "vc_f6065d09bb10c3ae8847499c7b2b8c98dfe635c3"
 }

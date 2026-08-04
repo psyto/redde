@@ -12,20 +12,20 @@
 // is exact and permissionless: anyone runs this, no coordination, no trust. That is the network.
 
 import { readFileSync } from 'node:fs';
-import { fetchUpdateTimes } from './weekend-liveness.mjs';
+import { fetchObservations } from './weekend-liveness.mjs';
 import { buildCmlsClaim, reexecSolvency, claimId } from './claim.mjs';
 
 // Independently reconstruct a claim's claim_id from re-fetched / re-derived inputs.
 export async function reexecuteIndependently(claim, { rpcUrl } = {}) {
   if (claim.claim_type === 'closed-market-liquidation-soundness') {
     const w = claim.inputs.window;
-    const updateTimes = await fetchUpdateTimes(claim.inputs.observed.account, { rpcUrl, from: w.from_ts, to: w.to_ts });
+    const observations = await fetchObservations(claim.inputs.observed.account, { rpcUrl, from: w.from_ts, to: w.to_ts });
     const stress = {
       positionUsd: claim.verdict.stress.positionUsd, ltv: claim.verdict.stress.ltv,
       gaps: claim.verdict.stress.rows.map((r) => r.gapPct),
     };
-    const rebuilt = buildCmlsClaim({ subject: claim.subject, window: w, updateTimes, stress });
-    return { claim_id: rebuilt.claim_id, verdict: rebuilt.verdict.flag, rebuilt, note: `re-fetched ${updateTimes.length} observations from chain` };
+    const rebuilt = buildCmlsClaim({ subject: claim.subject, window: w, observations, stress });
+    return { claim_id: rebuilt.claim_id, verdict: rebuilt.verdict.flag, rebuilt, note: `re-fetched ${observations.length} observations from chain` };
   }
   if (claim.claim_type === 'reserve-solvency') {
     // independent re-derivation from the recomputed quantities (full chain recompute = redde/verify-marinade.mjs)

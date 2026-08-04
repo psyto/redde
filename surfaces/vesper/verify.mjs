@@ -12,7 +12,7 @@
 // L1 covers the computation; L2 covers the input authenticity. Together = airtight.
 
 import { readFileSync } from 'node:fs';
-import { fetchUpdateTimes } from './weekend-liveness.mjs';
+import { fetchObservations } from './weekend-liveness.mjs';
 import { claimId, reexecCmls, reexecSolvency } from './claim.mjs';
 
 // Re-execute the verdict from the claim's embedded inputs (pure, offline). Dispatches on claim_type,
@@ -20,7 +20,7 @@ import { claimId, reexecCmls, reexecSolvency } from './claim.mjs';
 export function verifyLevel1(claim) {
   let flag, checks;
   if (claim.claim_type === 'closed-market-liquidation-soundness') {
-    const r = reexecCmls(claim.inputs.observed.update_times); flag = r.flag;
+    const r = reexecCmls(claim.inputs.observed.observations.map((o) => o.blockTime)); flag = r.flag;
     checks = [
       ['liveness signal reproduces', r.computation.signal === claim.computation.signal, `${r.computation.signal} vs ${claim.computation.signal}`],
       ['closed-window updates reproduce', r.computation.closedUpdates === claim.computation.closedUpdates, `${r.computation.closedUpdates} vs ${claim.computation.closedUpdates}`],
@@ -41,13 +41,14 @@ export function verifyLevel1(claim) {
   return { flag, checks, ok: checks.every((c) => c[1]) };
 }
 
-// Re-pull the observations from chain over the claim's pinned window and compare (needs RPC).
+// Re-pull the observations from chain over the pinned window and compare by SIGNATURE (needs RPC).
 export async function verifyLevel2(claim, rpcUrl) {
   const w = claim.inputs.window;
-  const fetched = await fetchUpdateTimes(claim.inputs.observed.account, { rpcUrl, from: w.from_ts, to: w.to_ts });
-  const embedded = claim.inputs.observed.update_times;
-  const match = fetched.length === embedded.length && fetched.every((t, i) => t === embedded[i]);
-  return { fetched: fetched.length, embedded: embedded.length, match };
+  const fetched = await fetchObservations(claim.inputs.observed.account, { rpcUrl, from: w.from_ts, to: w.to_ts });
+  const fSigs = new Set(fetched.map((o) => o.sig));
+  const eSigs = new Set(claim.inputs.observed.observations.map((o) => o.sig));
+  const match = fSigs.size === eSigs.size && [...eSigs].every((s) => fSigs.has(s));
+  return { fetched: fSigs.size, embedded: eSigs.size, match };
 }
 
 // ── CLI ───────────────────────────────────────────────────────────────────────

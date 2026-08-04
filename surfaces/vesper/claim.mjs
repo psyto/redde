@@ -65,8 +65,8 @@ export function reexecSolvency(q) {
 
 // Build a CMLS claim from a pinned observation. `updateTimes` are the raw blockTimes of the price
 // account the venue liquidates against, within [window.from_ts, window.to_ts].
-export function buildCmlsClaim({ subject, window, updateTimes, stress }) {
-  const { computation, guard, flag } = reexecCmls(updateTimes);
+export function buildCmlsClaim({ subject, window, observations, stress }) {
+  const { computation, guard, flag } = reexecCmls(observations.map((o) => o.blockTime));
   const rows = (stress?.gaps ?? [0.10, 0.20, 0.30]).map((g) => {
     const exp = stressExposure({ ltv: stress?.ltv, liqThreshold: subject.liqThreshold, guard }, g);
     return { gapPct: g, exposurePctOfCollateral: exp, badDebtUsdPer100k: exp == null ? null : Math.round(exp * (stress?.positionUsd ?? 100000)) };
@@ -89,7 +89,8 @@ export function buildCmlsClaim({ subject, window, updateTimes, stress }) {
       // No price oracle is trusted to decide it. (This is the "verify computation, not inputs" line.)
       oracle_inputs: [],
       window, // { from_ts, to_ts, from_iso, to_iso }
-      observed: { source: 'getSignaturesForAddress', account: subject.priceAccount, update_times: updateTimes },
+      // canonical, by unique tx signature (successful updates only) → omission/fabrication are exact
+      observed: { source: 'getSignaturesForAddress (successful updates, by signature)', account: subject.priceAccount, observations },
     },
     computation,
     verdict: {
@@ -173,7 +174,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
 
   // default: CMLS — Jupiter Lend SPYx (source_type=7 24/7 pushed price the vaults liquidate against).
-  const { fetchUpdateTimes } = await import('./weekend-liveness.mjs');
+  const { fetchObservations } = await import('./weekend-liveness.mjs');
   const rpcUrl = process.env.RPC || 'https://api.mainnet-beta.solana.com';
   const subject = {
     venue: 'Jupiter Lend', asset: 'SPYx', chain: 'solana', role: 'collateral+multiply',
@@ -183,13 +184,14 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const now = Math.floor(Date.now() / 1000);
   const from = now - 84 * 3600; // trailing window covering the last full closed weekend
   console.log(`\nVesper — emitting CMLS claim · ${subject.venue} ${subject.asset}\n  RPC: ${rpcUrl}\n  pinning window from ${new Date(from * 1000).toISOString()} → now\n`);
-  const updateTimes = await fetchUpdateTimes(subject.priceAccount, { rpcUrl, from, to: now });
-  if (!updateTimes.length) { console.error('  no updates fetched (RPC blocked / no data) — cannot emit.\n'); process.exit(1); }
+  const observations = await fetchObservations(subject.priceAccount, { rpcUrl, from, to: now });
+  if (!observations.length) { console.error('  no updates fetched (RPC blocked / no data) — cannot emit.\n'); process.exit(1); }
+  const bt = observations.map((o) => o.blockTime).sort((a, b) => a - b);
   const window = {
-    from_ts: updateTimes[0], to_ts: updateTimes[updateTimes.length - 1],
-    from_iso: new Date(updateTimes[0] * 1000).toISOString(), to_iso: new Date(updateTimes[updateTimes.length - 1] * 1000).toISOString(),
+    from_ts: bt[0], to_ts: bt[bt.length - 1],
+    from_iso: new Date(bt[0] * 1000).toISOString(), to_iso: new Date(bt[bt.length - 1] * 1000).toISOString(),
   };
-  const claim = buildCmlsClaim({ subject, window, updateTimes, stress: { positionUsd: 100000, ltv: 0.75, gaps: [0.10, 0.20, 0.30] } });
+  const claim = buildCmlsClaim({ subject, window, observations, stress: { positionUsd: 100000, ltv: 0.75, gaps: [0.10, 0.20, 0.30] } });
   writeFileSync(new URL('./claims/jupiter-spyx-cmls.json', import.meta.url), JSON.stringify(claim, null, 2) + '\n');
   console.log(`  ${emoji[claim.verdict.flag]} ${claim.verdict.flag}  ${claim.subject.venue} ${claim.subject.asset}`);
   console.log(`  observations: ${claim.computation.updates} updates (${claim.computation.closedUpdates} while CLOSED), max gap ${claim.computation.maxGapMin} min`);
