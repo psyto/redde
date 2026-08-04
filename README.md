@@ -19,6 +19,12 @@ node run.mjs            # render the league (console)
 node run.mjs --html     # also write site/league.html
 ```
 
+The surfaces re-execute *off-chain* (zero-dep `.mjs`), but the neutral rail one of them proposes now
+also exists *on-chain*: [`surfaces/vesper/campana-program`](surfaces/vesper/campana-program) is a deployed
+Solana program (Pinocchio, `no_std`) publishing US-market OPEN/CLOSED status, whose `market_status` is the
+*same deterministic function* as vesper's `campana.mjs` — cross-checked live (ON-CHAIN == OFF-CHAIN). The
+re-execution property, carried across the chain boundary.
+
 ## Layout
 
 ```

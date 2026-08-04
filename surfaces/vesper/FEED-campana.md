@@ -1,9 +1,16 @@
 # Campana — a neutral, verifiable closed-market truth feed
 
-**Status:** draft (Vesper, 2026-07-23). *Campana* (“the bell”) is the shared on-chain signal that
-says **whether a regulated market's regular session is open**, and when it last closed. It is the one
-piece of the closed-market fix that a lending venue cannot cleanly supply for itself — so it is where
-"partner with us" becomes real, rather than "here's a tip you implement alone."
+**Status:** LIVE on devnet (2026-08-04) — the design below is realized in [`campana-program/`](./campana-program/)
+(Pinocchio, `no_std`). Program `67cLXa3wEmSe71tywnMKDBTaWgGFfTEBSHjpfi4aE19i`; a
+[cross-checked crank](https://explorer.solana.com/tx/2RQKrj4sa454qm22y9aoGMB1yXLye8SfZGCrqfa383gNxZM9xDEDFtz9WvZAAVWgQ2R7mTn6ZZbZeRzK9kttNJp?cluster=devnet)
+wrote the status account, and the off-chain reference (`campana.mjs`) re-executed at the same slot ts
+reproduced it exactly (**ON-CHAIN == OFF-CHAIN**). See §2 for the shipped state layout vs. the sketch, and
+§9 for what remains. Originally drafted 2026-07-23.
+
+*Campana* (“the bell”) is the shared on-chain signal that says **whether a regulated market's regular
+session is open**, and when it last closed. It is the one piece of the closed-market fix that a lending
+venue cannot cleanly supply for itself — so it is where "partner with us" becomes real, rather than
+"here's a tip you implement alone."
 
 Price-agnostic by design. Campana never publishes a price — that stays the venue's oracle. Campana
 publishes only **market status + session timing**, which is exactly the input the price oracles refuse
@@ -44,6 +51,15 @@ struct Campana {
 Note there is **no price** here. The band's `last_regular_close` *price* is snapshotted by the venue
 from **its own oracle** at the instant Campana flips OPEN→CLOSED. Campana provides the *when*; the
 venue keeps the *what*. This keeps Campana off the oracles' turf and free of price-trust.
+
+**Shipped layout (32 bytes, [`campana-program`](./campana-program/)).** The deployed program writes a
+leaner account than the sketch above — the essential re-executable tuple, packed:
+`status:u8 · day_kind:u8 · et_offset:i8 · _pad · calendar_version:u32 · updated_ts:i64 · last_close_ts:i64
+· year:i32 · month:u8 · day:u8`. The `updater` / `bump` / explicit session-open/close fields from the
+sketch are deferred (the state is a single program-owned account cranked permissionlessly; session bounds
+are recomputable from `market_status(updated_ts)`). The one trusted input — the calendar — is currently
+**compiled into the program** (`CALENDAR_VERSION` / `HOLIDAYS` / `HALF_DAYS`, NYSE 2026), not yet a
+separate versioned account (§4 remains the roadmap target).
 
 ## 3. Trust model — verifiable, not authoritative
 
@@ -114,7 +130,11 @@ not "go build an hours checker."
 
 ## 9. Roadmap
 
-1. `US_EQUITIES_REGULAR` Campana + holiday calendar (devnet), re-execution self-test.
+1. ✅ **`US_EQUITIES_REGULAR` Campana (devnet) + re-execution self-test** — done: [`campana-program`](./campana-program/),
+   program `67cLXa…`, `cargo test` cross-checks `market_status` against `campana.mjs`, live crank
+   verified ON-CHAIN == OFF-CHAIN. *Remaining within this step:* lift the calendar out of the binary into
+   a separate versioned account / Merkle root (§4), and add a permissionless keeper that re-cranks on each
+   OPEN↔CLOSED flip.
 2. Reference band integration (the REMEDIATION module) reading it.
 3. Vesper certifies a venue GREEN on that path.
 4. Add overnight/other-market Campanas as demand appears.
