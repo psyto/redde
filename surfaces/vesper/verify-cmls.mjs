@@ -71,10 +71,15 @@ export const TARGETS = [
       + 'guards this as AGGREGATOR/UNKNOWN, not RED). Remaining rigor (the true GREEN re-execution frontier): the Scope '
       + 'account is a 28,712-byte OraclePrices ARRAY. RESOLVED from chain (scope-price.mjs): the DatedPrice layout '
       + '(base 96, stride 56 — value u64@0, exp@8, unix_ts@24) and the reserve\'s Scope priceChain index (344) are '
-      + 'recovered + self-validated on-chain, so Kamino\'s EXACT SPYx liquidation price is now re-executable: observed '
-      + '$706.51 vs the frozen last-close ref #89 $699.85 (Mon 20:00Z close) = +0.95% during a CLOSED session — '
-      + 'band-consistent, NOT raw-feed tracking (the opposite of Jupiter). Final GREEN rigor: decode the reserve\'s '
-      + 'exact band %-tolerance (is +0.95% inside the accepted clamp) — the only remaining primary-source assertion.',
+      + 'recovered + self-validated on-chain (reserve tokenInfo.name@5032 decodes to "SPYx"). Kamino\'s FULL on-chain '
+      + 'price safety is now re-executable (scope-price.mjs): priceHeuristic $515-858, maxTwapDivergenceBps=500 (5%), '
+      + 'maxAge 300s; the price it reads (#344 $706.75) sits 0.99% from the frozen last-close #89 ($699.85) and 0.68% '
+      + 'from twap — inside the band. HONEST refinement of the verdict: these on-chain guards are GENERIC sanity, NOT a '
+      + 'last-close clamp (if a closed-market feed drifts, price AND twap drift together and the 5% check passes). The '
+      + 'actual last-close market-status CLAMP is UPSTREAM in the Chainlink Data Streams feed populating Scope #344 '
+      + '(off-chain). So GREEN = on-chain-BOUNDED + upstream-Chainlink-CLAMPED — materially safer than Jupiter\'s '
+      + 'zero-guard raw feed (RED), but it carries a Chainlink-DS trust dependency the RED verdict does not. '
+      + 'Fully-on-chain re-execution stops at the guards; the clamp itself is off-chain (the honest residual).',
   },
   {
     venue: 'Drift', chain: 'solana', role: 'perp',
