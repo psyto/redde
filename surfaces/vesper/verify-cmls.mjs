@@ -63,8 +63,15 @@ export const TARGETS = [
       + 'the opposite architecture to Jupiter\'s RED). The band itself is primary-source (Chainlink post + Kamino gov): '
       + 'xStocks feed carries real-time MARKET-STATUS + staleness, and Kamino accepts a weekend/off-hours price ONLY '
       + 'within a custom %-deviation of last market close = protocol-side band (the meta-finding). NOTE: weekend-liveness '
-      + 'canNOT prove GREEN (a Scope/Chainlink feed may still tick; the clamp is in-program). Remaining rigor: decode the '
-      + 'exact band %-deviation from the reserve config / Scope price chain.',
+      + 'canNOT prove GREEN (a Scope/Chainlink feed may still tick; the clamp is in-program). '
+      + 'EMPIRICAL (2026-08-04, re-executed from mainnet): the reserve UvXjBuC7… references the Scope oracle '
+      + '3t4JZcue… (owner Scope HFn8GnPA…) at offset 5112, and does NOT reference Jupiter\'s raw feed A2GDb4Um… '
+      + '(kamino-reserve.mjs, live). That Scope oracle is ITSELF LIVE_THROUGH_CLOSURE (weekend-liveness: 20k updates, '
+      + '0.2-min gap, all while the US market was closed) — proving liveness must NOT grade Kamino (probeOnChain now '
+      + 'guards this as AGGREGATOR/UNKNOWN, not RED). Remaining rigor (the true GREEN re-execution frontier): the Scope '
+      + 'account is a 28,712-byte OraclePrices ARRAY (~hundreds of prices) — isolating SPYx needs the reserve\'s Scope '
+      + 'price INDEX + the DatedPrice stride, then a closed-window VALUE comparison (Scope clamped-to-last-close vs the '
+      + 'raw feed tracking live) or the reserve\'s band %-deviation config. Blocked here on Scope/Kamino internal layout / archival.',
   },
   {
     venue: 'Drift', chain: 'solana', role: 'perp',
@@ -127,14 +134,38 @@ export const TARGETS = [
 // (Kamino: Chainlink Data Streams market-status feed + custom-% band — primary-source confirmed,
 //  on-chain config decode is the remaining rigor step).
 import { weekendLiveness } from './weekend-liveness.mjs';
+import { solanaRpc } from '../../core/rpc.mjs';
+
+// Owner programs whose accounts are market-status-CAPABLE aggregators. A LIVE_THROUGH_CLOSURE signal on
+// one of these does NOT imply the venue liquidates against a live off-hours price — the aggregator ticks
+// through closure while the venue's PROGRAM may clamp it to last-close ± band. So liveness cannot grade it.
+export const AGGREGATOR_OWNERS = Object.freeze({
+  HFn8GnPADiny6XqUoWE8uRPPxb29ikn4yTuPa9MF2fWJ: 'Scope (Kamino market-status-capable price aggregator)',
+});
+
+// probeOnChain re-derives the RED side from chain state (weekend-liveness). GUARD (empirical, 2026-08-04):
+// liveness → NONE/RED is only sound when the venue reads the price RAW. Confirmed by re-execution that
+// Kamino's Scope oracle 3t4JZcue… is itself LIVE_THROUGH_CLOSURE (20k updates, 0.2-min gap, all while the
+// US market was CLOSED) — so a naive liveness grade would FALSE-RED an in-program-clamped venue. When the
+// observed account is owned by a market-status-capable aggregator, we refuse to grade and flag that the
+// in-program band decode is required (the true GREEN re-execution frontier).
 export async function probeOnChain(target, rpcUrl = process.env.RPC) {
   if (!target?.priceAccount) throw new Error(`probeOnChain: target ${target?.venue} has no priceAccount to observe`);
+  const rpc = solanaRpc(rpcUrl || 'https://api.mainnet-beta.solana.com');
+  const owner = await rpc('getAccountInfo', [target.priceAccount, { encoding: 'base64' }]).then((r) => r?.value?.owner).catch(() => null);
   const live = await weekendLiveness(target.priceAccount, { rpcUrl, hoursBack: 72 });
-  // map the liveness signal onto a guard classification (RED side only)
+  if (owner && AGGREGATOR_OWNERS[owner]) {
+    return {
+      venue: target.venue, priceAccount: target.priceAccount, oracleOwner: owner, liveness: live,
+      guardFromLiveness: 'AGGREGATOR', verdictFromLiveness: VERDICT.UNKNOWN,
+      note: `observed account owned by ${AGGREGATOR_OWNERS[owner]}. It ticks through closure (${live.signal}), but the venue clamps in-program — liveness CANNOT grade it. GREEN requires the in-program band %-deviation decode; NOT gradable from liveness.`,
+    };
+  }
+  // raw-feed path: the venue reads this price directly, so liveness IS the guard.
   const guard = live.signal === 'LIVE_THROUGH_CLOSURE' ? 'NONE'
     : live.signal === 'FROZEN_THROUGH_CLOSURE' ? 'STALENESS_ONLY' // feed-halt safety (accidental) — YELLOW, not proven GREEN
       : 'UNKNOWN';
-  return { venue: target.venue, priceAccount: target.priceAccount, liveness: live, guardFromLiveness: guard, verdictFromLiveness: classify({ guard }) };
+  return { venue: target.venue, priceAccount: target.priceAccount, oracleOwner: owner, liveness: live, guardFromLiveness: guard, verdictFromLiveness: classify({ guard }) };
 }
 
 // ── Report (runs today on the provisional registry) ──────────────────────────
