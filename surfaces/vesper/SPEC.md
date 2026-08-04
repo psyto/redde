@@ -143,5 +143,14 @@ Solana (devnet Memo)**.
 - A method safeguard fell out of this: a market-status aggregator (Scope) ticks through closure too, so
   liveness alone would FALSE-RED a clamped venue — `probeOnChain` now refuses to grade aggregator feeds.
 
-Remaining: the demand kill line (a relier engaging a verdict) still gates Act-1 → Act-2; and the on-chain
-**Campana** program (the market-status feed venues could read to stop being 🔴) is the infrastructural next.
+**Campana on-chain — LIVE (2026-08-04).** The market-status feed venues could read to stop being 🔴 is now
+a deployed Solana program ([`campana-program/`](./campana-program/), Pinocchio, `no_std`): program
+`67cLXa3wEmSe71tywnMKDBTaWgGFfTEBSHjpfi4aE19i` on devnet. Its `market_status` is the *same deterministic
+function* as `campana.mjs` — `cargo test` cross-checks it against the off-chain self-test verdicts, and a
+live crank ([tx `2RQKrj4s…`](https://explorer.solana.com/tx/2RQKrj4sa454qm22y9aoGMB1yXLye8SfZGCrqfa383gNxZM9xDEDFtz9WvZAAVWgQ2R7mTn6ZZbZeRzK9kttNJp?cluster=devnet))
+wrote `CLOSED · 2026-08-04` which the off-chain reference re-executed at the same slot ts reproduced exactly
+(**ON-CHAIN == OFF-CHAIN**). The neutral rail is no longer only a claim — it exists on-chain and is
+re-executable across the boundary.
+
+Remaining: the demand kill line (a relier engaging a verdict) still gates Act-1 → Act-2; a venue actually
+gating liquidations on Campana's `status == OPEN` is the adoption proof-point.

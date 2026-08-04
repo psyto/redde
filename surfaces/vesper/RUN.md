@@ -16,6 +16,17 @@ node campana.mjs
 Runs the self-test (9 cases + DST) and the demonstration: applied to the real 07-17→20 weekend it
 flips CLOSED across exactly the window Jupiter's feed liquidated through.
 
+**On-chain (live, devnet).** The same function is a deployed Solana program in [`campana-program/`](./campana-program/):
+```
+cd campana-program
+cargo test                                   # market_status == campana.mjs, cross-checked
+cargo build-sbf --features bpf-entrypoint    # → a real deployable .so
+node client.mjs                              # crank on devnet + re-execute the off-chain reference vs what it wrote
+```
+Program `67cLXa3wEmSe71tywnMKDBTaWgGFfTEBSHjpfi4aE19i` · a cross-checked crank:
+[tx `2RQKrj4s…`](https://explorer.solana.com/tx/2RQKrj4sa454qm22y9aoGMB1yXLye8SfZGCrqfa383gNxZM9xDEDFtz9WvZAAVWgQ2R7mTn6ZZbZeRzK9kttNJp?cluster=devnet)
+(ON-CHAIN == OFF-CHAIN).
+
 ## 3. The user tool — weekend safety gauge  ← the interactive one
 ```
 node gauge.mjs                                   # reference scenario

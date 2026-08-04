@@ -1,0 +1,17 @@
+[package]
+name = "campana-program"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Campana — on-chain market-status truth feed (Pinocchio). Same deterministic function as campana.mjs."
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[features]
+default = []
+bpf-entrypoint = []
+
+[dependencies]
+pinocchio = "0.9.3"
+pinocchio-pubkey = { version = "0.3.0", features = ["const"] }

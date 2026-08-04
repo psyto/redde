@@ -90,6 +90,7 @@ emit-kamino.mjs     emit the Kamino price-guard claim from chain
 registry.mjs        append-only ledger + content-addressed consensus + the Solana Memo payload
 broadcast.mjs       anchor a claim's verdict on Solana (Memo) — dry-run by default
 campana.mjs         market-status truth feed (holiday/hours calendar)
+campana-program/    the SAME feed on-chain: a deployed Solana program (Pinocchio, no_std) + cross-check client
 gauge.mjs           consumer tool: is your xStock position weekend-safe?
 claims/             emitted claims (jupiter-spyx-cmls 🔴 · kamino-spyx-guard 🟢 · marinade-solvency)
 ```
