@@ -53,6 +53,15 @@ harness, N invariants (CMLS liveness · reserve solvency · closed-market price-
 emit  →  claim.json  →  verify (anyone reproduces)  →  post to the registry  →  anchor on Solana
 ```
 
+## The standing record — published, not pitched
+
+Demand for a verifier isn't waited for; it's created by making the finding impossible to ignore.
+[`soundness-log/`](./soundness-log/) is an append-only public board: each weekend `readout.mjs` re-executes
+every tracked claim, keeps only the verdicts that **reproduce**, writes an immutable `<ISO-week>.json`, and
+anchors the week's money-shot on Solana. The record compounds — so when a weekend gap eventually burns a
+venue, it shows the finding was published, reproducibly, every week beforehand. Meanwhile
+[`campana-program/keeper.mjs`](./campana-program/) keeps the on-chain market-status rail live at every flip.
+
 ## Reproduce it yourself
 
 ```bash

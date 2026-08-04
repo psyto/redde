@@ -51,4 +51,8 @@ you against a price from a market that was closed, and publish your verdict. The
 else's. Every reproduced verdict recruits the next re-executor — and staffs the network that makes
 this the norm: a world where capital will not touch a number it cannot re-execute.
 
+We hold ourselves to it in the open: [`soundness-log/`](./soundness-log/) is a standing, append-only
+record — every weekend, the same asset graded on each venue, every row a command you can run, each week
+anchored on-chain. Not a report you trust. A record you re-execute.
+
 **Don't trust. Re-execute.**

@@ -23,7 +23,9 @@ The surfaces re-execute *off-chain* (zero-dep `.mjs`), but the neutral rail one 
 also exists *on-chain*: [`surfaces/vesper/campana-program`](surfaces/vesper/campana-program) is a deployed
 Solana program (Pinocchio, `no_std`) publishing US-market OPEN/CLOSED status, whose `market_status` is the
 *same deterministic function* as vesper's `campana.mjs` — cross-checked live (ON-CHAIN == OFF-CHAIN). The
-re-execution property, carried across the chain boundary.
+re-execution property, carried across the chain boundary. Vesper also publishes a standing, append-only
+[weekend soundness board](surfaces/vesper/soundness-log) — the same asset graded on each venue every week,
+every row a command, each week anchored on-chain.
 
 ## Layout
 

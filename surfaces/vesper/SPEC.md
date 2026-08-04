@@ -152,5 +152,21 @@ wrote `CLOSED · 2026-08-04` which the off-chain reference re-executed at the sa
 (**ON-CHAIN == OFF-CHAIN**). The neutral rail is no longer only a claim — it exists on-chain and is
 re-executable across the boundary.
 
-Remaining: the demand kill line (a relier engaging a verdict) still gates Act-1 → Act-2; a venue actually
-gating liquidations on Campana's `status == OPEN` is the adoption proof-point.
+**Making the demand, build-driven (2026-08-05).** Rather than wait for a relier, two rungs turn the
+proof into a standing, self-publishing record:
+
+- **Rung 1 — live keeper.** `campana-program/keeper.mjs` re-cranks the canonical status account
+  `7j3VCB9f…` at every OPEN↔CLOSED flip and, after each crank, re-executes `campana.mjs` at the chain's
+  timestamp to assert ON-CHAIN == OFF-CHAIN (a wrong crank throws). The rail is now a continuously live
+  fact, not a one-shot demo; `launchctl load com.psyto.campana-keeper.plist` keeps it up.
+- **Rung 2 — weekend readout (the demand engine).** `readout.mjs` re-executes every tracked claim
+  (`verify.mjs` L1, offline), keeps only the verdicts that reproduce, appends an immutable
+  `soundness-log/<ISO-week>.json`, regenerates the public board, and anchors the week's money-shot on
+  Solana (Memo). First week live — 2026-W32: SPYx 🔴 Jupiter vs 🟢 Kamino, both reproduce, anchored on
+  devnet (tx `4uuiP1ti…`). Every row is a command, not an assertion; the record compounds weekly, so when
+  a weekend gap finally burns a venue the log shows the finding was published — reproducibly — beforehand.
+
+Remaining: the demand kill line (a relier *engaging* a verdict) still gates Act-1 → Act-2. Build has taken
+it as far as build can — a live rail + a compounding public record; the outward acts that convert attention
+into an engaged relier (the issuer-facing forward to Backed, the public thread) are the founder's to fire.
+A venue actually gating liquidations on Campana's `status == OPEN` is the adoption proof-point.
