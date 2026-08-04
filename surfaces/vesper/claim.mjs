@@ -17,6 +17,7 @@ import { createHash } from 'node:crypto';
 import { classifyUpdateTimes } from './weekend-liveness.mjs';
 import { classify, stressExposure } from './verify-cmls.mjs';
 import { CALENDAR_2026 } from './campana.mjs';
+import { merkleRoot } from './merkle.mjs';
 
 export const CLAIM_SCHEMA = 'vesper.claim/v0';
 
@@ -89,8 +90,9 @@ export function buildCmlsClaim({ subject, window, observations, stress }) {
       // No price oracle is trusted to decide it. (This is the "verify computation, not inputs" line.)
       oracle_inputs: [],
       window, // { from_ts, to_ts, from_iso, to_iso }
-      // canonical, by unique tx signature (successful updates only) → omission/fabrication are exact
-      observed: { source: 'getSignaturesForAddress (successful updates, by signature)', account: subject.priceAccount, observations },
+      // canonical, by unique tx signature (successful updates only) → omission/fabrication are exact.
+      // merkle_root commits the set in 32 bytes so a fraud proof can be checked in O(log n) on-chain.
+      observed: { source: 'getSignaturesForAddress (successful updates, by signature)', account: subject.priceAccount, count: observations.length, merkle_root: merkleRoot(observations), observations },
     },
     computation,
     verdict: {
