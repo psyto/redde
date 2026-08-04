@@ -13,9 +13,33 @@ that avoidable — **is the US regular session OPEN, CLOSED, or a HALF_DAY right
 ## Live on devnet
 
 - **Program:** [`67cLXa3wEmSe71tywnMKDBTaWgGFfTEBSHjpfi4aE19i`](https://explorer.solana.com/address/67cLXa3wEmSe71tywnMKDBTaWgGFfTEBSHjpfi4aE19i?cluster=devnet)
+- **Canonical status account** (`US_EQUITIES_REGULAR`) — the address a venue reads:
+  [`7j3VCB9fhSJv8nSzdj6mCFUAPy1zj6VW7BfvPDgbcRc8`](https://explorer.solana.com/address/7j3VCB9fhSJv8nSzdj6mCFUAPy1zj6VW7BfvPDgbcRc8?cluster=devnet).
+  Program-owned, rent-exempt, re-cranked in place (Crank takes it as a non-signer, so only the keeper's
+  payer signs — no shared state key).
 - **Cross-checked crank:** [`2RQKrj4s…`](https://explorer.solana.com/tx/2RQKrj4sa454qm22y9aoGMB1yXLye8SfZGCrqfa383gNxZM9xDEDFtz9WvZAAVWgQ2R7mTn6ZZbZeRzK9kttNJp?cluster=devnet)
   — wrote `CLOSED · 2026-08-04 · ET-4 · last close 2026-08-03 16:00 ET · cal v202601`; the off-chain reference
   re-executed at the same slot ts produced the identical tuple. **ON-CHAIN == OFF-CHAIN.**
+
+## Keep it live (the keeper)
+
+A status account is only useful if it tracks the market. `keeper.mjs` re-cranks the canonical account at
+every OPEN↔CLOSED flip — and after each crank it **re-executes `campana.mjs` at the timestamp the chain
+used and asserts they agree**, so the keeper proves itself rather than asking to be trusted (a wrong crank
+throws). It is permissionless: anyone can run it, and a venue can run its own as a backstop.
+
+```bash
+node keeper.mjs                 # single-shot: crank now, print status + the exact next flip
+node keeper.mjs --loop          # long-running: crank, sleep to the next flip, repeat (self-heartbeat 6h)
+```
+
+Always-on via launchd (macOS):
+
+```bash
+cp com.psyto.campana-keeper.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.psyto.campana-keeper.plist    # KeepAlive keeps it up across reboots
+tail -f /tmp/campana-keeper.log
+```
 
 ## How it works
 

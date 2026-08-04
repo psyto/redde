@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Always-on Campana keeper. Load once; launchd keeps `keeper.mjs --loop` alive across reboots and
+     crashes, so the canonical status account is re-cranked at every OPEN<->CLOSED flip.
+       cp com.psyto.campana-keeper.plist ~/Library/LaunchAgents/
+       launchctl load  ~/Library/LaunchAgents/com.psyto.campana-keeper.plist   # start
+       launchctl unload ~/Library/LaunchAgents/com.psyto.campana-keeper.plist   # stop
+     Edit the paths below if your node / repo / keypair live elsewhere. Uses devnet by default. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.psyto.campana-keeper</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/node</string>
+    <string>keeper.mjs</string>
+    <string>--loop</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/hiroyusai/src/redde/surfaces/vesper/campana-program</string>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>/tmp/campana-keeper.log</string>
+  <key>StandardErrorPath</key><string>/tmp/campana-keeper.err</string>
+</dict>
+</plist>
