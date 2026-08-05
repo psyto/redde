@@ -25,6 +25,27 @@ Want a second opinion? Don't take ours — be the second node:
 node node2.mjs claims/jupiter-spyx-cmls.json           # independently re-fetch & re-derive
 ```
 
+### This is a standing record, not a one-off post
+
+Two things exist behind the claim above, and both are checkable rather than asserted.
+
+**A weekly public board.** Every weekend the same assets are re-graded by re-executing the
+claims, and the result is appended to an immutable log —
+[`soundness-log/`](./soundness-log/README.md), newest week first. Each row is a command, not a
+verdict to trust. The first week (2026-W32) records 🔴 Jupiter Lend vs 🟢 Kamino on the *same*
+SPYx, with the week's money-shot anchored on-chain
+([`4uuiP1ti…`](https://explorer.solana.com/tx/4uuiP1tirPuYnyZm4gNrbVvK7kJwzSKsAEMK7bN5eq331N3vNtH1aaFoT5CTcLrBLjQmLwFik68RAYwkbyPZ1x3P?cluster=devnet)).
+If a venue ships a fix, the board shows the flip — on the record, in the week it happens.
+
+**A live status feed.** The closed-market signal these verdicts rest on is not a snapshot taken
+once. [Campana](./FEED-campana.md) is a program-owned status account re-cranked at every
+OPEN↔CLOSED flip, and every crank is followed by re-executing the off-chain reference at the same
+timestamp and asserting **ON-CHAIN == OFF-CHAIN** — the keeper refuses its own write if they
+disagree. Don't trust the keeper either.
+
+*Scope:* the verdicts are computed from **mainnet** chain state. Campana and the weekly anchor run
+on **devnet** today — they are the neutral rail, not the subject of the claim.
+
 ---
 
 ### What it means
