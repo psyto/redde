@@ -15,6 +15,39 @@ import { marketStatus, STATUS } from '../campana.mjs';
 
 const arg = (n, d) => { const i = process.argv.indexOf(n); return i > -1 ? process.argv[i + 1] : d; };
 const has = (n) => process.argv.includes(n);
+
+// This program's default action is a live on-chain write, so an argument it does not understand
+// must stop it rather than fall through to that default. `--help` used to do exactly that: it was
+// not recognised, so it reached crankOnce() and sent a transaction. A usage line that costs you a
+// crank to read is a trap.
+const USAGE = `Campana keeper — keep the canonical on-chain status account LIVE.
+
+  node keeper.mjs                      single-shot: crank once, print status + the next flip
+  node keeper.mjs --loop               long-running: crank, sleep to the next flip, repeat
+  node keeper.mjs --loop --heartbeat N also re-crank at least every N seconds (default 21600)
+  node keeper.mjs --rpc <url>          RPC endpoint (default devnet)
+  node keeper.mjs --keypair <path>     payer keypair (default ~/.config/solana/id.json)
+
+Every run WRITES ON-CHAIN. There is no read-only mode; use ../campana.mjs to compute status
+off-chain without touching the account.`;
+
+const KNOWN = ['--loop', '--heartbeat', '--rpc', '--keypair'];
+if (has('--help') || has('-h')) { console.log(USAGE); process.exit(0); }
+const unknown = process.argv.slice(2).filter((a) => a.startsWith('-') && !KNOWN.includes(a));
+if (unknown.length) {
+  console.error(`keeper: unknown argument ${unknown.join(' ')}\n\n${USAGE}`);
+  process.exit(2);
+}
+
+// launchd resolves `node` from its own minimal PATH, which on this machine reaches a 2023-vintage
+// v18 binary that hangs here instead of failing. KeepAlive then restarts it forever, so the keeper
+// looks loaded while never once cranking. Fail loudly instead.
+const MAJOR = Number(process.versions.node.split('.')[0]);
+if (MAJOR < 20) {
+  console.error(`keeper: node ${process.versions.node} is too old (need >= 20). \
+Point the launchd plist at an absolute path to a current node.`);
+  process.exit(2);
+}
 const RPC = arg('--rpc', 'https://api.devnet.solana.com');
 const KEYPAIR = arg('--keypair', `${process.env.HOME}/.config/solana/id.json`);
 const HEARTBEAT = Number(arg('--heartbeat', 6 * 3600));   // seconds; also re-crank at least this often

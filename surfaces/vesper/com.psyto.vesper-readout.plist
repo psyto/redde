@@ -3,7 +3,11 @@
      closed), re-emits both claims from chain, and anchors the week's money-shot.
        cp com.psyto.vesper-readout.plist ~/Library/LaunchAgents/
        launchctl load ~/Library/LaunchAgents/com.psyto.vesper-readout.plist
-     Edit RPC / KEYPAIR / the schedule below to taste. -->
+     Edit RPC / KEYPAIR / the schedule below to taste.
+
+     PATH leads with the current node's directory on purpose: launchd's default PATH reaches a
+     2023-vintage /usr/local/bin/node (v18) that these scripts do not run under. run-weekend.sh
+     checks the version and refuses rather than half-running. -->
 <plist version="1.0">
 <dict>
   <key>Label</key><string>com.psyto.vesper-readout</string>
@@ -16,7 +20,7 @@
   <string>/Users/hiroyusai/src/redde/surfaces/vesper</string>
   <key>EnvironmentVariables</key>
   <dict>
-    <key>PATH</key><string>/usr/local/bin:/usr/bin:/bin</string>
+    <key>PATH</key><string>/Users/hiroyusai/.nvm/versions/node/v24.0.1/bin:/usr/local/bin:/usr/bin:/bin</string>
     <key>RPC</key><string>https://api.mainnet-beta.solana.com</string>
     <key>ANCHOR_RPC</key><string>https://api.devnet.solana.com</string>
     <key>KEYPAIR</key><string>/Users/hiroyusai/.config/solana/id.json</string>

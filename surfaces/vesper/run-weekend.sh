@@ -7,6 +7,16 @@
 #   RPC=<mainnet-url> KEYPAIR=<devnet-key> ./run-weekend.sh
 set -u
 cd "$(dirname "$0")"
+
+# launchd's PATH can reach an old system node that these scripts do not run under. Refuse rather
+# than half-running: a readout that silently fails is worse than one that is obviously absent,
+# because the board would simply stop advancing without saying why.
+NODE_MAJOR="$(node -p 'process.versions.node.split(".")[0]' 2>/dev/null || echo 0)"
+if [ "$NODE_MAJOR" -lt 20 ]; then
+  echo "readout: node $(node --version 2>/dev/null || echo 'not found') is too old (need >= 20)." >&2
+  echo "         Fix PATH in com.psyto.vesper-readout.plist to lead with a current node." >&2
+  exit 2
+fi
 RPC="${RPC:-https://api.mainnet-beta.solana.com}"          # where the claims are re-emitted from (mainnet)
 ANCHOR_RPC="${ANCHOR_RPC:-https://api.devnet.solana.com}"  # where the weekly memo is anchored
 KEYPAIR="${KEYPAIR:-$HOME/.config/solana/id.json}"

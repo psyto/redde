@@ -4,13 +4,19 @@
        cp com.psyto.campana-keeper.plist ~/Library/LaunchAgents/
        launchctl load  ~/Library/LaunchAgents/com.psyto.campana-keeper.plist   # start
        launchctl unload ~/Library/LaunchAgents/com.psyto.campana-keeper.plist   # stop
-     Edit the paths below if your node / repo / keypair live elsewhere. Uses devnet by default. -->
+     Edit the paths below if your node / repo / keypair live elsewhere. Uses devnet by default.
+
+     The node path is ABSOLUTE and deliberate. launchd starts with its own minimal PATH, which on
+     this machine reaches a 2023-vintage /usr/local/bin/node (v18) that hangs on this script rather
+     than failing — and KeepAlive would then restart it forever, so the keeper would look loaded
+     while never once cranking. keeper.mjs now refuses to run on node < 20, so that failure is at
+     least loud; keep this path current when you upgrade node. -->
 <plist version="1.0">
 <dict>
   <key>Label</key><string>com.psyto.campana-keeper</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/usr/local/bin/node</string>
+    <string>/Users/hiroyusai/.nvm/versions/node/v24.0.1/bin/node</string>
     <string>keeper.mjs</string>
     <string>--loop</string>
   </array>
