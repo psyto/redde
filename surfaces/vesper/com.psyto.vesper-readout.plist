@@ -4,9 +4,15 @@
        cp com.psyto.vesper-readout.plist ~/Library/LaunchAgents/
        launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.psyto.vesper-readout.plist
        launchctl bootout   gui/$UID/com.psyto.vesper-readout                     # stop
-     This one is calendar-driven, so there is nothing to kickstart — but the same caveat applies:
-     legacy `launchctl load` registers without fully arming the job on current macOS. Force one
-     run to prove the wiring: `launchctl kickstart -k gui/$UID/com.psyto.vesper-readout`.
+     Same caveat as the keeper: legacy `launchctl load` registers the job on current macOS without
+     arming it, and reports nothing. Confirm with `launchctl print gui/$UID/com.psyto.vesper-readout`.
+
+     Do NOT kickstart this one to "prove the wiring". It builds the CURRENT ISO week, and the
+     current week is usually one the append-only log already holds — readout.mjs will decline to
+     rebuild it (correctly), so the run proves nothing while still re-emitting claims and possibly
+     re-anchoring. To exercise the path early, run ./run-weekend.sh by hand where you can watch it;
+     the decline is itself the proof that node, PATH and deps resolved. Otherwise let Monday fire
+     and check /tmp/vesper-readout.{log,err} plus a new soundness-log/<week>.json.
      Edit RPC / KEYPAIR / the schedule below to taste.
 
      PATH leads with the current node's directory on purpose: launchd's default PATH reaches a
