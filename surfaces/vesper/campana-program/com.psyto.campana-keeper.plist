@@ -2,8 +2,13 @@
 <!-- Always-on Campana keeper. Load once; launchd keeps `keeper.mjs --loop` alive across reboots and
      crashes, so the canonical status account is re-cranked at every OPEN<->CLOSED flip.
        cp com.psyto.campana-keeper.plist ~/Library/LaunchAgents/
-       launchctl load  ~/Library/LaunchAgents/com.psyto.campana-keeper.plist   # start
-       launchctl unload ~/Library/LaunchAgents/com.psyto.campana-keeper.plist   # stop
+       launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.psyto.campana-keeper.plist
+       launchctl kickstart -k gui/$UID/com.psyto.campana-keeper                  # start now
+       launchctl bootout   gui/$UID/com.psyto.campana-keeper                     # stop
+     Verify it is RUNNING, not merely loaded: `launchctl print gui/$UID/com.psyto.campana-keeper`
+     must show `runs` above 0, and /tmp/campana-keeper.log must contain crank lines. Legacy
+     `launchctl load` registers the job on current macOS without honouring RunAtLoad — it reports
+     nothing, `launchctl list` shows the label, and the keeper never starts.
      Edit the paths below if your node / repo / keypair live elsewhere. Uses devnet by default.
 
      The node path is ABSOLUTE and deliberate. launchd starts with its own minimal PATH, which on

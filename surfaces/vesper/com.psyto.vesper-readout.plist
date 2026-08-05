@@ -2,7 +2,11 @@
 <!-- Weekly Vesper soundness readout. Fires Monday 10:00 local (after the ET weekend window has fully
      closed), re-emits both claims from chain, and anchors the week's money-shot.
        cp com.psyto.vesper-readout.plist ~/Library/LaunchAgents/
-       launchctl load ~/Library/LaunchAgents/com.psyto.vesper-readout.plist
+       launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.psyto.vesper-readout.plist
+       launchctl bootout   gui/$UID/com.psyto.vesper-readout                     # stop
+     This one is calendar-driven, so there is nothing to kickstart — but the same caveat applies:
+     legacy `launchctl load` registers without fully arming the job on current macOS. Force one
+     run to prove the wiring: `launchctl kickstart -k gui/$UID/com.psyto.vesper-readout`.
      Edit RPC / KEYPAIR / the schedule below to taste.
 
      PATH leads with the current node's directory on purpose: launchd's default PATH reaches a
