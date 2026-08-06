@@ -165,7 +165,12 @@ if (existsSync(file) && !has('--force')) {
 // 4. anchor the week's money-shot
 if (ms.length) {
   const memo = weeklyMemo(week, ms[0]);
-  if (has('--send')) {
+  if (has('--send') && entry.anchor?.sig && !has('--force')) {
+    // The log is append-only, but --send used to overwrite `anchor` on any rerun — so a retried or
+    // double-fired Monday would silently replace the signature that IS the week's evidence. An
+    // anchor already witnessed on-chain is not ours to reissue.
+    console.log(`\n  already anchored: ${entry.anchor.sig} (${entry.anchor.cluster}) — not re-anchoring; use --force to replace.`);
+  } else if (has('--send')) {
     const keypairPath = opt('--keypair');
     if (!keypairPath) { console.error('  --send requires --keypair <path>'); process.exit(2); }
     const rpc = opt('--rpc') || 'https://api.devnet.solana.com';

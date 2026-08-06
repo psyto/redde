@@ -5,6 +5,8 @@
 # claim on disk, so the board still advances. Wire it weekly via com.psyto.vesper-readout.plist.
 #
 #   RPC=<mainnet-url> KEYPAIR=<devnet-key> ./run-weekend.sh
+#   DRY_RUN=1 ./run-weekend.sh    # exercise the whole path, anchor dry-run only — use this to prove
+#                                 # node/PATH/deps resolve BEFORE trusting Monday's unattended fire
 set -u
 cd "$(dirname "$0")"
 
@@ -25,5 +27,7 @@ echo "[readout $(date -u +%FT%TZ)] emit GREEN (Kamino) from chain"
 RPC="$RPC" node emit-kamino.mjs || echo "  (kamino emit failed — using last good claim)"
 echo "[readout] emit RED (Jupiter) from chain"
 RPC="$RPC" node claim.mjs cmls || echo "  (jupiter emit failed — using last good claim)"
+SEND="--send"
+if [ "${DRY_RUN:-0}" = "1" ]; then SEND=""; echo "[readout] DRY_RUN — anchor will not be sent"; fi
 echo "[readout] assemble + verify + append + board + anchor"
-node readout.mjs --send --keypair "$KEYPAIR" --rpc "$ANCHOR_RPC"
+node readout.mjs $SEND --keypair "$KEYPAIR" --rpc "$ANCHOR_RPC"

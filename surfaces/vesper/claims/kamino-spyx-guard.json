@@ -24,7 +24,7 @@
       "3t4JZcueEzTbVP6kLxXrL3VpWx45jDer4eqysweBchNH"
     ],
     "window": {
-      "observed_ts": 1785830160
+      "observed_ts": 1786059715
     },
     "observed": {
       "source": "Kamino reserve tokenInfo + Scope OraclePrices (getAccountInfo)",
@@ -42,11 +42,11 @@
         "maxAgeTwapS": 300
       },
       "values": {
-        "price": 706.4907,
-        "twap": 701.9727,
-        "lastClose": 699.852,
-        "priceVsClosePct": 0.95,
-        "priceVsTwapPct": 0.64
+        "price": 718.4428,
+        "twap": 716.5172,
+        "lastClose": null,
+        "priceVsClosePct": null,
+        "priceVsTwapPct": 0.27
       }
     }
   },
@@ -60,7 +60,7 @@
   },
   "verdict": {
     "flag": "GREEN",
-    "reason": "Reserve bounds SPYx: heuristic $515-$858, ≤5% twap-divergence, ≤300s staleness. Observed price $706.4907 is 0.95% from last close, 0.64% from twap — in-band.",
+    "reason": "Reserve bounds SPYx: heuristic $515-$858, ≤5% twap-divergence, ≤300s staleness. Observed price $718.4428 is null% from last close, 0.27% from twap — in-band.",
     "note": "GREEN = on-chain BOUNDED + upstream Chainlink CLAMP. Materially safer than a zero-guard raw feed (RED), but it carries a Chainlink-Data-Streams trust dependency the RED verdict does not — the last-close clamp is off-chain and NOT re-derived here. On-chain re-execution stops at the guards."
   },
   "reproduce": {
@@ -70,7 +70,7 @@
   "attestation": {
     "node": "anon",
     "sig": null,
-    "emitted_ts": 1785830230
+    "emitted_ts": 1786059750
   },
-  "claim_id": "vc_c8f06563b72969372a016bef0e71c27211d71293"
+  "claim_id": "vc_5ecf05d4ec80e36e2a832fb7b5cd66bcc6ad8833"
 }
