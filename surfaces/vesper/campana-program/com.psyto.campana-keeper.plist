@@ -9,6 +9,14 @@
      must show `runs` above 0, and /tmp/campana-keeper.log must contain crank lines. Legacy
      `launchctl load` registers the job on current macOS without honouring RunAtLoad — it reports
      nothing, `launchctl list` shows the label, and the keeper never starts.
+
+     But `state = running` is NOT liveness either. On 2026-08-06 this job showed state = running,
+     runs = 1, a clean log and no error — while sleeping through the entire OPEN session, because a
+     single 6h setTimeout does not survive system suspend. The ONLY liveness proof is the account:
+       node keeper.mjs --check        # read-only; exit 1 = the rail is stale
+     Read that, not this. NOTE: on a laptop that suspends, a flip during sleep is still missed —
+     the keeper now notices within 60s of wake and logs the gap, rather than never noticing. For a
+     zero-gap rail the keeper has to live somewhere that does not sleep.
      Edit the paths below if your node / repo / keypair live elsewhere. Uses devnet by default.
 
      The node path is ABSOLUTE and deliberate. launchd starts with its own minimal PATH, which on
