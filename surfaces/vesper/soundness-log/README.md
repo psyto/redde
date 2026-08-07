@@ -7,12 +7,16 @@ row is a command you can run, not a claim to trust ([`../MANIFESTO.md`](../MANIF
 > *Don't trust — re-execute.* `node verify.mjs <claim.json>` reproduces any verdict below;
 > add `--fetch` to re-pull the on-chain observations. A mismatch is provable, not deniable.
 
+Every claim a week cites is frozen at `soundness-log/claims/<claim_id>.json`, where the
+filename IS the sha256 content address of the claim body. Past weeks reproduce from this
+checkout — no git archaeology, and no way to quietly restate what an old week said.
+
 ## 2026-W32  ·  _generated 2026-08-04T22:41:50.070Z_
 
 | Asset | Venue | Verdict | Reproduces | Claim | Reproduce |
 |---|---|---|:--:|---|---|
-| SPYx | Jupiter Lend | 🔴 RED | ✅ | `vc_8732875c9…` | `node verify.mjs claims/jupiter-spyx-cmls.json --fetch` |
-| SPYx | Kamino | 🟢 GREEN | ✅ | `vc_c8f06563b…` | `node verify.mjs claims/kamino-spyx-guard.json` |
+| SPYx | Jupiter Lend | 🔴 RED | ✅ | `vc_8732875c9…` | `node verify.mjs soundness-log/claims/vc_8732875c937e18b5c943e97243a94f9a00d3a1b2.json --fetch` |
+| SPYx | Kamino | 🟢 GREEN | ✅ | `vc_c8f06563b…` | `node verify.mjs soundness-log/claims/vc_c8f06563b72969372a016bef0e71c27211d71293.json` |
 
 **Money-shot — SPYx:** 🔴 **RED** on Jupiter Lend (`vc_8732875c9…`) vs 🟢 **GREEN** on Kamino (`vc_c8f06563b…`) — same chain, same asset, opposite closed-market gap-safety.
 

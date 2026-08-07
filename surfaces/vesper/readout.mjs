@@ -17,12 +17,14 @@
 //   node readout.mjs --week 2026-W31 --force           # (re)build a specific week
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { verifyLevel1 } from './verify.mjs';
+import { claimId } from './claim.mjs';
 
 const argv = process.argv.slice(2);
 const opt = (n) => { const i = argv.indexOf(n); return i > -1 ? argv[i + 1] : undefined; };
 const has = (n) => argv.includes(n);
 const HERE = new URL('./', import.meta.url);
 const LOGDIR = new URL('./soundness-log/', import.meta.url);
+const ARCHIVE = new URL('./claims/', LOGDIR);
 const EMOJI = { GREEN: '🟢', YELLOW: '🟡', RED: '🔴', UNKNOWN: '❓' };
 const MEMO_PROGRAM = 'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr';
 
@@ -65,6 +67,50 @@ function assembleRows() {
   return rows;
 }
 
+// 1b. Freeze each week's evidence next to the week that cites it.
+//
+// The log records claim_ids, but claims/*.json is OVERWRITTEN every run with the current window —
+// so the moment a week rolled over, the ids its entry cited no longer resolved to anything in the
+// tree, and reproducing a past week meant digging through git history. A board whose whole argument
+// is "this was published, reproducibly, every week beforehand" cannot have its evidence reachable
+// only by archaeology.
+//
+// claim_id is already a content address (sha256 over the canonical body), so <claim_id>.json is
+// self-naming, self-deduplicating, and self-checking: we recompute the id from the bytes we are
+// about to write and refuse the write unless it matches its own name. Two runs of the same claim
+// collide on the same file with identical bytes; a claim that changed at all gets a different id and
+// a different file. Nothing is ever overwritten.
+function archiveClaims(rows) {
+  mkdirSync(ARCHIVE, { recursive: true });
+  let frozen = 0;
+  for (const r of rows) {
+    const dest = new URL(`./${r.claim_id}.json`, ARCHIVE);
+    const bytes = readFileSync(new URL(r.claim_file, HERE), 'utf8');
+    const recomputed = claimId(JSON.parse(bytes));
+    if (recomputed !== r.claim_id) {
+      throw new Error(`archive refused: ${r.claim_file} names ${r.claim_id} but its bytes hash to ${recomputed}`);
+    }
+    if (existsSync(dest)) {
+      if (readFileSync(dest, 'utf8') !== bytes) {
+        throw new Error(`archive collision: ${r.claim_id}.json exists with different bytes — content-addressing is broken`);
+      }
+      continue;                                   // already frozen, byte-identical
+    }
+    writeFileSync(dest, bytes);
+    frozen++;
+  }
+  return frozen;
+}
+
+// Where a week's evidence actually lives now. Past entries were written before the archive existed,
+// so resolve by content address and fall back to whatever the entry recorded at the time.
+function reproduceCmd(row) {
+  const archived = existsSync(new URL(`./${row.claim_id}.json`, ARCHIVE));
+  if (!archived) return row.reproduce;
+  const isCmls = row.claim_type === 'closed-market-liquidation-soundness';
+  return `node verify.mjs soundness-log/claims/${row.claim_id}.json${isCmls ? ' --fetch' : ''}`;
+}
+
 // The money-shot: same asset carrying RED and GREEN at once, both reproduced.
 function moneyShots(rows) {
   const byAsset = {};
@@ -97,6 +143,10 @@ function regenerateBoard() {
   L.push('> *Don\'t trust — re-execute.* `node verify.mjs <claim.json>` reproduces any verdict below;');
   L.push('> add `--fetch` to re-pull the on-chain observations. A mismatch is provable, not deniable.');
   L.push('');
+  L.push('Every claim a week cites is frozen at `soundness-log/claims/<claim_id>.json`, where the');
+  L.push('filename IS the sha256 content address of the claim body. Past weeks reproduce from this');
+  L.push('checkout — no git archaeology, and no way to quietly restate what an old week said.');
+  L.push('');
   if (!weeks.length) { L.push('_No weeks recorded yet._'); }
   for (const e of weeks) {
     L.push(`## ${e.week}  ·  _generated ${e.generated_iso}_`);
@@ -104,7 +154,7 @@ function regenerateBoard() {
     L.push('| Asset | Venue | Verdict | Reproduces | Claim | Reproduce |');
     L.push('|---|---|---|:--:|---|---|');
     for (const r of e.rows) {
-      L.push(`| ${r.asset} | ${r.venue} | ${EMOJI[r.verdict] || ''} ${r.verdict} | ${r.reproduced ? '✅' : '❌'} | \`${shortId(r.claim_id)}\` | \`${r.reproduce}\` |`);
+      L.push(`| ${r.asset} | ${r.venue} | ${EMOJI[r.verdict] || ''} ${r.verdict} | ${r.reproduced ? '✅' : '❌'} | \`${shortId(r.claim_id)}\` | \`${reproduceCmd(r)}\` |`);
     }
     L.push('');
     for (const m of (e.money_shots || [])) {
@@ -148,6 +198,9 @@ const ms = moneyShots(rows);
 console.log(`\nVesper readout · ${week}`);
 for (const r of rows) console.log(`  ${EMOJI[r.verdict] || ''} ${r.verdict}  ${r.asset} @ ${r.venue}  ${r.reproduced ? 'reproduces ✓' : 'DID NOT REPRODUCE ✗'}  ${shortId(r.claim_id)}`);
 for (const m of ms) console.log(`  → money-shot: ${m.asset} RED@${m.red.venue} vs GREEN@${m.green.venue}`);
+
+const frozen = archiveClaims(rows);
+console.log(`  archived ${frozen} new claim(s) to soundness-log/claims/ (content-addressed)`);
 
 let entry;
 if (existsSync(file) && !has('--force')) {

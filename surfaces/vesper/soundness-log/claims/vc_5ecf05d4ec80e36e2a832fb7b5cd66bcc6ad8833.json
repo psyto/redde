@@ -1,0 +1,76 @@
+{
+  "schema": "vesper.claim/v0",
+  "claim_type": "closed-market-price-guard",
+  "subject": {
+    "venue": "Kamino",
+    "asset": "SPYx",
+    "chain": "solana",
+    "role": "collateral",
+    "reserve": "UvXjBuC7YZYaGB9Rn1PpBD1GySmjzunXgE8Zev9ua8d",
+    "scopeOracle": "3t4JZcueEzTbVP6kLxXrL3VpWx45jDer4eqysweBchNH"
+  },
+  "invariant": {
+    "id": "CMLS-GUARD",
+    "statement": "A venue listing tokenized equities must BOUND the price it liquidates against (heuristic band + twap-divergence limit + tight staleness) so a closed-market price cannot force an unsound liquidation; a raw unguarded feed is gap-exposed.",
+    "module": "scope-price.mjs (reserve tokenInfo) + claim.mjs::reexecPriceGuard",
+    "version": "0"
+  },
+  "inputs": {
+    "trusted": {
+      "chain": "solana",
+      "upstream_clamp": "Chainlink Data Streams (OFF-CHAIN) — the last-close market-status clamp is NOT re-derived here; this grades only the on-chain guards"
+    },
+    "oracle_inputs": [
+      "3t4JZcueEzTbVP6kLxXrL3VpWx45jDer4eqysweBchNH"
+    ],
+    "window": {
+      "observed_ts": 1786059715
+    },
+    "observed": {
+      "source": "Kamino reserve tokenInfo + Scope OraclePrices (getAccountInfo)",
+      "accounts": {
+        "reserve": "UvXjBuC7YZYaGB9Rn1PpBD1GySmjzunXgE8Zev9ua8d",
+        "scopeOracle": "3t4JZcueEzTbVP6kLxXrL3VpWx45jDer4eqysweBchNH",
+        "priceIndex": 344,
+        "twapIndex": 279
+      },
+      "guards": {
+        "heuristicLo": 515,
+        "heuristicHi": 858,
+        "maxTwapDivPct": 5,
+        "maxAgePriceS": 300,
+        "maxAgeTwapS": 300
+      },
+      "values": {
+        "price": 718.4428,
+        "twap": 716.5172,
+        "lastClose": null,
+        "priceVsClosePct": null,
+        "priceVsTwapPct": 0.27
+      }
+    }
+  },
+  "computation": {
+    "hasHeuristic": true,
+    "hasTwapBand": true,
+    "hasStaleness": true,
+    "bounded": true,
+    "maxTwapDivPct": 5,
+    "maxAgePriceS": 300
+  },
+  "verdict": {
+    "flag": "GREEN",
+    "reason": "Reserve bounds SPYx: heuristic $515-$858, ≤5% twap-divergence, ≤300s staleness. Observed price $718.4428 is null% from last close, 0.27% from twap — in-band.",
+    "note": "GREEN = on-chain BOUNDED + upstream Chainlink CLAMP. Materially safer than a zero-guard raw feed (RED), but it carries a Chainlink-Data-Streams trust dependency the RED verdict does not — the last-close clamp is off-chain and NOT re-derived here. On-chain re-execution stops at the guards."
+  },
+  "reproduce": {
+    "level1_offline": "node verify.mjs <claim.json>       # re-derive BOUNDED/GREEN from the pinned on-chain guards",
+    "level2_onchain": "node scope-price.mjs                # re-decode the reserve guards from mainnet (name@5032==\"SPYx\" self-validates)"
+  },
+  "attestation": {
+    "node": "anon",
+    "sig": null,
+    "emitted_ts": 1786059750
+  },
+  "claim_id": "vc_5ecf05d4ec80e36e2a832fb7b5cd66bcc6ad8833"
+}
