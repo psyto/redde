@@ -91,6 +91,8 @@ See [`RUN.md`](./RUN.md) for more, and [`SPEC.md`](./SPEC.md) for the Act-1 thes
 MANIFESTO.md        Don't trust — re-execute
 claim.mjs           VerifiableClaim: build + content-hash + the re-exec cores (CMLS / solvency / price-guard)
 verify.mjs          reproduce a claim (L1 offline re-exec + hash · L2 --fetch re-pull inputs)
+collateral-scan.mjs the venue side: which lending markets list a closed-market asset, and is the
+                    listing LIVE or still ⚪ NOT-LIVE (dust vault + placeholder price wiring)?
 weekend-liveness.mjs  RED-side observable: does the feed tick through closure?
 verify-cmls.mjs     the league board + classify() + probeOnChain (with the aggregator false-RED guard)
 scope-price.mjs     GREEN-side re-exec: Kamino's SPYx price + on-chain guards, decoded from chain
